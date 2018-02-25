@@ -1,0 +1,244 @@
+html, body {
+	width: 100%;
+	margin: 0px 0px;
+	padding: 0px 0px;
+	background-color: #eee;
+}
+
+#frontPage {
+	height: 500px;
+	width: 100%;
+	background-color: green;
+}
+
+#statistics {
+	background-color: #343a40;
+	width: 100%;
+}
+
+#getStarted {
+	background-color: #343a40;
+	width: 100%;
+}
+
+#reasonsToJoin {
+	width: 100%;
+	background-color: green;
+}
+#reasons {
+	padding-top: 100px;
+	padding-bottom: 100px;
+}
+#reasons li {
+	list-style-type: none;
+	text-align: center;
+	float: left;
+}
+#reasons li img {
+	height: 150px;
+	width: 150px;
+	border: 1px solid black;
+	border-radius: 100%;
+	text-align: center;
+}
+
+#faq h3 {
+	text-align: center;
+}
+
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+}
+
+footer {
+	width: 100%;
+	margin: -16px auto 0px auto;
+	background-color: #333;
+	color: white;
+	padding-top: 25px;
+}
+footer h4 {
+	text-align: left;
+}
+footer li {
+	list-style-type: none;
+	padding: 0px 0px;
+}
+footer h1 {
+	text-align: center;
+	padding-bottom: 25px;
+}
+#footerBlack {
+	background-color: black;
+	color: white;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: -10px;
+}
+
+
+
+/* PRODUCT */
+
+#product #sidebar {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #e6e6e6;
+}
+#product #user {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #e6e6e6;
+}	
+#product #user #img {
+	height: 100px;
+	width: 100px;
+	border: 1px solid black;
+	border-radius: 100%;
+	margin: 20px auto;
+}
+#product #user h4 {
+	text-align: center;
+}
+#product #user #contact {
+	text-align: center;
+	width: 97%;
+	border: 1px solid black;
+	border-radius: 3px;
+	margin: 0px auto;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+#product #user #viewProfile {
+	text-align: center;
+	width: 97%;
+	border: 1px solid black;
+	border-radius: 3px;
+	margin: 5px auto;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#product main {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #e6e6e6;
+}
+#product #extras {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #e6e6e6;
+}
+#product #buynow {
+	width: 96%;
+	border: 1px solid black;
+	margin: 0px auto;
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/* PROFILE */
+
+#profile #profileContainer {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #e6e6e6;
+}
+#profile #profileContainer #img {
+	height: 100px;
+	width: 100px;
+	border: 1px solid black;
+	border-radius: 100%;
+	margin: 20px auto;
+}
+#profile #profileContainer h5 {
+	text-align: center;
+}
+
+#profile #timeline {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #e6e6e6;
+	padding: 0px 0px;
+	list-style-type: none;
+}
+#profile #timeline #post {
+	width: 96%;
+	border: 1px solid black;
+	margin: 10px auto;
+
+}
+#profile #timeline #post p {
+	font-size: 0.9em;
+	font-family: monospace;
+	font-weight: 700;
+	margin: 5px 5px;
+}
+#profile #timeline #post #action {
+	border: 1px solid black;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width: 98%;
+	margin: 0px auto;
+	margin-bottom: 5px;
+}
+
+#profile #timeline #post #action #img {
+	width: 10%;
+	float: left;
+	margin-left: 1%;
+}
+#profile #timeline #post #action #img #image {
+	height: 65px;
+	width: 65px;
+	border: 1px solid black;
+}
+#profile #timeline #post #action #title {
+	width: 87%;
+	float: right;
+	height: 50px;
+	margin-right: 1%;
+}
+#profile #timeline #post #action h5 {
+	font-size: 1em;
+}
+#profile #timeline #post #action #options {
+	padding: 0px 0px;
+	list-style-type: none;
+	display: table;
+	width: 50%;
+}
+#profile #timeline #post #action #options li {
+	float: left;
+	font-size: 0.7em;
+	font-weight: 700;
+	margin-left: 2.5%;
+	border: 1px solid black;
+	border-radius: 2px;
+	font-family: monospace;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+#profile #timeline #post #action #options li #username {
+	
+}

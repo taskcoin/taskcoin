@@ -13,185 +13,180 @@
 
 
 	<body id='profile'>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark" ">
-			<a class="navbar-brand" href="javascript:void(0)">Logo</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse"id="navb">
-				<form class="navbar-nav mr-auto">
-					<input class="form-control mr-sm-2" type="text" placeholder="Search">
-					<button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
-				</form>
-				<ul class="form-inline my-2 my-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" href="javascript:void(0)">Link</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="javascript:void(0)">Link</a>
-					</li>
-				</ul>
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<div id='logo'>
+
+						</div>
+					</div>
+					<div class='col-sm-7'>
+						<form>
+							<input type="input" id='query' name="query" />
+							<input type="submit" id='submit' value='Search' />
+						</form>
+					</div>	
+					<div class="col-sm-3">
+						<% if (user) {%>
+							<div id='loggedIn'>
+								<div id='module'>
+									<div id='username'>
+										<a href='/profile/<%= user.local.username %>'> <%= user.local.username %> 
+										</a>
+									</div>
+									<div id='photo'>
+										<div id='image'>
+
+										</div>
+									</div>	
+								</div>
+								<div id='menuOptions'>
+									<ul>
+										<li>
+											0 TASKCOIN
+										</li>
+										<a href='/submit'>
+											<li>
+												SUBMIT
+											</li>
+										</a>
+										<a href='/settings'>
+											<li>
+												SETTINGS
+											</li>
+										</a>
+										<a href='/logout'>
+											<li>
+												LOGOUT
+											</li>
+										</a>
+									</ul>
+								</div>
+							</div>
+							<% } else { %>
+							<ul id='notLoggedIn'>
+								<li>
+									<a href='/login'>
+										LOGIN
+									</a>
+								</li>
+								<li>
+									<a href='/register'>
+										REGISTER
+									</a>
+								</li>
+							</ul>
+							<% } %>
+					</div>
+				</div>
 			</div>
-		</nav>		
+		</header>	
 		<br>
 
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-3">
-					<div id='profileContainer'>
-						<br>
-						<div id='img'>
-
-						</div>
-						<h5>
-							TaskCoin
-						</h5>
-						<div id='social'>
-							<ul>
-								<li>
-									fb
-								</li>	
-								<li>
-									tw
-								</li>
-							</ul>
-						</div>
-						<br>
-						<br>
-						<div id=''>
-							<strong>
-								Date joined:
-							</strong>
+				<div class="col-sm-4">
+					<div id='user'>
+						<div id='wrapper'>
+							<div id='image'>
+									
+							</div>
 							<h5>
-								1/2/2
+								<%= name %> 
 							</h5>
-							<strong>
-								Jobs done:
-							</strong>
-							<h5>
-								0
-							</h5>
-							<strong>
-								Jobs offered:	
-							</strong>
-							<h5>
-								0
-							</h5>
+							<div class='seperator'></div>							
+							<p>
+								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href=''>23729</a>
+							</p>
+							<p>
+								<i class="fas fa-globe"></i> <strong>Location:</strong> USA.
+							</p>
+							<p>
+								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> 24 hours.
+							</p>
 						</div>
-						<br>
 					</div>
-				</div>
-
-				<div class="col-sm-9">
-					<ul id='timeline'>
-						<li id='post'>
-							<p>
-								TaskCoin completed...
-							</p>
-							<div id='action'>
-								<div id='img'>
-									<div id='image'>
-
-									</div>
-								</div>
-								<div id='title'>
-									<h5>
-										hile hightler
-									</h5>
-								</div>
-								<ul id='options'>
-									<li id='username'>
-										<i class="fas fa-user"></i> username
-									</li>
-									<li id='price'>
-										t 999
-									</li>
-									<li id='location'>
-										<i class="fas fa-location-arrow"></i> Location
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li id='post'>
-							<p>
-								TaskCoin started...
-							</p>
-							<div id='action'>
-								<div id='img'>
-									<div id='image'>
-
-									</div>
-								</div>
-								<div id='title'>
-									<h5>
-										hile hightler
-									</h5>
-								</div>
-								<ul id='options'>
-									<li id='username'>
-										<i class="fas fa-user"></i> username
-									</li>
-									<li id='price'>
-										t 999
-									</li>
-									<li id='location'>
-										<i class="fas fa-location-arrow"></i> Location
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li id='post'>
-							<p>
-								TaskCoin is offering...
-							</p>
-							<div id='action'>
-								<div id='img'>
-									<div id='image'>
-
-									</div>
-								</div>
-								<div id='title'>
-									<h5>
-										hile hightler
-									</h5>
-								</div>
-								<ul id='options'>
-									<li id='username'>
-										<i class="fas fa-user"></i> username
-									</li>
-									<li id='price'>
-										t 999
-									</li>
-									<li id='location'>
-										<i class="fas fa-location-arrow"></i> Location
-									</li>
-								</ul>
-							</div>
-						</li>
-
-
-
+					<ul id='seperators'>
+						<a href='./'>
+							<li>
+								REQUESTS
+							</li>
+						</a>
+						<a href='services'>
+							<li>
+								SERVICES
+							</li>
+						</a>
+						<a href='reputation'>
+							<li>
+								REPUTATION
+							</li>
+						</a>
 					</ul>
+					<a id='report' href=''>
+						REPORT LISTING
+					</a>
 				</div>
-					
 
+				<div class="col-sm-8">
+					<% 
+						if (type == 'services') {
+					%>
+					<h4>
+						Services
+					</h4>
 
+					<div id='action'>
+						<div id='wrapper'>
+							<div id='image'>
 
+							</div>
+							<div id='right'>
+								<h4>
+								titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle
+								</h4>
+								<h5>
+									TASK 900
+								</h5>
+							</div>
+						</div>
+					</div>
 
+					<%
+						} else if(type == 'requests') {
+					%>
+					<h4>
+						Requests
+					</h4>
 
+					<div id='action'>
+						<div id='wrapper'>
+							<div id='image'>
 
+							</div>
+							<div id='right'>
+								<h4>
+								titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle
+								</h4>
+								<h5>
+									TASK 900
+								</h5>
+							</div>
+						</div>
+					</div>
 
-
-
-
-
-
-
-
-
+					<%
+						} else {
+					%>
+					<h4>
+						Reputation
+					</h4>
+					<%
+						}
+					%>
 				</div>
-				
-			</div>
+			</div>				
 		</div>
 
 		<br>

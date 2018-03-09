@@ -1,11 +1,19 @@
 /* INITIALISATION */
-
 var express = require('express');
 var app = express();
 var path = require('path');
+var mongoose = require('mongoose');
+var striptags = require('striptags');
+var bodyParser = require('body-parser');
 var session = require('express-session');
-var mongodb = require('mongodb');
+var cookieParser = require('cookie-parser');
+var passport = require('passport');
+var flash = require('connect-flash');
 
+require('./config/passport')(passport);
+
+var configDB = require('./config/database.js');
+mongoose.connect(configDB.url);
 
 /* MIDDLEWARE */
 
@@ -27,54 +35,22 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-/* FRONTEND */
+app.use(cookieParser());
+app.use(bodyParser());
 
-app.get('/', function(req, res) {
-	res.render('index');
-});
+app.use(session({secret: "IFUCK1NG4AT3N1ggers"}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('/product/:id', function(req, res) {
-	res.render('product');
-});
+app.use(flash());
 
-app.get('/profile/:username', function(req, res) {
-	res.render('profile');
-});
+/* ROUTES */
 
-app.get('/login', function(req, res) {
-	res.render('login');
-});
-app.get('/messages', function(req, res) {
-	res.render('messages');
-});
-app.get('/orderdetails', function(req, res) {
-	res.render('orderdetails');
-});
-app.get('/search/:query', function(req, res) {
-	res.render('search', {'searchQuery': req.params.query});
-});
-app.get('/settings/:type', function(req, res) {
-	res.render('settings');
-});
-
-/* API */
-
-app.get('/api/profile/:username', function(req, res) {
-
-});
-app.get('/api/product/:id', function(req, res) {
-
-});
-app.post('/api/login', function(req, res) {
-
-});
-app.post('/api/register', function(req, res) {
-
-});
+require('./app/routes.js')(app, passport);
 
 /* SERVER */
 
-var port = 8082;
+var port = 8164;
 
 app.listen(port, function() {
 	console.log('Listening on port ' + port);

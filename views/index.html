@@ -7,188 +7,345 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
 	</head>
 	<body>
-
-
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark" ">
-			<a class="navbar-brand" href="javascript:void(0)">Logo</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse"id="navb">
-				<form class="navbar-nav mr-auto">
-					<input class="form-control mr-sm-2" type="text" placeholder="Search">
-					<button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
-				</form>
-				<ul class="form-inline my-2 my-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" href="javascript:void(0)">Link</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="javascript:void(0)">Link</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-
-		<div id='frontPage'>
-			<br>
-			<br>
-			<h1>Get paid to do tasks or get people to do tasks.</h1>
-			<br>
-			<h4>Get started now:</h4>
-			<div id='findTasks'>
-				FIND TASKS TO DO
-			</div>
-			<div id='offerTasks'>
-				OFFER TASKS TO COMPLETE
-			</div>
-		</div>
-
-		<div id='statistics'>
+		<header>
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-4">
-						<br>
-						<br>
-						<br>
-						<center>
-							<h3>
-								69
-							</h3>
-							<h4>
-								Total number of Tasks
-							</h4>
-						</center>
+					<div class="col-sm-2">
+						<div id='logo'>
 
-						<br>
-						<br>
-						<br>
+						</div>
 					</div>
-					<div class="col-sm-4">
-						<br>
-						<br>
-						<br>
-						<center>
-							<h3>
-								999
-							</h3>
-							<h4>
-								Number of Users
-							</h4>
-						</center>
+					<div class='col-sm-7'>
+						<form>
+							<input type="input" id='query' name="query" />
+							<input type="submit" id='submit' value='Search' />
+						</form>
+					</div>	
+					<div class="col-sm-3">
+						<% if (user) {%>
+							<div id='loggedIn'>
+								<div id='module'>
+									<div id='username'>
+										<a href='/profile/<%= user.local.username %>'> <%= user.local.username %> 
+										</a>
+									</div>
+									<div id='photo'>
+										<div id='image'>
 
-						<br>
-						<br>
-						<br>
+										</div>
+									</div>	
+								</div>
+								<div id='menuOptions'>
+									<ul>
+										<li>
+											0 TASKCOIN
+										</li>
+										<a href='/submit'>
+											<li>
+												SUBMIT
+											</li>
+										</a>
+										<a href='/settings'>
+											<li>
+												SETTINGS
+											</li>
+										</a>
+										<a href='/logout'>
+											<li>
+												LOGOUT
+											</li>
+										</a>
+									</ul>
+								</div>
+							</div>
+							<% } else { %>
+							<ul id='notLoggedIn'>
+								<li>
+									<a href='/login'>
+										LOGIN
+									</a>
+								</li>
+								<li>
+									<a href='/register'>
+										REGISTER
+									</a>
+								</li>
+							</ul>
+							<% } %>
 					</div>
-					<div class="col-sm-4">
-						<br>
-						<br>
-						<br>
-						<center>
-							<h3>
-								TASK $19000
-							</h3>
-							<h4>
-								Amount Earned
-							</h4>
-						</center>
+				</div>
+			</div>
+		</header>	
 
-						<br>
-						<br>
-						<br>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div id='head'>
+						<div id='wrapper'>
+							<h2>
+								WHY TASKCOIN?
+							</h2>
+							<h4>
+								LEARN THE BENEFITS OF USING TASKCOIN
+							</h4>
+							<div id='button'>
+								<p>WHY?</p>
+							</div>
+						</div>		
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div id='faq'>
-			<br>
-			<br>
-			<h3>
-				General Information
-			</h3>
-			<br>
-			<br>
-			<button class="accordion">Be Your Own Boss</button>
-			<div class="panel">
-			  <p>Lorem ipsum...</p>
-			</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class='Cards'>
+						<div class='icon'>
 
-			<button class="accordion">Find Work</button>
-			<div class="panel">
-			  <p>Lorem ipsum...</p>
-			</div>
-
-			<button class="accordion">Make Work3</button>
-			<div class="panel">
-			  <p>Lorem ipsum...</p>
-			</div> 
-		</div>
-
-		<div id='getStarted'>
-			<br>
-			<br>
-			<br>
-			<center>
-				Like what you hear? Get started now... <button>Register</button>
-			</center>
-			<br>
-			<br>
-			<br>
-		</div>
-
-
-		<div id='reasonsToJoin'>
-			<ul id='reasons'>
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-4">
-							<li>
-								<img src="" />
-								<h4>
-									#1
-								</h4>
-								<p>
-									jfiaifgaifaifaiiifaifjijir<br>apekidsgiajgiajgia<br>jgiajgijgiajsjiasgjisaiji
-								</p>	
-							</li>
 						</div>
-						<div class="col-sm-4">
-							<li>
-								<img src="" />
-								<h4>
-									#2
-								</h4>
-								<p>
-									jfiaifgaifaifaiiifaifjijirapeki<br>dsgiajgiajgiajgiajgij<br>giajsjiasgjisaiji
-								</p>	
-							</li>
-						</div>
-						<div class="col-sm-4">
-							<li>
-								<img src="" />
-								<h4>
-									#3
-								</h4>
-								<p>
-									jfiaifgaifaifaiiifaifjijirapekid<br>sgiajgiajgiajgiajgijgi<br>ajsjiasgjisaiji
-								</p>	
-							</li>
-						</div>
+						<h5>
+							90,000 TASK
+						</h5>
+						<p>
+							The amount of TaskCoin paid out to those who have done jobs.
+						</p>
 					</div>
 				</div>
-			</ul>
+				<div class="col-sm-4">
+					<div class='Cards'>
+						<div class='icon'>
+							
+						</div>
+						<h5>
+							1500 JOBS
+						</h5>
+						<p>
+							The amount of jobs done using TaskCoin.
+						</p>
+					</div>
+					
+				</div>
+				<div class="col-sm-4">
+					<div class='Cards'>
+						<div class='icon'>
+							
+						</div>
+						<h5>
+							500 JOBS
+						</h5>
+						<p>
+							The amount of jobs available on the TaskCoin platform.
+						</p>
+					</div>
+					
+				</div>
+			</div>
 		</div>
+		<br>
+		<div class="container" id=''>
+			<div class="row">
+				<div class="col-sm-12">
+					<h4>
+						Newly Listed
+					</h4>
+					<div class='seperator'>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+			</div>
+		</div>		
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<h4>
+						Promoted Listings
+					</h4>
+					<div class='seperator'>
+
+					</div>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class='item'>
+						<div class='image'>
+
+						</div>
+						<div class='title'>
+							<a href="">
+								faggot profile title maximus
+							</a>
+						</div>
+						<p class='price'>TASK 900</p>
+					</div>
+				</div>
+			</div>
+		</div>		
 
 		
+
+		<br>
+		<br>
 
 		<footer>
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-4">
+					<div class="col-sm-3">
 						<h4>
 							Basics
 						</h4>
@@ -207,37 +364,37 @@
 							</li>
 						</ul>
 					</div>
-				<div class="col-sm-4">
-					<h4>
-						User
-					</h4>
-					<ul>
-						<li>
-							Login
-						</li>
-						<li>
-							Register
-						</li>
-					</ul>
-				</div>
-				<div class="col-sm-4">
-					<h4>
-						TaskCoin
-					</h4>
-					<ul>
-						<li>
-							About TaskCoin
-						</li>
-						<li>
-							Buy TaskCoin
-						</li>
-						<li>
-							Sell TaskCoin
-						</li>
-					</ul>
+					<div class="col-sm-3">
+						<h4>
+							User
+						</h4>
+						<ul>
+							<li>
+								Login
+							</li>
+							<li>
+								Register
+							</li>
+						</ul>
+					</div>
+					<div class="col-sm-3">
+						<h4>
+							TaskCoin
+						</h4>
+						<ul>
+							<li>
+								About TaskCoin
+							</li>
+							<li>
+								Buy TaskCoin
+							</li>
+							<li>
+								Sell TaskCoin
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
 			<h1>Task</h1>
 		</footer>
 		<footer id='footerBlack'>
@@ -248,23 +405,8 @@
 	</body>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript">
-		var acc = document.getElementsByClassName("accordion");
-		var i;
-
-		for (i = 0; i < acc.length; i++) {
-		    acc[i].addEventListener("click", function() {
-		        /* Toggle between adding and removing the "active" class,
-		        to highlight the button that controls the panel */
-		        this.classList.toggle("active");
-
-		        /* Toggle between hiding and showing the active panel */
-		        var panel = this.nextElementSibling;
-		        if (panel.style.display === "block") {
-		            panel.style.display = "none";
-		        } else {
-		            panel.style.display = "block";
-		        }
-		    });
-		} 
+		$('#photo').on('click', function() {
+			$('#menuOptions').toggle();
+		});
 	</script>
 </html>

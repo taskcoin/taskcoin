@@ -7,124 +7,173 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
 	</head>
 
 	<body id='product'>
-		
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark" ">
-			<a class="navbar-brand" href="javascript:void(0)">Logo</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse"id="navb">
-				<form class="navbar-nav mr-auto">
-					<input class="form-control mr-sm-2" type="text" placeholder="Search">
-					<button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
-				</form>
-				<ul class="form-inline my-2 my-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" href="javascript:void(0)">Link</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="javascript:void(0)">Link</a>
-					</li>
-				</ul>
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<div id='logo'>
+
+						</div>
+					</div>
+					<div class='col-sm-7'>
+						<form>
+							<input type="input" id='query' name="query" />
+							<input type="submit" id='submit' value='Search' />
+						</form>
+					</div>	
+					<div class="col-sm-3">
+						<% if (user) {%>
+							<div id='loggedIn'>
+								<div id='module'>
+									<div id='username'>
+										<a href='/profile/<%= user.local.username %>'> <%= user.local.username %> 
+										</a>
+									</div>
+									<div id='photo'>
+										<div id='image'>
+
+										</div>
+									</div>	
+								</div>
+								<div id='menuOptions'>
+									<ul>
+										<li>
+											0 TASKCOIN
+										</li>
+										<a href='/submit'>
+											<li>
+												SUBMIT
+											</li>
+										</a>
+										<a href='/settings'>
+											<li>
+												SETTINGS
+											</li>
+										</a>
+										<a href='/logout'>
+											<li>
+												LOGOUT
+											</li>
+										</a>
+									</ul>
+								</div>
+							</div>
+							<% } %>
+					</div>
+				</div>
 			</div>
-		</nav>		
+		</header>
 		<br>
 
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-4">
-					<div id='sidebar'>
-						<br>
-						<h4>
-							30 TASK
-						</h4>
-						<div id='buynow'>
-							BUY NOW
-						</div>
-						<br>
-						<br>	
-						<p>Delivery time: </p>
-					</div>
-					<br>
-
-					<div id='user'>
-						
-						<div id='img'>
-
-						</div>
-						<h4>
-							NiggerFaggot500
-						</h4>
-						<div id='contact'>
-							CONTACT
-						</div>
-						<div id='viewProfile'>
-							VIEW PROFILE
-						</div>
-						<ul>
-							<li>
-								Location:
-							</li>
-							<li>
-								Date Joined
-							</li>
-							<li>
-								Jobs Done:
-						 	</li>
-							<li>
-								Jobs Offered:
-							</li>
-						</ul>
-					</div>
-					<center>
-						<a href="">report</a>
-					</center>
-				</div>
-
-				<div class="col-sm-8">
-					<main>
-						<div id='img'>
-
-						</div>
-						<h4>title</h4>
-						<p>
-							kikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekikekike
-						</p>
-
-						<div id='seperate'>
-
-						</div>
-
-						<br>
-
-						
-						<ul>
-							<li>
-								Date listed:
-							</li>
-							<li>
-								Category:
-							</li>
-							<li>
-								Location:
-							</li>
-						</ul>
-						
-						
-				</main>
-				<br>
-				<div id='extras'>
+					<aside>
+						<div id='wrapper'>
 							<h4>
-								Extras
+								Hire Service
 							</h4>
-							<input type='checkbox' /> Extra option <br>
-							<div id='buynow'>
-								BUY NOW
+							<div class='seperator'></div>
+							<h5>TASK 900</h5>
+							<p>
+								description of aids 
+								description of aids 
+								description of aids 
+								description of aids 
+								description of aids 
+							</p>
+							<p>
+								<i class="fas fa-truck"></i> <strong>Delivery time:</strong> 24 hours.
+							</p>
+							<p>
+								<i class="fas fa-calendar"></i> <strong>Posted:</strong> 2/6/6
+							</p>
+							<p>
+								<i class="fas fa-globe"></i> <strong>Location:</strong> Nigeria
+							</p>
+							<div id='buy'>
+								<p>
+									BUY NOW
+								</p>
 							</div>
 						</div>
+					</aside>
+					<div id='user'>
+						<div id='wrapper'>
+							<div id='image'>
+									
+							</div>
+							<h5>
+								noobsnboobs
+							</h5>
+							<div class='seperator'></div>
+							<a href=''>
+								VIEW PROFILE
+							</a>
+							<p>
+								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href=''>23729</a>
+							</p>
+							<p>
+								<i class="fas fa-globe"></i> <strong>Location:</strong> USA.
+							</p>
+							<p>
+								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> 24 hours.
+							</p>
+						</div>
+					</div>
+					<a id='report' href=''>
+						REPORT LISTING
+					</a>
+				</div>
+				<div class="col-sm-8">
+					<main>
+						<div id='wrapper'>
+							<h3>
+								<% title %>
+							</h3>
+							<div class='seperator'>
+
+							</div>
+							<a href=''> 
+								category
+							</a>
+							<div id='image'>
+
+							</div>
+						</div>
+					</main>
+
+					<div id='about'>
+						<div id='wrapper'>
+							<h4>
+								About This Service
+							</h4>
+							<div class='seperator'>
+
+							</div>
+							<p>
+								drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs 
+							</p>
+						</div>
+					</div>
+
+					<div id='price'>
+						<div id='wrapper'>
+							<h4>
+								Purchase
+							</h4>
+							<div class='seperator'>
+							
+
+						</div>
+					</div>
+
+				</div>
 			</div>
 		</div>
 

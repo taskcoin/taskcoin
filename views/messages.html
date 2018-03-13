@@ -8,14 +8,16 @@
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	</head>
-	<body>
+	<body id='messages'>
 		<header>
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
-						<div id='logo'>
+						<a href='/'>
+							<div id='logo'>
 
-						</div>
+							</div>
+						</a>
 					</div>
 					<div class='col-sm-7'>
 						<form>
@@ -60,59 +62,69 @@
 									</ul>
 								</div>
 							</div>
+							<% } else { %>
+							<ul id='notLoggedIn'>
+								<li>
+									<a href='/login'>
+										LOGIN
+									</a>
+								</li>
+								<li>
+									<a href='/register'>
+										REGISTER
+									</a>
+								</li>
+							</ul>
 							<% } %>
 					</div>
 				</div>
 			</div>
-		</header>
+		</header>	
+
 		<br>
 
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-3">
-					<div id='compose'>
-						compose
+				<div class="col-sm-4">
+					<div id='sidebar'>
+						<a href='/messages/compose'>
+							<div id='categories'>
+								COMPOSE
+							</div>
+						</a>
+						<a href="/messages/">
+							<div id='categories'>
+								INBOX
+							</div>
+						</a>
+						<a href="/messages/sent">
+							<div id='categories'>
+								SENT
+							</div>
+						</a>
+						<a href="/messages/trash">
+							<div id='categories'>
+								TRASH
+							</div>
+						</a>
 					</div>
-					<br>
-					<h4>
-						Categories
-					</h4>
-					<ul>
-						<li>
-							Inbox
-						</li>
-						<li>
-							Sent
-						</li>
-						<li>
-							Trash
-						</li>
-					</ul>
 				</div>
+				<script type="text/javascript">
+				var messages = "<%= messagesContent %>";
+				if(messages == '[]') {
+					$('#messageWrapper').append('<p>Nothing available.</p>');
+				} else {
+					for(var i = 0; i < 10; i++) {
+						$('#messageWrapper').append("<div class='message'><div class='wrapper'><div id='title'><h4>" + messages[i].subject + "</h4><p>By: <a href="">username</a>" + messages[i].from +"</p></div><div class='seperator'> </div><p id='content'>" + messages[i].content + "</p><ul><a href='/profile/" + messages[i].from + "'><li>Reply</li></a><a href=""><li>Trash</li></a></ul></div></div>");
+					};
+				};	
+				console.log(messages);				
+				</script>
 
-				<div class="col-sm-9">
-					<div id='messages'>
-						<ul id='message'>
-							<li>
-								<div id='colums'>
-									<div id='checkbox'>
-										<input type='checkbox' />
-									</div>
-									<div id='title'>
-										<h4>
-											shitniggers 
-										</h4>
-									</div>
-								</div>
-								<div id='username'>
-									Username
-								</div>
-								<div id='delete'>
-									Delete
-								</div>
-							</li>
-						</ul>
-					</div>
+				<div class="col-sm-8" id='messageWrapper'>
+					<h4>
+						<%= type %>
+					</h4>
 				</div>
 			</div>
 		</div>
@@ -182,24 +194,5 @@
 		</footer>
 	</body>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
-    });
-} Th
-		</script>
+	
 </html>

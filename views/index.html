@@ -15,9 +15,11 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
-						<div id='logo'>
+						<a href='/'>
+							<div id='logo'>
 
-						</div>
+							</div>
+						</a>
 					</div>
 					<div class='col-sm-7'>
 						<form>
@@ -142,7 +144,6 @@
 							The amount of jobs available on the TaskCoin platform.
 						</p>
 					</div>
-					
 				</div>
 			</div>
 		</div>
@@ -162,85 +163,8 @@
 
 
 		<div class="container">
-			<div class="row">
-				<div class="col-sm-2">
-					<div class='item'>
-						<div class='image'>
+			<div class="row" id='newlyListed'>
 
-						</div>
-						<div class='title'>
-							<a href="">
-								faggot profile title maximus
-							</a>
-						</div>
-						<p class='price'>TASK 900</p>
-					</div>
-				</div>
-				<div class="col-sm-2">
-					<div class='item'>
-						<div class='image'>
-
-						</div>
-						<div class='title'>
-							<a href="">
-								faggot profile title maximus
-							</a>
-						</div>
-						<p class='price'>TASK 900</p>
-					</div>
-				</div>
-				<div class="col-sm-2">
-					<div class='item'>
-						<div class='image'>
-
-						</div>
-						<div class='title'>
-							<a href="">
-								faggot profile title maximus
-							</a>
-						</div>
-						<p class='price'>TASK 900</p>
-					</div>
-				</div>
-				<div class="col-sm-2">
-					<div class='item'>
-						<div class='image'>
-
-						</div>
-						<div class='title'>
-							<a href="">
-								faggot profile title maximus
-							</a>
-						</div>
-						<p class='price'>TASK 900</p>
-					</div>
-				</div>
-				<div class="col-sm-2">
-					<div class='item'>
-						<div class='image'>
-
-						</div>
-						<div class='title'>
-							<a href="">
-								faggot profile title maximus
-							</a>
-						</div>
-						<p class='price'>TASK 900</p>
-					</div>
-				</div>
-				<div class="col-sm-2">
-					<div class='item'>
-						<div class='image'>
-
-						</div>
-						<div class='title'>
-							<a href="">
-								faggot profile title maximus
-							</a>
-						</div>
-						<p class='price'>TASK 900</p>
-					</div>
-				</div>
 			</div>
 		</div>		
 
@@ -407,6 +331,20 @@
 	<script type="text/javascript">
 		$('#photo').on('click', function() {
 			$('#menuOptions').toggle();
+		});
+	</script>
+	<script type="text/javascript">
+		$(function(){
+			$.getJSON('/api/products/new', function(data) {
+				if(data == '') {
+					$('#newlyListed').append('<p>Nothing available.</p>');
+				} else {
+					
+				};
+				for(var i = 0; i < 6; i++) {
+						$('#newlyListed').append("<div class='col-sm-2'><div class='item'><div class='image'></div><div class='title'><a href='/product/" + data[i]._id + "'>"+data[i].title+"</a></div><p class='price'>"+data[i].price+"</p></div></div>");
+					};
+			});
 		});
 	</script>
 </html>

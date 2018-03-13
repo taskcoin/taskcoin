@@ -669,3 +669,52 @@ footer h1 {
 	width: 98%;
 	margin: 0px auto;
 }
+
+/* MESSAGES */
+
+#messages #sidebar {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #ddd;
+}
+#messages #sidebar #categories {
+	width: 96%;
+	width: 1px solid #ddd;
+	background-color: #eee;
+	text-align: center;
+	margin: 5px auto;
+	margin-bottom: 10px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+#messages .message {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #ddd;
+}
+#messages .wrapper {
+	width: 96%;
+	margin: 0px auto;
+}
+#messages .message #title {
+	width: 100%;
+	margin-top: 10px;
+}
+#messages .message #title p {
+	margin-top: -5px;
+	margin-bottom: 0px;
+}
+#messages .message #content {
+	width: 100%;
+	text-overflow: none;
+    overflow: hidden;
+}
+#messages .message ul {
+	padding: 0px 0px;
+	height: 20px;
+}
+#messages .message ul li {
+	float: left;
+	list-style-type: none;
+	margin-right: 20px;
+}

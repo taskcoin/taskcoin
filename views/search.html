@@ -20,9 +20,11 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
-						<div id='logo'>
+						<a href='/'>
+							<div id='logo'>
 
-						</div>
+							</div>
+						</a>
 					</div>
 					<div class='col-sm-7'>
 						<form>
@@ -67,11 +69,24 @@
 									</ul>
 								</div>
 							</div>
+							<% } else { %>
+							<ul id='notLoggedIn'>
+								<li>
+									<a href='/login'>
+										LOGIN
+									</a>
+								</li>
+								<li>
+									<a href='/register'>
+										REGISTER
+									</a>
+								</li>
+							</ul>
 							<% } %>
 					</div>
 				</div>
 			</div>
-		</header>
+		</header>	
 		<br>
 
 		<div class="container" >

@@ -16,9 +16,11 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
-						<div id='logo'>
+						<a href='/'>
+							<div id='logo'>
 
-						</div>
+							</div>
+						</a>
 					</div>
 					<div class='col-sm-7'>
 						<form>
@@ -63,11 +65,24 @@
 									</ul>
 								</div>
 							</div>
+							<% } else { %>
+							<ul id='notLoggedIn'>
+								<li>
+									<a href='/login'>
+										LOGIN
+									</a>
+								</li>
+								<li>
+									<a href='/register'>
+										REGISTER
+									</a>
+								</li>
+							</ul>
 							<% } %>
 					</div>
 				</div>
 			</div>
-		</header>
+		</header>	
 		<br>
 
 		<div class="container">
@@ -79,7 +94,7 @@
 								Hire Service
 							</h4>
 							<div class='seperator'></div>
-							<h5>TASK 900</h5>
+							<h5>TASK <%= price %></h5>
 							<p>
 								description of aids 
 								description of aids 
@@ -109,14 +124,14 @@
 									
 							</div>
 							<h5>
-								noobsnboobs
+								<%= offerer %>
 							</h5>
 							<div class='seperator'></div>
-							<a href=''>
+							<a href='/profile/<%= offerer %>'>
 								VIEW PROFILE
 							</a>
 							<p>
-								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href=''>23729</a>
+								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='/profile/<%= offerer %>/reputation'>23729</a>
 							</p>
 							<p>
 								<i class="fas fa-globe"></i> <strong>Location:</strong> USA.
@@ -134,13 +149,13 @@
 					<main>
 						<div id='wrapper'>
 							<h3>
-								<% title %>
+								<%= title %>
 							</h3>
 							<div class='seperator'>
 
 							</div>
 							<a href=''> 
-								category
+								<%= category %>
 							</a>
 							<div id='image'>
 
@@ -157,7 +172,7 @@
 
 							</div>
 							<p>
-								drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs drugsdrugs 
+								<%= description %> 
 							</p>
 						</div>
 					</div>
@@ -168,16 +183,12 @@
 								Purchase
 							</h4>
 							<div class='seperator'>
-							
-
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
-
-		</div>
+	</div>
 		
 		<br>
 		<br>
@@ -243,25 +254,4 @@
 			</center>
 		</footer>
 	</body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
-    });
-} Th
-		</script>
 </html>

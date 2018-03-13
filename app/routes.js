@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var User = require('../app/models/user');
 var Product = require('../app/models/product');
+var Message = require('../app/models/message');
 var striptags = require('striptags');
 
 module.exports = function(app, passport) {
@@ -50,11 +51,16 @@ module.exports = function(app, passport) {
 				if (person == undefined) {
 					res.send(404);
 				} else {
-					res.render('profile', {
-						user: req.user,
-						name: person.local.username,
-						type: 'requests'
-					});	
+					var Product = mongoose.model('Product');
+					Product.find({'offerer': username, 'type': '1'}, function(err, product) {
+						if (err) throw err;
+						res.render('profile', {
+							user: req.user,
+							name: person.local.username,
+							type: 'requests',
+							products: JSON.stringify(product)
+						});	
+					});
 				}
 			});	
 		}
@@ -71,10 +77,15 @@ module.exports = function(app, passport) {
 				if (person == undefined) {
 					res.send(404);
 				} else {
-					res.render('profile', {
-						user: req.user,
-						name: person.local.username,
-						type: 'services'
+					var Product = mongoose.model('Product');
+					Product.find({'offerer': username, 'type': '1'}, function(err, product) {
+						if (err) throw err;
+						res.render('profile', {
+							user: req.user,
+							name: person.local.username,
+							type: 'requests',
+							products: JSON.stringify(product)
+						});	
 					});
 				}
 			});	
@@ -111,9 +122,42 @@ module.exports = function(app, passport) {
 			user: req.user
 		});
 	});
-	app.get('/messages', isLoggedIn, function(req, res) {
-		res.render('messages', {
+ 	
+ 	// MESSAGING
+
+	app.get('/messages/compose', isLoggedIn, function(req, res) {
+		res.render('compose', {
 			user: req.user
+		});
+	});
+
+	app.get('/messages', isLoggedIn, function(req, res) {
+		Message.find({"to": req.user.local.username, "type": "Inbox"}, function(err, result) {
+			res.render('messages', {
+				user: req.user,
+				type: 'Inbox',
+				messagesContent: JSON.stringify(result)
+			});
+		});
+	});
+
+	app.get('/messages/sent', isLoggedIn, function(req, res) {
+		Message.find({"from": req.user.local.username}, function(err, result) {
+			res.render('messages', {
+				user: req.user,
+				type: 'Sent',
+				messagesContent: JSON.stringify(result)
+			});
+		});
+	});
+
+	app.get('/messages/trash', isLoggedIn, function(req, res) {
+		Message.find({"from": req.user.local.username, "type": "Trash"}, function(err, result) {
+			res.render('messages', {
+				user: req.user,
+				type: 'Trash',
+				messagesContent: JSON.stringify(result)
+			});
 		});
 	});
 
@@ -123,20 +167,21 @@ module.exports = function(app, passport) {
 		var productID = req.params.id;
 		if (productID.length == 24) {
 			var product = mongoose.model('Product');
-			product.findOne({'_id': productID}, function(err, product) {
+			product.findOne({'_id': productID}, function(err, result) {
 				if (err) throw err;
-				if(product == null) {
+				if(result == null) {
 					res.send(404);
 				} else {
 					res.render('product', {
 						user: req.user,
-						title: product.local.title,
-						type: product.local.type,
-						price: product.local.price,
-						category: product.local.category,
-						delivery: product.local.delivery,
-						location: product.local.location,
-						description: product.local.description
+						title: result.title,
+						type: result.type,
+						price: result.price,
+						category: result.category,
+						delivery: result.delivery,
+						location: result.location,
+						description: result.description,
+						offerer: result.offerer
 					});
 				}
 			});
@@ -182,87 +227,159 @@ module.exports = function(app, passport) {
 		failureFlash: true
 	}));
 	app.post('/submit', isLoggedIn, function(req, res) {
-		var query = {
-			username: '',
-			title: striptags(req.body.title),
-			type: striptags(req.body.type),
-			price: striptags(req.body.price),
-			category: striptags(req.body.category),
-			location: striptags(req.body.location),
-			delivery: striptags(req.body.delivery),
-			description: striptags(req.body.description)
-		}
-		function redirectSubmit(reason) {
-			res.render('submit', {
-				user: req.user,
-				reason: reason
-			});
-		}
+		process.nextTick(function() {
+			var query = {
+				username: '',
+				title: striptags(req.body.title),
+				type: striptags(req.body.type),
+				price: striptags(req.body.price),
+				category: striptags(req.body.category),
+				location: striptags(req.body.location),
+				delivery: striptags(req.body.delivery),
+				description: striptags(req.body.description),
+				offerer: striptags(req.user.local.username)
+			}
+			function redirectSubmit(reason) {
+				res.render('submit', {
+					user: req.user,
+					reason: reason
+				});
+			}
 
-		/*if (query.title.length < 3) {
-			redirectSubmit('Title length is too short.');
-		} else {
-			if (title.length > 180) {
-				redirectSubmit('Title length is too long.');
+			/*if (query.title.length < 3) {
+				redirectSubmit('Title length is too short.');
 			} else {
-				if (type.length == '') {
-					redirectSubmit('Type not specified.');
+				if (title.length > 180) {
+					redirectSubmit('Title length is too long.');
 				} else {
-					if (price == '') {
-						redirectSubmit('Price not specified.');
+					if (type.length == '') {
+						redirectSubmit('Type not specified.');
 					} else {
-						if (category == 0) {
-							redirectSubmit('Category not specified.');
+						if (price == '') {
+							redirectSubmit('Price not specified.');
 						} else {
-							if (location == '') {
-								redirectSubmit('Location not specified.');
+							if (category == 0) {
+								redirectSubmit('Category not specified.');
 							} else {
-								if (delivery == '') {
-									redirectSubmit('Delivery time not specified.');
+								if (location == '') {
+									redirectSubmit('Location not specified.');
 								} else {
-									if (description.length < 50) {
-										redirectSubmit('Description length is too short.');
+									if (delivery == '') {
+										redirectSubmit('Delivery time not specified.');
 									} else {
-										if (description.length < 2500) {
-											redirectSubmit('Description length is too long.');
+										if (description.length < 50) {
+											redirectSubmit('Description length is too short.');
 										} else {
-										 */
-											
-											var Product = mongoose.model('Product');
-											var product = new Product();
+											if (description.length < 2500) {
+												redirectSubmit('Description length is too long.');
+											} else {
+											 */
+												
+												var Product = mongoose.model('Product');
+												var product = new Product();
 
-											product.local.title = query.title;
-											product.local.type = query.type;
-											product.local.price = query.price;
-											product.local.category = query.category;
-											product.local.location = query.location;
-											product.local.delivery = query.delivery;
-											product.local.description = query.description;
-											product.local.posted = Date.now();
-											
-											product.save(function(err, result) {
-												if (err) throw err;
-												res.redirect('/product/' + result._id)
-											});
-										/*}
+												product.title = query.title;
+												product.type = query.type;
+												product.price = query.price;
+												product.category = query.category;
+												product.location = query.location;
+												product.delivery = query.delivery;
+												product.description = query.description;
+												product.posted = Date.now();
+												product.offerer = query.offerer;
+												
+												product.save(function(err, result) {
+													if (err) throw err;
+													res.redirect('/product/' + result._id)
+												});
+											/*}
+										}
 									}
 								}
 							}
 						}
 					}
 				}
-			}
-		}*/
+			}*/
+		});
 	});
 
-	app.get('/cunts', function(req, res) {
-		Product.find(function(err, cunts) {
-			res.send(cunts);
+	app.post('/messages/compose', isLoggedIn, function(req, res) {
+		process.nextTick(function() {
+			var query = {
+				from: req.user.local.username,
+				to: striptags(req.body.to),
+				subject: striptags(req.body.subject),
+				content: striptags(req.body.content)
+			}
+
+			function redirectMessage(reason) {
+				res.render('compose', {
+					user: req.user,
+					reason: reason
+				});
+			}
+
+			/*if(query.to == query.from) {
+				redirectMessage('Cannot send to yourself');
+			} else {
+				if(query.to.length < 3) {
+					redirectMessage('Please enter more characters in "To"');
+				} else {
+					if(query.subject.length < 10) {
+						redirectMessage('Please enter more characters in subject');
+					} else {
+						if(query.subject.length > 140) {
+							redirectMessage('Subject is too long.');
+						} else {
+							if(query.content.length < 30) {
+								redirectMessage('Please enter more characters for content');
+							} else {
+								if(query.content.length > 1500) {
+									redirectMessage('Content is too long.');
+								} else {*/
+									var Message = mongoose.model('Message');
+									var message = new Message();
+
+									message.to = query.to;
+									message.subject = query.subject;
+									message.content = query.content;
+									message.type = 'Inbox';
+									message.from = query.from;
+
+									message.save(function(err, result) {
+										if(err) throw err;
+										res.redirect('/messages/sent');
+									});
+								/*}
+							}
+						}
+					}
+				}
+			}*/
+
+			
+		});
+	});
+
+	app.get('/api/products/new', function(req, res) {
+		Product.find(function(err, result) {
+			res.send(JSON.stringify(result));
+		});
+	});
+	app.get('/api/products', function(req, res) {
+		Product.find(function(err, result) {
+			res.send(JSON.stringify(result));
 		});
 	});
 	app.get('/sheilas', function(req, res) {
 		User.find(function(err, dicks) {
 			res.send(dicks);
+		});
+	});
+	app.get('/secrets', function(req, res) {
+		Message.find(function(err, isis) {
+			res.send(isis);
 		});
 	});
 

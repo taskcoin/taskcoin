@@ -17,9 +17,11 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
-						<div id='logo'>
+						<a href='/'>
+							<div id='logo'>
 
-						</div>
+							</div>
+						</a>
 					</div>
 					<div class='col-sm-7'>
 						<form>
@@ -97,7 +99,7 @@
 							</h5>
 							<div class='seperator'></div>							
 							<p>
-								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href=''>23729</a>
+								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='reputation'>23729</a>
 							</p>
 							<p>
 								<i class="fas fa-globe"></i> <strong>Location:</strong> USA.
@@ -108,17 +110,22 @@
 						</div>
 					</div>
 					<ul id='seperators'>
-						<a href='./'>
+						<a href='../messages/compose'>
+							<li>
+								MESSAGE <u><%= name %></u>
+							</li>
+						</a>
+						<a href='/profile/<%= name %>'>
 							<li>
 								REQUESTS
 							</li>
 						</a>
-						<a href='services'>
+						<a href='/profile/<%= name %>/services'>
 							<li>
 								SERVICES
 							</li>
 						</a>
-						<a href='reputation'>
+						<a href='/profile/<%= name %>/reputation'>
 							<li>
 								REPUTATION
 							</li>
@@ -129,53 +136,19 @@
 					</a>
 				</div>
 
-				<div class="col-sm-8">
+				<div class="col-sm-8" id='products'>
 					<% 
 						if (type == 'services') {
 					%>
 					<h4>
 						Services
 					</h4>
-
-					<div id='action'>
-						<div id='wrapper'>
-							<div id='image'>
-
-							</div>
-							<div id='right'>
-								<h4>
-								titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle
-								</h4>
-								<h5>
-									TASK 900
-								</h5>
-							</div>
-						</div>
-					</div>
-
 					<%
 						} else if(type == 'requests') {
 					%>
 					<h4>
 						Requests
 					</h4>
-
-					<div id='action'>
-						<div id='wrapper'>
-							<div id='image'>
-
-							</div>
-							<div id='right'>
-								<h4>
-								titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle
-								</h4>
-								<h5>
-									TASK 900
-								</h5>
-							</div>
-						</div>
-					</div>
-
 					<%
 						} else {
 					%>
@@ -255,23 +228,13 @@
 	</body>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript">
-		var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
-    });
-} Th
-		</script>
+		var products = "<%= products %>";
+		if(products == '[]') {
+			$('#products').append('<p>Nothing available.</p>');
+		} else {
+			for(var i = 0; i < 1; i++) {
+				$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ products[i].title+"</h4><h5>"+ products[i].price+"</h5></div></div></div>");
+			};
+		};
+	</script>
 </html>

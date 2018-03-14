@@ -84,7 +84,6 @@
 			</div>
 		</header>	
 		<br>
-
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-4">
@@ -111,11 +110,24 @@
 							<p>
 								<i class="fas fa-globe"></i> <strong>Location:</strong> Nigeria
 							</p>
-							<div id='buy'>
-								<p>
-									BUY NOW
-								</p>
-							</div>
+							<% if (user.local.username != offerer) { %>
+							<a href="/product/<%= productID %>/order">
+								<div id='buy'>
+									<p>
+										BUY NOW
+									</p>
+								</div>
+							</a>
+							<% } else { %>
+							<a href="/product/<%= productID %>/offers">
+								<div id='buy'>
+									<p>
+										VIEW OFFERS
+									</p>
+								</div>
+							</a>
+							<% } %>
+							
 						</div>
 					</aside>
 					<div id='user'>

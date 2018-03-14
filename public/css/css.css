@@ -718,3 +718,15 @@ footer h1 {
 	list-style-type: none;
 	margin-right: 20px;
 }
+
+/* OFFERS */
+
+#offers {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #ddd;
+}
+#offers h4 {
+	width: 98%;
+	margin: 10px auto;
+}

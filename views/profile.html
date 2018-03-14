@@ -9,6 +9,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<script defer src="/css/fontawesome-all.js"></script>
 		<link rel="stylesheet" href="/css/fontawesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 
 
@@ -99,7 +100,7 @@
 							</h5>
 							<div class='seperator'></div>							
 							<p>
-								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='reputation'>23729</a>
+								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='/profile/<%= name %>/reputation'>23729</a>
 							</p>
 							<p>
 								<i class="fas fa-globe"></i> <strong>Location:</strong> USA.
@@ -143,18 +144,48 @@
 					<h4>
 						Services
 					</h4>
+					<script type="text/javascript">
+						var products = "<%= products %>";
+						if(products == '[]') {
+							$('#products').append('<p>Nothing available.</p>');
+						} else {
+							for(var i = 0; i < 1; i++) {
+								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ products[i].title+"</h4><h5>"+ products[i].price+"</h5></div></div></div>");
+							};
+						};
+					</script>
 					<%
 						} else if(type == 'requests') {
 					%>
 					<h4>
 						Requests
 					</h4>
+					<script type="text/javascript">
+						var products = "<%= products %>";
+						if(products == '[]') {
+							$('#products').append('<p>Nothing available.</p>');
+						} else {
+							for(var i = 0; i < 1; i++) {
+								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ products[i].title+"</h4><h5>"+ products[i].price+"</h5></div></div></div>");
+							};
+						};
+					</script>
 					<%
 						} else {
 					%>
 					<h4>
 						Reputation
 					</h4>
+					<script type="text/javascript">
+						var reputation = "<%= reputation %>";
+						if(reputation == '[]') {
+							$('#products').append('<p>Nothing available.</p>');
+						} else {
+							for(var i = 0; i < 1; i++) {
+								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ reputation[i].title+"</h4><h5>"+ reputation[i].price+"</h5></div></div></div>");
+							};
+						};
+					</script>
 					<%
 						}
 					%>
@@ -226,15 +257,4 @@
 			</center>
 		</footer>
 	</body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		var products = "<%= products %>";
-		if(products == '[]') {
-			$('#products').append('<p>Nothing available.</p>');
-		} else {
-			for(var i = 0; i < 1; i++) {
-				$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ products[i].title+"</h4><h5>"+ products[i].price+"</h5></div></div></div>");
-			};
-		};
-	</script>
 </html>

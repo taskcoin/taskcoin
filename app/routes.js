@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var User = require('../app/models/user');
 var Product = require('../app/models/product');
 var Message = require('../app/models/message');
+var Offer = require('../app/models/offer');
 var striptags = require('striptags');
 
 module.exports = function(app, passport) {
@@ -103,11 +104,17 @@ module.exports = function(app, passport) {
 				if (person == undefined) {
 					res.send(404);
 				} else {
-					res.render('profile', {
-						user: req.user,
-						name: person.local.username,
-						type: 'reputation'
+					var Product = mongoose.model('Product');
+					Product.find({'offerer': username, 'type': '1'}, function(err, reputation) {
+						if (err) throw err;
+						res.render('profile', {
+							user: req.user,
+							name: person.local.username,
+							type: 'reputation',
+							reputation: JSON.stringify(reputation)
+						});
 					});
+					
 				}
 			});	
 		}
@@ -181,14 +188,155 @@ module.exports = function(app, passport) {
 						delivery: result.delivery,
 						location: result.location,
 						description: result.description,
-						offerer: result.offerer
+						offerer: result.offerer,
+						productID: productID
 					});
 				}
 			});
 		} else {
 			res.redirect('/');
 		}
-		
+	});
+
+	app.get('/product/:id/offers', isLoggedIn, function(req, res) {
+		var productID = req.params.id;
+		if (productID.length == 24) {
+			var product = mongoose.model('Product');
+			product.findOne({'_id': productID}, function(err, result) {
+				if (err) throw err;
+				if(result == null) {
+					res.send(404);
+				} else {
+					if (req.user.local.username == result.offerer) {
+						var offer = mongoose.model('Offer');
+						offer.find({'productID': productID}, function(err, offers) {
+							res.render('offers', {
+								user: req.user,
+								title: result.title,
+								productID: productID,
+								results: JSON.stringify(offers)
+							});
+						});
+					} else {
+						res.redirect('/');
+					}
+				}
+			});
+		} else {
+			res.redirect('/');
+		}
+	});
+
+	app.get('/job/:id/accept', isLoggedIn, function(req, res) {
+		var productID = req.params.id;
+		if (productID.length == 24) {
+			var product = mongoose.model('Product');
+			product.findOne({'_id': productID}, function(err, result) {
+				if (err) throw err;
+				if(result == null) {
+					res.send(404);
+				} else {
+					res.render('order', {
+						user: req.user,
+						title: result.title,
+						type: result.type,
+						price: result.price,
+						category: result.category,
+						delivery: result.delivery,
+						location: result.location,
+						description: result.description,
+						offerer: result.offerer,
+						productID: productID
+					});
+				}
+			});
+		} else {
+			res.redirect('/');
+		}
+	});
+
+	app.post('/product/:id/order', isLoggedIn, function(req, res) {
+		process.nextTick(function() {
+			var query = {
+				productID: striptags(req.params.id),
+				offer: striptags(req.body.offer),
+				extraMessage: striptags(req.body.extra)
+			}
+			if (query.productID.length == 24) {
+				var product = mongoose.model('Product');
+				product.findOne({'_id': query.productID}, function(err, result) {
+					if (err) throw err;
+					if(result == null) {
+						res.send(404);
+					} else {
+						if(query.offer.length == 0) {
+							res.render('/product/'+ query.productID +'/order')
+						} else {
+							if(query.extraMessage.length > 1500) {
+							
+							} else {
+								var Offer = mongoose.model('Offer');
+								var offer = new Offer();
+
+								offer.offer = query.offer;
+								offer.from = req.user.local.username;
+								offer.productID = query.productID;
+								offer.extraMessage = query.extraMessage;
+
+								offer.save(function(err, result) {
+									if(err) throw err;
+									console.log(result);
+								});
+
+								var Message = mongoose.model('Message');
+								var message = new Message();
+
+								message.to = req.user.local.username;
+								message.subject = "Order submitted";
+								message.content = "Your order on x has been submitted for a price of " + offer.offer + ". You will be notified if you get the job.";
+								message.type = 'Inbox';
+								message.from = 'TaskCoin';
+
+								message.save(function(err, result) {
+									if (err) throw err;
+									res.redirect('/messages/');
+								});
+							}
+						}
+					}
+				});
+			} else {
+				res.redirect('/');
+			}
+		});
+	});
+
+	app.get('/product/:id/job', isLoggedIn, function(req, res) {
+		var productID = req.params.id;
+		if (productID.length == 24) {
+			var product = mongoose.model('Product');
+			product.findOne({'_id': productID}, function(err, result) {
+				if (err) throw err;
+				if(result == null) {
+					res.send(404);
+				} else {
+					res.render('order', {
+						user: req.user,
+						title: result.title,
+						type: result.type,
+						price: result.price,
+						category: result.category,
+						delivery: result.delivery,
+						location: result.location,
+						description: result.description,
+						offerer: result.offerer,
+						productID: productID
+					});
+				}
+			});
+		} else {
+			res.redirect('/');
+		}
 	});
 
 	app.get('/submit', isLoggedIn, function(req, res) {
@@ -198,11 +346,13 @@ module.exports = function(app, passport) {
 		});
 	});
 
-	app.get('/orderdetails', isLoggedIn, function(req, res) {
+	/*app.get('/orderdetails', isLoggedIn, function(req, res) {
 		res.render('orderdetails', {
 			user: req.user
 		});
-	});
+	});*/
+
+	
 
 	function isLoggedIn(req, res, next) {
 		if(req.isAuthenticated()) 

@@ -730,3 +730,47 @@ footer h1 {
 	width: 98%;
 	margin: 10px auto;
 }
+
+/* JOB */
+
+#jobWrapper {
+	width: 100%;
+	border: 1px solid #ddd;
+	background-color: white;
+}
+#jobWrapper #verify {
+
+}
+#jobWrapper #dispute {
+
+}
+
+#chats {
+	width: 100%;
+}
+#chats #poster {
+	width: 100%;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+#chats #image {
+	width: 75px;
+	height: 75px;
+	border: 1px solid #ddd;
+	margin: 5px 5px 5px 5px;
+}
+#chats #text {
+	height: 75px;
+	border: 1px solid #ddd;
+	margin: -80px 85px 5px;
+}
+#chats #date {
+	font-size: 0.8em;
+	font-family: monospace;
+}
+
+#chats #recipient {
+	width: 100%;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}

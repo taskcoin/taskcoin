@@ -92,23 +92,6 @@
 						OFFERS FOR: <%= title %>
 					</h3>
 					<%= results %>
-					<div id='offers'>
-						<h4>
-							Username
-						</h4>
-						<p>
-							TASK 90
-						</p>
-						<p>
-							REPUTATION
-						</p>
-						<a href=''>
-							ACCEPT
-						</a>
-						<a href="">
-							DENY
-						</a>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -177,4 +160,20 @@
 			</center>
 		</footer>
 	</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var result = "<%= results %>";
+			var result = JSON.parse(result);
+			console.log(result);
+			if(result == '[]') {
+				$('.col-sm-12').append('<p>Nothing available.</p>');
+			} else {
+				for(var i = 0; i < 10; i++) {
+					$('.col-sm-12').append("<div id='offers'><h4>" + result[i].from + "</h4><p> TASK " + result[i].offer + "</p><p>REPUTATION</p><a href='/job/" + result[i]._id + "/accept'>ACCEPT</a><a href='/job/" + result[i]._id + "/deny'>DENY</a></div>");
+				};
+			};
+			
+		});
+	</script>
 </html>

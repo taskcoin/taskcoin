@@ -145,47 +145,36 @@
 						Services
 					</h4>
 					<script type="text/javascript">
-						var products = "<%= products %>";
+						var products = JSON.parse('<%- products %>');
 						if(products == '[]') {
 							$('#products').append('<p>Nothing available.</p>');
 						} else {
-							for(var i = 0; i < 1; i++) {
-								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ products[i].title+"</h4><h5>"+ products[i].price+"</h5></div></div></div>");
+							for(var i = 0; i < 10; i++) {
+								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ products[i].title+"</h4><h5>TASK"+ products[i].price+"</h5></div></div></div>");
 							};
 						};
 					</script>
 					<%
-						} else if(type == 'requests') {
+						} else if (type == 'requests') {
 					%>
 					<h4>
 						Requests
 					</h4>
 					<script type="text/javascript">
-						var products = "<%= products %>";
+						var products = '<%- products %>';
+						var products = JSON.parse(products);
 						if(products == '[]') {
 							$('#products').append('<p>Nothing available.</p>');
 						} else {
-							for(var i = 0; i < 1; i++) {
-								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ products[i].title+"</h4><h5>"+ products[i].price+"</h5></div></div></div>");
+							for(var i = 0; i < 10; i++) {
+								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><a href='/product/"+products[i]._id+"'><h4>"+ products[i].title+"</h4></a><h5>"+ products[i].price+"</h5></div></div></div>");
 							};
 						};
 					</script>
 					<%
 						} else {
 					%>
-					<h4>
-						Reputation
-					</h4>
-					<script type="text/javascript">
-						var reputation = "<%= reputation %>";
-						if(reputation == '[]') {
-							$('#products').append('<p>Nothing available.</p>');
-						} else {
-							for(var i = 0; i < 1; i++) {
-								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ reputation[i].title+"</h4><h5>"+ reputation[i].price+"</h5></div></div></div>");
-							};
-						};
-					</script>
+					
 					<%
 						}
 					%>

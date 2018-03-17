@@ -9,6 +9,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<script defer src="/css/fontawesome-all.js"></script>
 		<link rel="stylesheet" href="/css/fontawesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 
 	<body id='product'>
@@ -84,14 +85,24 @@
 			</div>
 		</header>	
 		<br>
-
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
 					<h3>
 						OFFERS FOR: <%= title %>
 					</h3>
-					<%= results %>
+					<script type="text/javascript">
+						var offers = '<%- productOffers %>';
+						/*if(offers == '[]') {
+							$('.col-sm-12').append('<p>Nothing available.</p>');
+						} else {
+							for(var i = 0; offers.length; i++) {
+								$('.col-sm-12').append("<div id='offers'><h4>" + offers[i].from + "</h4><p> TASK " + offers[i].offer + "</p><p>REPUTATION</p><a href='/job/" + offers[i]._id + "/accept'>ACCEPT</a><a href='/job/" + offers[i]._id + "/deny'>DENY</a></div>");
+							};
+						};*/
+
+						console.log(offers);
+					</script>
 				</div>
 			</div>
 		</div>
@@ -160,20 +171,4 @@
 			</center>
 		</footer>
 	</body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			var result = "<%= results %>";
-			var result = JSON.parse(result);
-			console.log(result);
-			if(result == '[]') {
-				$('.col-sm-12').append('<p>Nothing available.</p>');
-			} else {
-				for(var i = 0; i < 10; i++) {
-					$('.col-sm-12').append("<div id='offers'><h4>" + result[i].from + "</h4><p> TASK " + result[i].offer + "</p><p>REPUTATION</p><a href='/job/" + result[i]._id + "/accept'>ACCEPT</a><a href='/job/" + result[i]._id + "/deny'>DENY</a></div>");
-				};
-			};
-			
-		});
-	</script>
 </html>

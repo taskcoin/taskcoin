@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 	<body id='messages'>
 		<header>
@@ -109,22 +110,21 @@
 						</a>
 					</div>
 				</div>
-				<script type="text/javascript">
-				var messages = "<%= messagesContent %>";
-				if(messages == '[]') {
-					$('#messageWrapper').append('<p>Nothing available.</p>');
-				} else {
-					for(var i = 0; i < 10; i++) {
-						$('#messageWrapper').append("<div class='message'><div class='wrapper'><div id='title'><h4>" + messages[i].subject + "</h4><p>By: <a href="">username</a>" + messages[i].from +"</p></div><div class='seperator'> </div><p id='content'>" + messages[i].content + "</p><ul><a href='/profile/" + messages[i].from + "'><li>Reply</li></a><a href=""><li>Trash</li></a></ul></div></div>");
-					};
-				};	
-				console.log(messages);				
-				</script>
-
 				<div class="col-sm-8" id='messageWrapper'>
 					<h4>
 						<%= type %>
 					</h4>
+					<script type="text/javascript">
+					var messages = JSON.parse('<%- messagesContent %>');
+					console.log(messages);
+					if(messages == '[]') {
+						$('.col-sm-8').append('<p>Nothing available.</p>');
+					} else {
+						for(var i = 0; i < messages.length; i++) {
+							$('.col-sm-8').append("<div class='message'><div class='wrapper'><div id='title'><h4>" + messages[i].subject + "</h4><p>By: <a href=''>" + messages[i].from + "</a></p></div><div class='seperator'> </div><p id='content'>" + messages[i].content + "</p><ul><a href='/profile/" + messages[i].from + "'><li>Reply</li></a><a href='/messages/"+messages[i]._id+"/trash'><li>Trash</li></a></ul></div></div>");
+						};
+					};	
+					</script>
 				</div>
 			</div>
 		</div>
@@ -193,6 +193,4 @@
 			</center>
 		</footer>
 	</body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	
 </html>

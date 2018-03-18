@@ -23,9 +23,9 @@ exports.logout = function(req, res) {
 	res.redirect('/');
 };
 
-/* POST */
+/* POST 
 
-exports.postLogin = function() {
+exports.postLogin = function(app, passport) {
 	passport.authenticate('local-login', {
 		successRedirect: '/',
 		failureRedirect: '/login',
@@ -33,10 +33,10 @@ exports.postLogin = function() {
 	});
 };
 
-exports.postRegister = function() {
+exports.postRegister = function(app, passport) {
 	passport.authenticate('local-signup', {
 		successRedirect:'/',
 		failureRedirect: '/register', 
 		failureFlash: true
 	});
-};
+};*/

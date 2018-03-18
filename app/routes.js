@@ -39,8 +39,16 @@ module.exports = function(app, passport) {
 	app.get('/logout', user.logout);
 	app.get('/settings', isLoggedIn, user.settings);
 
-	app.post('/login', user.postLogin);
-	app.post('/register', user.postRegister);	
+	app.post('/login', passport.authenticate('local-login', {
+		successRedirect:'/',
+		failureRedirect: '/login', 
+		failureFlash: true
+	}));
+	app.post('/register', passport.authenticate('local-signup', {
+		successRedirect:'/',
+		failureRedirect: '/register', 
+		failureFlash: true
+	}));	
 
 	// PROFILE
 

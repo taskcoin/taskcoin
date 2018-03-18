@@ -115,9 +115,8 @@
 						<%= type %>
 					</h4>
 					<script type="text/javascript">
-					var messages = JSON.parse('<%- messagesContent %>');
-					console.log(messages);
-					if(messages == '[]') {
+					var messages = <%- messagesContent %>;
+					if(messages.length == 0) {
 						$('.col-sm-8').append('<p>Nothing available.</p>');
 					} else {
 						for(var i = 0; i < messages.length; i++) {

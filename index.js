@@ -50,7 +50,7 @@ require('./app/routes.js')(app, passport);
 
 /* SERVER */
 
-var port = 8095;
+var port = 8112;
 
 app.listen(port, function() {
 	console.log('Listening on port ' + port);

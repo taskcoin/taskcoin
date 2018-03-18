@@ -6,31 +6,58 @@ var User = require('../app/models/user');
 var Product = require('../app/models/product');
 var Message = require('../app/models/message');
 var Offer = require('../app/models/offer');
+var Job = require('../app/models/jobs');
 
 /* GET */
 
 exports.job = function(req, res) {
 	var id = req.params.id;
+	var username = req.user.local.username;
 	if (id.length == 24) {
-		var job = mongoose.model('Offer');
+		var job = mongoose.model('Job');
 		job.findOne({'_id': id}, function(err, result) {
 			if (err) throw err;
-			if(result == null) {
+			if(result.length == 0) {
 				res.send(404);
 			} else {
-				var jobChat = mongoose.model('JobChat');
-				jobChat.find({'offerID': id}, function(err, result) {
-					if (err) throw err;
-					if (result == null) {
-						res.send(404);
-					} else {
-						res.render('job', {
-							user: req.user,
-							jobID: id,
-							chats: JSON.stringify(result)
+				job.findOne({'from': username}, function(err, result) {
+					if (result.length == 0) {
+						job.findOne({'to': username}, function(err, result) {
+							if(result.length == 0) {
+								res.redirect('/');
+							} else {
+								var jobChat = mongoose.model('JobChat');
+								jobChat.find({'offerID': id}, function(err, result) {
+									if (err) throw err;
+									if (result == null) {
+										res.send(404);
+									} else {
+										res.render('job', {
+											user: req.user,
+											jobID: id,
+											chats: JSON.stringify(result)
+										});
+									}
+								});
+							}
 						});
-					}
+					} else {
+						var jobChat = mongoose.model('JobChat');
+						jobChat.find({'offerID': id}, function(err, result) {
+							if (err) throw err;
+							if (result == null) {
+								res.send(404);
+							} else {
+								res.render('job', {
+									user: req.user,
+									jobID: id,
+									chats: JSON.stringify(result)
+								});
+							}
+						});
+					}	
 				});
+				
 			}
 		});
 	} else {
@@ -40,15 +67,18 @@ exports.job = function(req, res) {
 
 exports.accept = function(req, res) {
 	var id = req.params.id;
+	var username = req.user.local.username;
 	if (id.length == 24) {
 		var job = mongoose.model('Offer');
 		job.findOne({'_id': id}, function(err, result) {
-			console.log(result);
 			if (err) throw err;
-			if(result == null) {
+			if(result.length == 0) {
 				res.send(404);
 			} else {
 				if (result.to == req.user.local.username) {
+
+					// SEND PRIVATE MESSAGE TO OFFERER
+
 					var message = mongoose.model('Message');
 					var newMessage = new message();
 
@@ -60,11 +90,34 @@ exports.accept = function(req, res) {
 
 					newMessage.save(function(err, result) {
 						if (err) throw err;
-						console.log(result);
 					});
-					res.redirect('/job/'+result.productID);
+
+					// CREATE NEW JOB
+
+					var newJob = mongoose.model('Job');
+					var createJob = newJob();
+
+					createJob.productID = result.productID;
+					createJob.offerID = id;
+					createJob.from = result.from;
+					createJob.to = result.to;
+					createJob.canGiveRep = 0;
+					createJob.dateStarted = Date.now();
+					createJob.completed = 0;
+
+					// DELETE ALL OFFERS
+
+					job.remove({'productID': result.productID}, function(err, result) {
+						if (err) throw err;
+					});
+
+					createJob.save(function(err, result) {
+						if (err) throw err;
+						res.redirect('/job/'+result._id);
+					});
+
 				} else {
-					res.redirect('/product/'+ result._id);
+					res.redirect('/product/'+ result.productID);
 				}
 			}
 		});
@@ -75,25 +128,22 @@ exports.accept = function(req, res) {
 
 exports.deny = function(req, res) {
 	var id = req.params.id;
+	var username = req.user.local.username;
 	if (id.length == 24) {
 		var job = mongoose.model('Offer');
 		job.findOne({'_id': id}, function(err, result) {
 			if (err) throw err;
-			if(result == null) {
+			if(result.length == 0) {
 				res.send(404);
 			} else {
-				res.render('order', {
-					user: req.user,
-					title: result.title,
-					type: result.type,
-					price: result.price,
-					category: result.category,
-					delivery: result.delivery,
-					location: result.location,
-					description: result.description,
-					offerer: result.offerer,
-					productID: productID
-				});
+				if (result.to == req.user.local.username) {	
+					job.remove({'_id': id}, function(err, result) {
+						if (err) throw err;
+					});
+					res.redirect('/product/'+result.productID+'/offers');
+				} else {
+					res.redirect('/product/'+result.productID);
+				}
 			}
 		});
 	} else {

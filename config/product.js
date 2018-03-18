@@ -57,14 +57,21 @@ exports.offers = function(req, res) {
 				res.send(404);
 			} else {
 				if (req.user.local.username == result.offerer) {
-					var offer = mongoose.model('Offer');
-					offer.find({'productID': productID}, function(err, offers) {
-						res.render('offers', {
-							user: req.user,
-							title: result.title,
-							productID: productID,
-							productOffers: JSON.stringify(offers)
-						});
+					var ifTaken = mongoose.model('Job');
+					ifTaken.find({'productID': productID}, function(err, result) {
+						if(result.length == 1) {
+							res.redirect('/job/'+result._id);
+						} else {
+							var offer = mongoose.model('Offer');
+							offer.find({'productID': productID}, function(err, offers) {
+								res.render('offers', {
+									user: req.user,
+									title: result.title,
+									productID: productID,
+									offers: JSON.stringify(offers)
+								});
+							});
+						}
 					});
 				} else {
 					res.redirect('/');
@@ -137,7 +144,6 @@ exports.orderProduct = function(req, res) {
 
 							offer.save(function(err, result) {
 								if(err) throw err;
-								console.log(result);
 							});
 
 							var Message = mongoose.model('Message');
@@ -145,7 +151,7 @@ exports.orderProduct = function(req, res) {
 
 							message.to = req.user.local.username;
 							message.subject = "Order submitted";
-							message.content = "Your order on x has been submitted for a price of " + offer.offer + ". You will be notified if you get the job.";
+							message.content = "Your order on "+result.title+" has been submitted for a price of " + offer.offer + ". You will be notified if you get the job.";
 							message.type = 'Inbox';
 							message.from = 'TaskCoin';
 

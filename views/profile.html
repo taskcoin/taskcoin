@@ -103,10 +103,10 @@
 								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='/profile/<%= name %>/reputation'>23729</a>
 							</p>
 							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> USA.
+								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
 							</p>
 							<p>
-								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> 24 hours.
+								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= created %>
 							</p>
 						</div>
 					</div>
@@ -146,7 +146,7 @@
 					</h4>
 					<script type="text/javascript">
 						var products = JSON.parse('<%- products %>');
-						if(products == '[]') {
+						if(products.length == 0) {
 							$('#products').append('<p>Nothing available.</p>');
 						} else {
 							for(var i = 0; i < 10; i++) {
@@ -163,7 +163,7 @@
 					<script type="text/javascript">
 						var products = '<%- products %>';
 						var products = JSON.parse(products);
-						if(products == '[]') {
+						if(products.length == 0) {
 							$('#products').append('<p>Nothing available.</p>');
 						} else {
 							for(var i = 0; i < 10; i++) {
@@ -174,7 +174,20 @@
 					<%
 						} else {
 					%>
-					
+					<h4>
+						Reputation
+					</h4>
+					<script type="text/javascript">
+						var rep = '<%- reputation %>';
+						var rep = JSON.parse(rep);
+						if(rep.length == 0) {
+							$('#products').append('<p>Nothing available.</p>');
+						} else {
+							for(var i = 0; i < 10; i++) {
+								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><a href='/product/"+products[i]._id+"'><h4>"+ products[i].title+"</h4></a><h5>"+ products[i].price+"</h5></div></div></div>");
+							};
+						};
+					</script>
 					<%
 						}
 					%>

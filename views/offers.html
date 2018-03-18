@@ -92,16 +92,14 @@
 						OFFERS FOR: <%= title %>
 					</h3>
 					<script type="text/javascript">
-						var offers = '<%- productOffers %>';
-						/*if(offers == '[]') {
+						var offers = <%- offers %>;
+						if(offers.length == 0) {
 							$('.col-sm-12').append('<p>Nothing available.</p>');
 						} else {
 							for(var i = 0; offers.length; i++) {
 								$('.col-sm-12').append("<div id='offers'><h4>" + offers[i].from + "</h4><p> TASK " + offers[i].offer + "</p><p>REPUTATION</p><a href='/job/" + offers[i]._id + "/accept'>ACCEPT</a><a href='/job/" + offers[i]._id + "/deny'>DENY</a></div>");
 							};
-						};*/
-
-						console.log(offers);
+						};
 					</script>
 				</div>
 			</div>

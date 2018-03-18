@@ -21,6 +21,8 @@ exports.profile = function(req, res) {
 					res.render('profile', {
 						user: req.user,
 						name: person.local.username,
+						location: person.local.location,
+						created: person.local.created,
 						type: 'requests',
 						products: JSON.stringify(product)
 					});	
@@ -47,6 +49,8 @@ exports.services = function(req, res) {
 					res.render('profile', {
 						user: req.user,
 						name: person.local.username,
+						location: person.local.location,
+						created: person.local.created,
 						type: 'services',
 						products: JSON.stringify(product)
 					});	
@@ -73,6 +77,8 @@ exports.reputation = function(req, res) {
 					res.render('profile', {
 						user: req.user,
 						name: person.local.username,
+						location: person.local.location,
+						created: person.local.created,
 						type: 'reputation',
 						reputation: JSON.stringify(reputation)
 					});

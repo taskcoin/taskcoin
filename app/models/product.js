@@ -10,7 +10,9 @@ var productSchema = mongoose.Schema({
 	fees: String,
 	totalCost: String,
 	posted: String,
-	offerer: String
+	offerer: String,
+	available: Boolean,
+	availableOnce: Boolean
 });
 
 module.exports = mongoose.model('Product', productSchema);

@@ -23,10 +23,10 @@ exports.product = function(req, res) {
 				res.send(404);
 			} else {
 
-				//profile
+				// PRODUCT
 
-				var profile = mongoose.model('User');
-				profile.findOne({"_id": req.user.local.id}, function(err, profile) {
+				var product = mongoose.model('Product');
+				product.findOne({"_id": productID}, function(err, result) {
 					res.render('product', {
 						user: req.user,
 						title: result.title,
@@ -37,7 +37,8 @@ exports.product = function(req, res) {
 						location: result.location,
 						description: result.description,
 						offerer: result.offerer,
-						productID: productID
+						productID: productID,
+						available: result.available
 					});
 				});
 			}
@@ -48,34 +49,40 @@ exports.product = function(req, res) {
 }
 
 exports.offers = function(req, res) {
-	var productID = req.params.id;
+	var productID = striptags(req.params.id);
+	var username = req.user.local.username;
 	if (productID.length == 24) {
 		var product = mongoose.model('Product');
-		product.findOne({'_id': productID}, function(err, result) {
+		product.findOne({'_id': productID, "offerer": username}, function(err, products) {
+
+			// CHECK PRODUCT EXISTS
+
 			if (err) throw err;
-			if(result == null) {
-				res.send(404);
-			} else {
-				if (req.user.local.username == result.offerer) {
-					var ifTaken = mongoose.model('Job');
-					ifTaken.find({'productID': productID}, function(err, result) {
-						if(result.length == 1) {
-							res.redirect('/job/'+result._id);
-						} else {
-							var offer = mongoose.model('Offer');
-							offer.find({'productID': productID}, function(err, offers) {
+			if (products == null) {
+				res.redirect('/');
+			} else { 
+				// CHECK IF JOB EXISTS ALREADY, IF SO REDIRECT TO JOB
+				var jobModel = mongoose.model('Job');
+				jobModel.findOne({'productID': productID}, function(err, jobResult) {
+					if(jobResult == null) {
+						// CHECK IF PRODUCT IS AVAILABLE AND CAN ACCEPT OFFERS, OTHERWISE REDIRECT TO PRODUCT PAGE
+						if(products.available == true) {
+							var offers = mongoose.model('Offer');
+							offers.find({'productID': productID}, function(err, result) {
 								res.render('offers', {
 									user: req.user,
-									title: result.title,
-									productID: productID,
-									offers: JSON.stringify(offers)
+									title: products.title,
+									offers: JSON.stringify(result)
 								});
 							});
+						} else {
+							res.redirect('/product/'+productID);
 						}
-					});
-				} else {
-					res.redirect('/');
-				}
+					} else {
+						// REDIRECT TO JOB
+						res.redirect('/job/'+jobResult._id);
+					}
+				});	
 			}
 		});
 	} else {
@@ -84,32 +91,57 @@ exports.offers = function(req, res) {
 }
 
 exports.order = function(req, res) {
-	var productID = req.params.id;
-	if (productID.length == 24) {
-		var product = mongoose.model('Product');
-		product.findOne({'_id': productID}, function(err, result) {
-			if (err) throw err;
-			if(result == null) {
-				res.send(404);
+	var productID = striptags(req.params.id);
+	var username = req.user.local.username;
+
+	if(productID.length == 24) {
+		var products = mongoose.model('Product');
+
+		products.findOne({'_id': productID}, function(err, product) {
+			if (product == null) {
+				res.redirect('/');
 			} else {
-				res.render('order', {
-					user: req.user,
-					title: result.title,
-					type: result.type,
-					price: result.price,
-					category: result.category,
-					delivery: result.delivery,
-					location: result.location,
-					description: result.description,
-					offerer: result.offerer,
-					productID: productID
-				});
+				if(product.offerer == username) {
+					res.redirect('/product/' + productID + '/offers');
+				} else {
+					if(product.available == true) {
+						res.render('order', {
+							user: req.user,
+							title: product.title,
+							productID: productID,
+							price: product.price
+						});
+					} else {
+						res.redirect('/product/'+productID);
+					}
+				}
 			}
 		});
 	} else {
 		res.redirect('/');
 	}
 }
+
+exports.report = function(req, res) {
+	var productID = striptags(req.params.id);
+	var username = req.user.local.username;
+
+	if (productID.length == 24) {
+		var products = mongoose.model('Product');
+		products.findOne({'_id': productID}, function(err, result) {
+			if(result.length == 1) {
+				res.render('report', {
+					user: req.user,
+					productID: productID
+				});
+			} else {
+				res.redirect('/');
+			}
+		});
+	} else {
+		res.redirect('/');
+	}
+};
 
 /* POST */
 
@@ -180,7 +212,8 @@ exports.postSubmit = function(req, res) {
 			location: striptags(req.body.location),
 			delivery: striptags(req.body.delivery),
 			description: striptags(req.body.description),
-			offerer: striptags(req.user.local.username)
+			offerer: striptags(req.user.local.username),
+			once: striptags(req.body.once)
 		}
 		function redirectSubmit(reason) {
 			res.render('submit', {
@@ -216,6 +249,12 @@ exports.postSubmit = function(req, res) {
 										if (description.length < 2500) {
 											redirectSubmit('Description length is too long.');
 										} else {
+											if(typeof(product.once) !== 'boolean') {
+												redirectSubmit('Check if product is once or available all the time');
+											}
+										} 
+										
+										else {
 										 */
 											
 											var Product = mongoose.model('Product');
@@ -230,12 +269,15 @@ exports.postSubmit = function(req, res) {
 											product.description = query.description;
 											product.posted = Date.now();
 											product.offerer = query.offerer;
+											product.available = true;
+											product.availableOnce = query.once;
 											
 											product.save(function(err, result) {
 												if (err) throw err;
 												res.redirect('/product/' + result._id)
 											});
 										/*}
+										} 
 									}
 								}
 							}

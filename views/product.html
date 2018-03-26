@@ -111,6 +111,7 @@
 								<i class="fas fa-globe"></i> <strong>Location:</strong> Nigeria
 							</p>
 							<% if (user.local.username != offerer) { %>
+							<% if (available == true) { %>
 							<a href="/product/<%= productID %>/order">
 								<div id='buy'>
 									<p>
@@ -118,6 +119,15 @@
 									</p>
 								</div>
 							</a>
+							<% } else { %>
+							<a href="#">
+								<div id='buy'>
+									<p>
+										NOT AVAILABLE
+									</p>
+								</div>
+							</a>
+							<% } %>
 							<% } else { %>
 							<a href="/product/<%= productID %>/offers">
 								<div id='buy'>
@@ -153,7 +163,7 @@
 							</p>
 						</div>
 					</div>
-					<a id='report' href=''>
+					<a id='report' href='/product/<%= productID %>/report'>
 						REPORT LISTING
 					</a>
 				</div>

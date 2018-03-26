@@ -57,6 +57,9 @@ module.exports = function(app, passport) {
 	app.get('/profile/:user/', isLoggedIn, profile.profile);
 	app.get('/profile/:user/services', isLoggedIn, profile.services);
 	app.get('/profile/:user/reputation', isLoggedIn, profile.reputation);
+	app.get('/profile/:user/reputation/give', isLoggedIn, profile.giveRep);
+
+	app.post('/profile/:user/reputation/give', isLoggedIn, profile.giveReputation);
  	
  	// MESSAGING
 
@@ -77,6 +80,7 @@ module.exports = function(app, passport) {
 	app.get('/product/:id', isLoggedIn, product.product);
 	app.get('/product/:id/offers', isLoggedIn, product.offers);
 	app.get('/product/:id/order', isLoggedIn, product.order);
+	app.get('/product/:id/report', isLoggedIn, product.report);
 
 	app.post('/submit', isLoggedIn, product.postSubmit);
 	app.post('/product/:id/order', isLoggedIn, product.orderProduct);
@@ -88,6 +92,7 @@ module.exports = function(app, passport) {
 	app.get('/job/:id', isLoggedIn, jobs.job);
 	app.get('/job/:id/accept', isLoggedIn, jobs.accept);
 	app.get('/job/:id/deny', isLoggedIn, jobs.deny);
+	app.get('/job/:id/done', isLoggedIn, jobs.done);
 
 	app.post('/job/:id', isLoggedIn, jobs.chat);
 

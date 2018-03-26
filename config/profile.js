@@ -1,6 +1,8 @@
 var User = require('../app/models/user');
+var Job = require('../app/models/jobs');
 var mongoose = require('mongoose');
 var striptags = require('striptags');
+var Reputation = require('../app/models/reputation');
 
 /* GET */
 
@@ -71,8 +73,8 @@ exports.reputation = function(req, res) {
 			if (person == undefined) {
 				res.send(404);
 			} else {
-				var Product = mongoose.model('Product');
-				Product.find({'offerer': username, 'type': '1'}, function(err, reputation) {
+				var Rep = mongoose.model('Reputation');
+				Rep.find({"userB": username}, function(err, reputation) {
 					if (err) throw err;
 					res.render('profile', {
 						user: req.user,
@@ -87,4 +89,61 @@ exports.reputation = function(req, res) {
 			}
 		});	
 	}
+};
+
+exports.giveRep = function(req, res) {
+	res.render('giverep', {
+		user: req.user,
+		give: req.params.user
+	});
+};
+
+exports.giveReputation = function(req, res) {
+	var receiver = striptags(req.params.user);
+	var giver = striptags(req.user.local.username);
+	var reason = striptags(req.body.reason);
+	var posOrNeg = striptags(req.body.posOrNeg);
+	var date = Date.now();
+
+	var Job = mongoose.model('Job');
+	Job.findOne({"from": giver, "to": receiver, "canGiveRep": true}, function(err, jobResult) {
+		if(jobResult == null) {
+			res.redirect('/');
+		} else {
+			if (3 < receiver.length ) {
+				if(3 < giver.length) {
+					if(posOrNeg.length == 1) {
+
+						//ADD REPUTATION
+
+						var rep = mongoose.model('Reputation');
+						var Rep = new rep();
+
+						Rep.jobID = jobResult._id;
+						Rep.userA = giver;
+						Rep.userB = receiver;
+						Rep.date = Date.now();
+						Rep.reason = reason;
+						Rep.given = posOrNeg;
+
+						// TAKE AWAY ABILITY TO GIVE REP ON THIS JOB
+
+						jobResult.canGiveRep = false;
+						jobResult.completed = true;
+
+						jobResult.save(function(err, result) {
+							if(err) throw err;
+						});
+
+						Rep.save(function(err, result) {
+							if(err) throw err;
+							res.redirect('/profile/'+receiver+'/reputation');
+						});
+					} 
+				}
+			} else {
+				res.redirect('/');
+			}
+		}
+	});
 };

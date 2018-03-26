@@ -89,107 +89,13 @@
 
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-4">
-					<div id='user'>
-						<div id='wrapper'>
-							<div id='image'>
-									
-							</div>
-							<h5>
-								<%= name %> 
-							</h5>
-							<div class='seperator'></div>							
-							<p>
-								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='/profile/<%= name %>/reputation'>23729</a>
-							</p>
-							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
-							</p>
-							<p>
-								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= created %>
-							</p>
-						</div>
+				<div class="col-sm-12">
+					<div id='report'>
+						<h5>
+							Report
+						</h5>
+						
 					</div>
-					<ul id='seperators'>
-						<a href='../messages/compose'>
-							<li>
-								MESSAGE <u><%= name %></u>
-							</li>
-						</a>
-						<a href='/profile/<%= name %>'>
-							<li>
-								REQUESTS
-							</li>
-						</a>
-						<a href='/profile/<%= name %>/services'>
-							<li>
-								SERVICES
-							</li>
-						</a>
-						<a href='/profile/<%= name %>/reputation'>
-							<li>
-								REPUTATION
-							</li>
-						</a>
-					</ul>
-					<a id='report' href=''>
-						REPORT LISTING
-					</a>
-				</div>
-
-				<div class="col-sm-8" id='products'>
-					<% 
-						if (type == 'services') {
-					%>
-					<h4>
-						Services
-					</h4>
-					<script type="text/javascript">
-						var products = JSON.parse('<%- products %>');
-						if(products.length == 0) {
-							$('#products').append('<p>Nothing available.</p>');
-						} else {
-							for(var i = 0; i < 10; i++) {
-								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><h4>"+ products[i].title+"</h4><h5>TASK"+ products[i].price+"</h5></div></div></div>");
-							};
-						};
-					</script>
-					<%
-						} else if (type == 'requests') {
-					%>
-					<h4>
-						Requests
-					</h4>
-					<script type="text/javascript">
-						var products = <%- products %>;
-						if(products.length == 0) {
-							$('#products').append('<p>Nothing available.</p>');
-						} else {
-							for(var i = 0; i < 10; i++) {
-								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><a href='/product/"+products[i]._id+"'><h4>"+ products[i].title+"</h4></a><h5>"+ products[i].price+"</h5></div></div></div>");
-							};
-						};
-					</script>
-					<%
-						} else {
-					%>
-					<h4>
-						Reputation
-					</h4>
-					<script type="text/javascript">
-						var rep = <%- reputation %>;
-						console.log(rep);
-						if(rep.length == 0 || rep == null) {
-							$('#products').append('<p>Nothing available.</p>');
-						} else {
-							for(var i = 0; i < rep.length; i++) {
-								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/"+rep[i].userA+"'><h4>"+ rep[i].userA+"</h4></a><h5>"+ rep[i].given+"</h5></div></div></div>");
-							};
-						};
-					</script>
-					<%
-						}
-					%>
 				</div>
 			</div>				
 		</div>

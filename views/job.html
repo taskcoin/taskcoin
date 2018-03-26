@@ -9,6 +9,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<script defer src="/css/fontawesome-all.js"></script>
 		<link rel="stylesheet" href="/css/fontawesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 
 	<body id='product'>
@@ -99,9 +100,9 @@
 								</div>
 								<div class="col-sm-6">
 									<div id='dispute'>
-										<p>
+										<a href='/job/<%= jobID %>/done'>
 											DISPUTE
-										</p>
+										</a>
 									</div>
 								</div>
 							</div>
@@ -112,42 +113,9 @@
 								<input type="submit" value='SEND' />
 							</form>
 							<div id='poster'>
-								<div class="container">
-									<div class="row">
-										<div class="col-sm-10">
-											<p>
-												text xdxdxd
-											</p>
-											<p id='date'>
-												3/18/2018
-											</p>
-										</div>
-										<div class="col-sm-2">
-											<div id='image'>
-
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<br>
-							<div id='recipient'>
-								<div class="container">
-									<div class="row">
-										<div class="col-sm-2">
-											<div id='image'>
-
-											</div>
-										</div>
-										<div class="col-sm-10">
-											<p>
-												text xdxdxd
-											</p>
-											<p id='date'>
-												3/18/2018
-											</p>
-										</div>
-									</div>
+								<div class="container" id='jobChat'>
+									
+										
 								</div>
 							</div>
 						</div>
@@ -222,7 +190,14 @@
 	</body>
 
 	<script type="text/javascript">
-		console.log("<%= chats %>");
+		var chats = <%- chats %>;
+		if(chats.length == 0) {
+			$('.col-sm-12').append('<p>Nothing available.</p>');
+		} else {
+			for(var i = 0; i < 10; i++) {
+				$('#jobChat').append("<div class='row'><div class='col-sm-10'><p>"+chats.message+"</p><p id='date'>"+chats.date+"</p></div><div class='col-sm-2'><p>"+chats.poster+"</p></div></div>");
+			};
+		};
 	</script>
 
 </html>

@@ -5,7 +5,9 @@ var reputationSchema = mongoose.Schema({
 	userB: String,
 	date: Date,
 	reason: String,
-	jobID: String
+	jobID: String,
+	given: Number,
+	total: Number
 });
 
 module.exports = mongoose.model('Reputation', reputationSchema);

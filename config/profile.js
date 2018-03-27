@@ -26,6 +26,7 @@ exports.profile = function(req, res) {
 						location: person.local.location,
 						created: person.local.created,
 						type: 'requests',
+						rep: person.local.reputation,
 						products: JSON.stringify(product)
 					});	
 				});
@@ -54,6 +55,7 @@ exports.services = function(req, res) {
 						location: person.local.location,
 						created: person.local.created,
 						type: 'services',
+						rep: person.local.reputation,
 						products: JSON.stringify(product)
 					});	
 				});
@@ -81,6 +83,7 @@ exports.reputation = function(req, res) {
 						name: person.local.username,
 						location: person.local.location,
 						created: person.local.created,
+						rep: person.local.reputation,
 						type: 'reputation',
 						reputation: JSON.stringify(reputation)
 					});
@@ -114,17 +117,29 @@ exports.giveReputation = function(req, res) {
 				if(3 < giver.length) {
 					if(posOrNeg.length == 1) {
 
-						//ADD REPUTATION
+						// ADD REPUTATION
 
 						var rep = mongoose.model('Reputation');
 						var Rep = new rep();
 
-						Rep.jobID = jobResult._id;
+						//Rep.jobID = jobResult._id;
+
 						Rep.userA = giver;
 						Rep.userB = receiver;
 						Rep.date = Date.now();
 						Rep.reason = reason;
-						Rep.given = posOrNeg;
+						if(posOrNeg == 1) {
+							Rep.given = 1;
+							Rep.save(function(err, result) {
+								if(err) throw err;
+							});
+						} else {
+							Rep.given = -1;
+							Rep.save(function(err, result) {
+								if(err) throw err;
+							});
+						}
+						
 
 						// TAKE AWAY ABILITY TO GIVE REP ON THIS JOB
 
@@ -135,9 +150,26 @@ exports.giveReputation = function(req, res) {
 							if(err) throw err;
 						});
 
-						Rep.save(function(err, result) {
-							if(err) throw err;
-							res.redirect('/profile/'+receiver+'/reputation');
+						// UPDATE REPUTATION FOR USER
+
+						var user = mongoose.model('User');
+						user.findOne({'local.username': receiver}, function(err, userResult) {
+							var total = Number(userResult.local.reputation);
+							if(posOrNeg == 1) {
+								var total = Math.floor(+total + +posOrNeg);
+								userResult.local.reputation = total;
+								userResult.save(function(err, result) {
+									if(err) throw err;
+									res.redirect('/profile/'+receiver+'/reputation');
+								});
+							} else {
+								var total = Math.floor(+total - 1);
+								userResult.local.reputation = total;
+								userResult.save(function(err, result) {
+									if(err) throw err;
+									res.redirect('/profile/'+receiver+'/reputation');
+								});
+							}
 						});
 					} 
 				}

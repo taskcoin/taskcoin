@@ -53,11 +53,16 @@ module.exports = function(app, passport) {
 	// PROFILE
 
 	var profile = require('../config/profile.js');
+	var currency = require('../config/currency.js');
 
 	app.get('/profile/:user/', isLoggedIn, profile.profile);
 	app.get('/profile/:user/services', isLoggedIn, profile.services);
 	app.get('/profile/:user/reputation', isLoggedIn, profile.reputation);
 	app.get('/profile/:user/reputation/give', isLoggedIn, profile.giveRep);
+
+	app.get('/profile/:user/send', isLoggedIn, currency.send);
+	app.get('/profile/:user/transactions', isLoggedIn, currency.transactions);
+	app.post('/profile/:user/send', isLoggedIn, currency.sendMoney);
 
 	app.post('/profile/:user/reputation/give', isLoggedIn, profile.giveReputation);
  	

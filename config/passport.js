@@ -29,7 +29,8 @@ module.exports = function(passport) {
 					newUser.local.password = newUser.generateHash(password);
 					newUser.local.created = Date.now();
 					newUser.local.location = 'Global';
-					newUser.local.balance = 0;
+					newUser.local.currency = 1000;
+					newUser.local.reputation = 0;
 					newUser.save(function(err) {
 						if(err) throw err;
 						return done(null, newUser);

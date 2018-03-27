@@ -61,11 +61,15 @@ exports.offers = function(req, res) {
 			if (products == null) {
 				res.redirect('/');
 			} else { 
+
 				// CHECK IF JOB EXISTS ALREADY, IF SO REDIRECT TO JOB
+
 				var jobModel = mongoose.model('Job');
 				jobModel.findOne({'productID': productID}, function(err, jobResult) {
 					if(jobResult == null) {
+
 						// CHECK IF PRODUCT IS AVAILABLE AND CAN ACCEPT OFFERS, OTHERWISE REDIRECT TO PRODUCT PAGE
+
 						if(products.available == true) {
 							var offers = mongoose.model('Offer');
 							offers.find({'productID': productID}, function(err, result) {
@@ -79,7 +83,9 @@ exports.offers = function(req, res) {
 							res.redirect('/product/'+productID);
 						}
 					} else {
+
 						// REDIRECT TO JOB
+						
 						res.redirect('/job/'+jobResult._id);
 					}
 				});	

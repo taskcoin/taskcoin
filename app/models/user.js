@@ -7,7 +7,8 @@ var userSchema = mongoose.Schema({
 		password: String,
 		created: Date,
 		location: String,
-		balance: Number,
+		currency: Number,
+		reputation: Number,
 		ip: String
 	}
 });

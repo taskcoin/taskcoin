@@ -6,6 +6,7 @@ var jobSchema = mongoose.Schema({
 	from: String,
 	to: String,
 	canGiveRep: Boolean,
+	amount: Number,
 	dateStarted: Date,
 	completed: Boolean
 });

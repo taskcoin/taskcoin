@@ -262,26 +262,123 @@ exports.postSubmit = function(req, res) {
 										
 										else {
 										 */
-											
-											var Product = mongoose.model('Product');
-											var product = new Product();
 
-											product.title = query.title;
-											product.type = query.type;
-											product.price = query.price;
-											product.category = query.category;
-											product.location = query.location;
-											product.delivery = query.delivery;
-											product.description = query.description;
-											product.posted = Date.now();
-											product.offerer = query.offerer;
-											product.available = true;
-											product.availableOnce = query.once;
+										 	// MAKE SURE USER HAS ENOUGH BALANCE 
+
+										 	var user = mongoose.model('User');
+										 	user.findOne({'local.username': req.user.local.username}, function (err, userResult) {
+										 		if(err) throw err;
+										 		var balance = Number(userResult.local.currency);
+										 		var fees = Math.floor(balance * 0.01);
+										 		if (fees < 10) {
+										 			var fees = 10;
+										 			var total = fees + Number(query.price);
+										 			if (total > balance) {
+										 				redirectSubmit('Total cost exceeds balance');
+										 			} else {
+
+										 				// CREATE TRANSACTION
+
+														var transaction = mongoose.model('Transaction');
+														var createTransaction = new transaction();
+
+														createTransaction.userA = req.user.local.username;
+														createTransaction.userB = query.offerer;
+														createTransaction.reason = 'Created listing';
+														createTransaction.amount = total;
+														createTransaction.date = Date.now();
+
+														createTransaction.save(function(err, result) {
+															if(err) throw err;
+														});
+
+														// DEDUCT AMOUNT FROM ORIGINAL USER
+
+														var totalAmount = Math.floor(userResult.local.currency - total);
+
+														userResult.local.currency = totalAmount;
+
+														userResult.save(function(err, result) {
+															if(err) throw err;
+														});
+
+														// CREATE PRODUCT
+
+														var Product = mongoose.model('Product');
+														var product = new Product();
+
+														product.title = query.title;
+														product.type = query.type;
+														product.price = query.price;
+														product.category = query.category;
+														product.location = query.location;
+														product.delivery = query.delivery;
+														product.description = query.description;
+														product.posted = Date.now();
+														product.offerer = query.offerer;
+														product.available = true;
+														product.availableOnce = query.once;
 											
-											product.save(function(err, result) {
-												if (err) throw err;
-												res.redirect('/product/' + result._id)
-											});
+														product.save(function(err, result) {
+															if (err) throw err;
+															res.redirect('/product/' + result._id)
+														});
+										 			}
+										 		} else {
+										 			var total = fees + Number(query.price);
+										 			if (total > balance) {
+					 									redirectSubmit('Total cost exceeds balance');
+										 			} else {
+
+									 					// CREATE TRANSACTION
+
+														var transaction = mongoose.model('Transaction');
+														var createTransaction = new transaction();
+
+														createTransaction.userA = req.user.local.username;
+														createTransaction.userB = query.offerer;
+														createTransaction.reason = 'Created listing';
+														createTransaction.amount = total;
+														createTransaction.date = Date.now();
+
+														createTransaction.save(function(err, result) {
+															if(err) throw err;
+														});
+
+														// DEDUCT AMOUNT FROM ORIGINAL USER
+
+														var totalAmount = Math.floor(userResult.local.currency - total);
+
+														userResult.local.currency = totalAmount;
+
+														userResult.save(function(err, result) {
+															if(err) throw err;
+														});
+
+														// CREATE PRODUCT
+
+														var Product = mongoose.model('Product');
+														var product = new Product();
+
+														product.title = query.title;
+														product.type = query.type;
+														product.price = query.price;
+														product.category = query.category;
+														product.location = query.location;
+														product.delivery = query.delivery;
+														product.description = query.description;
+														product.posted = Date.now();
+														product.offerer = query.offerer;
+														product.available = true;
+														product.availableOnce = query.once;
+											
+														product.save(function(err, result) {
+															if (err) throw err;
+															res.redirect('/product/' + result._id)
+														});
+										 			}
+										 		}
+										 	});
 										/*}
 										} 
 									}

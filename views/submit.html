@@ -184,7 +184,7 @@
 							<label>
 								Your Balance
 							</label>
-							<input type="number" class='form-control' disabled id='total' min='0' id='balance' name="balance" />
+							<input type="number" class='form-control' value='<%= user.local.currency %>' disabled id='balance' min='0' id='balance' name="balance" />
 							<label>
 								Total Cost
 							</label>
@@ -268,11 +268,20 @@
 		$('#price').on('click',function() {
 			var price = $('#price').val();
 			var fees = Math.round(price/100);
-			$('#fees').val(fees);
-			var price = parseInt(price);
-			var fees = parseInt(fees);
-			var total = price + fees;
-			$('#total').val(total);
+			if(10 > fees) {
+				var fees = 10;
+				$('#fees').val(fees);
+				var price = parseInt(price);
+				var fees = parseInt(fees);
+				var total = price + fees;
+				$('#total').val(total);
+			} else {
+				$('#fees').val(fees);
+				var price = parseInt(price);
+				var fees = parseInt(fees);
+				var total = price + fees;
+				$('#total').val(total);
+			}
 		});
 		</script>
 </html>

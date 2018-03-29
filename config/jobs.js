@@ -22,33 +22,12 @@ exports.job = function(req, res) {
 			if(jobResult == null) {
 				res.redirect('/');
 			} else {
-				if(jobResult.from == username) {
+				if(jobResult.completed == 1) {
+					res.redirect('/product/'+jobResult.productID);
+				} else {
+					if(jobResult.from == username) {
 
 					// CHECK CHATS & RENDER THEM IF USERB
-
-					var jobChats = mongoose.model('JobChat');
-					jobChats.find({'offerID': jobID}, function(err, result) {
-						if(err) throw err;
-						if(result == null) {
-							res.render('job', {
-								user: req.user,
-								jobID: jobResult._id,
-								productID: jobResult.productID,
-								chats: 'na'	
-							});
-						} else {
-							res.render('job', {
-								user: req.user,
-								jobID: jobResult._id,
-								productID: jobResult.productID,
-								chats: JSON.stringify(result)	
-							});
-						}
-					});
-				} else {
-					if(jobResult.to == username) {
-
-						// CHECK CHATS & RENDER THEM IF USERA
 
 						var jobChats = mongoose.model('JobChat');
 						jobChats.find({'offerID': jobID}, function(err, result) {
@@ -70,9 +49,35 @@ exports.job = function(req, res) {
 							}
 						});
 					} else {
-						res.redirect('/product'+result.productID);
+						if(jobResult.to == username) {
+
+							// CHECK CHATS & RENDER THEM IF USERA
+
+							var jobChats = mongoose.model('JobChat');
+							jobChats.find({'offerID': jobID}, function(err, result) {
+								if(err) throw err;
+								if(result == null) {
+									res.render('job', {
+										user: req.user,
+										jobID: jobResult._id,
+										productID: jobResult.productID,
+										chats: 'na'	
+									});
+								} else {
+									res.render('job', {
+										user: req.user,
+										jobID: jobResult._id,
+										productID: jobResult.productID,
+										chats: JSON.stringify(result)	
+									});
+								}
+							});
+						} else {
+							res.redirect('/product'+result.productID);
+						}
 					}
 				}
+				
 			}	
 		});
 	} else {
@@ -103,6 +108,7 @@ exports.accept = function(req, res) {
 				createJob.offerID = result._id;
 				createJob.from = result.from;
 				createJob.to = result.to;
+				createJob.amount = result.offer;
 				createJob.canGiveRep = 0;
 				createJob.dateStarted = Date.now();
 				createJob.completed = 0;
@@ -199,15 +205,48 @@ exports.done = function(req, res) {
 			if(jobResult == null) {
 				res.redirect('/');
 			} else {
-
-				// FINISH JOB, GIVE REPUTATION
-
-				jobResult.canGiveRep = 1;
-				jobResult.completed = 1
-				jobResult.save(function(err, result) {
-					if(err) throw err;
+				if(jobResult.completed == 1) {
 					res.redirect('/product/' + jobResult.productID);
-				});
+				} else {
+
+					// PAY WORKER
+
+					var user = mongoose.model('User');
+					user.findOne({'local.username': jobResult.from}, function(err, userResult) {
+						if(err) throw err;
+						var currency = Number(userResult.local.currency);
+						var newTotal = + currency + Number(jobResult.amount);
+						userResult.local.currency = newTotal;
+
+						userResult.save(function(err, result) {
+							if(err) throw err;
+						});
+
+						// CREATE TRANSACTION
+
+						var transaction = mongoose.model('Transaction');
+						var createTransaction = new transaction();
+
+						createTransaction.userA = username;
+						createTransaction.userB = jobResult.from;
+						createTransaction.reason = 'Payment for completing job';
+						createTransaction.amount = newTotal;
+						createTransaction.date = Date.now();
+
+						createTransaction.save(function(err, result) {
+							if(err) throw err;
+						});
+					});
+
+					// FINISH JOB, GIVE REPUTATION
+
+					jobResult.canGiveRep = 1;
+					jobResult.completed = 1
+					jobResult.save(function(err, result) {
+						if(err) throw err;
+						res.redirect('/product/' + jobResult.productID);
+					});
+				}	
 			}
 		});
 	} else {
@@ -286,9 +325,6 @@ exports.chat = function(req, res) {
 				}
 			}
 		});
-		
-
-
 	} else {
 		res.redirect('/');
 	}

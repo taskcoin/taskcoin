@@ -7,7 +7,7 @@ var striptags = require('striptags');
 /* GET */
 
 exports.submit = function(req, res) {
-	res.render('submit', {
+	res.render('requests/submit', {
 		user: req.user,
 		reason: ''
 	});
@@ -130,7 +130,7 @@ exports.order = function(req, res) {
 }
 
 exports.report = function(req, res) {
-	var requestID = striptags(req.params.id);
+	/*var requestID = striptags(req.params.id);
 	var username = req.user.local.username;
 
 	if (requestID.length == 24) {
@@ -147,7 +147,7 @@ exports.report = function(req, res) {
 		});
 	} else {
 		res.redirect('/');
-	}
+	}*/
 };
 
 /* POST */
@@ -221,7 +221,7 @@ exports.postSubmit = function(req, res) {
 			offerer: striptags(req.user.local.username)
 		}
 		function redirectSubmit(reason) {
-			res.render('submit', {
+			res.render('requests/submit', {
 				user: req.user,
 				reason: reason
 			});

@@ -46,8 +46,8 @@ exports.services = function(req, res) {
 			if (person == undefined) {
 				res.send(404);
 			} else {
-				var Request = mongoose.model('Request');
-				Request.find({'offerer': username, 'type': '2'}, function(err, requestResult) {
+				var Service = mongoose.model('Service');
+				Service.find({'seller': username}, function(err, serivceResult) {
 					if (err) throw err;
 					res.render('profile', {
 						user: req.user,
@@ -56,7 +56,7 @@ exports.services = function(req, res) {
 						created: person.local.created,
 						type: 'services',
 						rep: person.local.reputation,
-						products: JSON.stringify(requestResult)
+						services: JSON.stringify(serivceResult)
 					});	
 				});
 			}

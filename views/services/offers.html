@@ -7,15 +7,12 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-		<script type="text/javascript">
-			var search = "{{=it.q}}";
-			document.getElementById('searchBox').value = search;
-			if(search == 'undefined') {
-				document.getElementById('searchBox').value = '';
-			}
-		</script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
-	<body id='submit'>
+
+	<body id='product'>
 		<header>
 			<div class="container">
 				<div class="row">
@@ -88,36 +85,26 @@
 			</div>
 		</header>	
 		<br>
-
-		<div class="container" >
+		<div class="container">
 			<div class="row">
-				<div class="col-sm-12" >
-					<div class='submitWrapper'>
-						<h3>
-							Send Currency
-						</h3>
-						<form action='/profile/<%= receiver %>/send' method='post'>
-							<label>
-								Reason
-							</label>
-							<br>
-							<input type="input" name='reason' />
-							<br>
-							<label>
-								Amount 
-							</label>
-							<input type='numbers' min='0' name='amount' />
-							<br>
-							<br>
-							<input type="submit" />
-							<br>
-							<br>
-						</form>
-					</div>
+				<div class="col-sm-12">
+					<h3>
+						OFFERS FOR: <%= title %>
+					</h3>
+					<script type="text/javascript">
+						var offers = <%- offers %>;
+						if(offers.length == 0) {
+							$('.col-sm-12').append('<p>Nothing available.</p>');
+						} else {
+							for(var i = 0; offers.length; i++) {
+								$('.col-sm-12').append("<div id='offers'><h4>" + offers[i].customer + "</h4><p> TASK " + offers[i].offer + "</p><p>REPUTATION</p><a href='/service/job/" + offers[i]._id + "/accept'>ACCEPT</a><a href='/service/job/" + offers[i]._id + "/deny'>DENY</a></div>");
+							};
+						};
+					</script>
 				</div>
 			</div>
 		</div>
-
+		
 		<br>
 		<br>
 
@@ -182,16 +169,4 @@
 			</center>
 		</footer>
 	</body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		$('#price').on('click',function() {
-			var price = $('#price').val();
-			var fees = Math.round(price/100);
-			$('#fees').val(fees);
-			var price = parseInt(price);
-			var fees = parseInt(fees);
-			var total = price + fees;
-			$('#total').val(total);
-		});
-		</script>
 </html>

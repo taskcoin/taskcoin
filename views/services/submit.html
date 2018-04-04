@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			TaskCoin | Be Your Own Boss
+		</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/css.css" />
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			var search = "{{=it.q}}";
+			document.getElementById('searchBox').value = search;
+			if(search == 'undefined') {
+				document.getElementById('searchBox').value = '';
+			}
+		</script>
+	</head>
+	<body id='submit'>
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<a href='/'>
+							<div id='logo'>
+
+							</div>
+						</a>
+					</div>
+					<div class='col-sm-7'>
+						<form>
+							<input type="input" id='query' name="query" />
+							<input type="submit" id='submit' value='Search' />
+						</form>
+					</div>	
+					<div class="col-sm-3">
+						<% if (user) {%>
+							<div id='loggedIn'>
+								<div id='module'>
+									<div id='username'>
+										<a href='/profile/<%= user.local.username %>'> <%= user.local.username %> 
+										</a>
+									</div>
+									<div id='photo'>
+										<div id='image'>
+
+										</div>
+									</div>	
+								</div>
+								<div id='menuOptions'>
+									<ul>
+										<li>
+											0 TASKCOIN
+										</li>
+										<a href='/submit'>
+											<li>
+												SUBMIT
+											</li>
+										</a>
+										<a href='/settings'>
+											<li>
+												SETTINGS
+											</li>
+										</a>
+										<a href='/logout'>
+											<li>
+												LOGOUT
+											</li>
+										</a>
+									</ul>
+								</div>
+							</div>
+							<% } else { %>
+							<ul id='notLoggedIn'>
+								<li>
+									<a href='/login'>
+										LOGIN
+									</a>
+								</li>
+								<li>
+									<a href='/register'>
+										REGISTER
+									</a>
+								</li>
+							</ul>
+							<% } %>
+					</div>
+				</div>
+			</div>
+		</header>	
+		<br>
+
+		<div class="container" >
+			<div class="row">
+				<div class="col-sm-12" >
+					<div class='submitWrapper'>
+						<h3>
+							Submit Service
+						</h3>
+						<form action='/service/submit' method='post'>
+							<% 
+							if (reason) {
+							%>
+							<div class="alert alert-danger"><%= reason %></div>
+							<%
+							} else {
+							
+							}
+							%>
+							<label for='title'>
+								Title
+							</label>
+							<input type="input" name='title' class='form-control' />
+							<label for='price'>
+								Price
+							</label>
+							<input class='form-control' type="number" name='price' min='1' id='price' max='50000' value='1' />
+							<label for='location'>
+								Location
+							</label>
+							<select class='form-control' name='location'>
+								<option default value='1'>
+									Global
+								</option>
+							</select>
+							<label for='price'>
+								Category
+							</label>
+							<select class='form-control' name='category'>
+								<option value='1'>
+									
+								</option>
+							</select>
+							<label for='delivery'>
+								Delivery
+							</label>
+							<select class='form-control' name='delivery'>
+								<option value='1'>
+									24 Hours
+								</option>
+								<option>
+									2 Days
+								</option>
+								<option>
+									Specified Later
+								</option>
+							</select>
+							<label for='price'>
+								One-time Task?
+							</label>
+							<select name='once'>
+								<option value='true' selected>
+									One-time task
+								</option>
+								<option value='false'>
+									Constantly available
+								</option>
+							</select>
+							<br>
+							<div class='seperator'>
+
+							</div>
+							<br>
+							<label>
+								Description
+							</label>
+							<textarea name='description' class='form-control'>
+								
+							</textarea>
+							<label>
+								Fees
+							</label>
+							<input type="number" class='form-control' id='fees' min='0' name="fees" disabled />
+							<label>
+								Your Balance
+							</label>
+							<input type="number" class='form-control' value='<%= user.local.currency %>' disabled id='balance' min='0' id='balance' name="balance" />
+							<label>
+								Total Cost
+							</label>
+							<input type="number" class='form-control' disabled id='total' min='0' id='total' name="total" />
+							<br>
+							<input type="submit" />
+							<br>
+							<br>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br>
+		<br>
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<h4>
+							Basics
+						</h4>
+						<ul id='basics'>
+							<li>
+								Home
+							</li>
+							<li>
+								About
+							</li>
+							<li>
+								Search
+							</li>
+							<li>
+								TOS
+							</li>
+						</ul>
+					</div>
+				<div class="col-sm-4">
+					<h4>
+						User
+					</h4>
+					<ul>
+						<li>
+							Login
+						</li>
+						<li>
+							Register
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-4">
+					<h4>
+						TaskCoin
+					</h4>
+					<ul>
+						<li>
+							About TaskCoin
+						</li>
+						<li>
+							Buy TaskCoin
+						</li>
+						<li>
+							Sell TaskCoin
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+			<h1>Task</h1>
+		</footer>
+		<footer id='footerBlack'>
+			<center>
+				&copy; 2018 Task
+			</center>
+		</footer>
+	</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$('#price').on('click',function() {
+			var price = $('#price').val();
+			var price = Number(price);
+			var fees = Math.round(price/100);
+			if(10 > fees) {
+				var fees = 10;
+				$('#fees').val(fees);
+				var total = Number(fees);
+				$('#total').val(total);
+			} else {
+				$('#fees').val(fees);
+				var total = Number(fees);
+				$('#total').val(total);
+			}
+		});
+		</script>
+</html>

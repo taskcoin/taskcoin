@@ -7,15 +7,11 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-		<script type="text/javascript">
-			var search = "{{=it.q}}";
-			document.getElementById('searchBox').value = search;
-			if(search == 'undefined') {
-				document.getElementById('searchBox').value = '';
-			}
-		</script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
 	</head>
-	<body id='submit'>
+
+	<body id='product'>
 		<header>
 			<div class="container">
 				<div class="row">
@@ -89,35 +85,32 @@
 		</header>	
 		<br>
 
-		<div class="container" >
+		<div class="container">
 			<div class="row">
-				<div class="col-sm-12" >
-					<div class='submitWrapper'>
-						<h3>
-							Send Currency
-						</h3>
-						<form action='/profile/<%= receiver %>/send' method='post'>
+				<div class="col-sm-12" id='orders'>
+					<h3>
+						ORDER: <%= title %>
+					</h3>
+					<div id='order'>
+						<form method="post" action='/service/<%= requestID %>/order' class='form-group'>
 							<label>
-								Reason
+								YOUR OFFER (TASK)
 							</label>
-							<br>
-							<input type="input" name='reason' />
-							<br>
+							<input type="number" name="offer" value='<%= price %>' class='form-control' />
 							<label>
-								Amount 
+								ADDITIONAL MESSAGE
 							</label>
-							<input type='numbers' min='0' name='amount' />
+							<textarea name='extra' class='form-control'>
+								
+							</textarea>
 							<br>
-							<br>
-							<input type="submit" />
-							<br>
-							<br>
+							<input type="submit" value="SUBMIT ORDER"  />
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-
+		
 		<br>
 		<br>
 
@@ -182,16 +175,4 @@
 			</center>
 		</footer>
 	</body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		$('#price').on('click',function() {
-			var price = $('#price').val();
-			var fees = Math.round(price/100);
-			$('#fees').val(fees);
-			var price = parseInt(price);
-			var fees = parseInt(fees);
-			var total = price + fees;
-			$('#total').val(total);
-		});
-		</script>
 </html>

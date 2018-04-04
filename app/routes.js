@@ -26,7 +26,6 @@ module.exports = function(app, passport) {
 	app.get('/', general.index);
 	app.get('/why', general.why);
 	app.get('/404', general.errorPage);
-	app.get('/report/submitted', isLoggedIn, general.submitted);
 
 	// USER
 
@@ -36,8 +35,6 @@ module.exports = function(app, passport) {
 	app.get('/register', ifLoggedIn, user.register);
 	app.get('/logout', user.logout);
 	app.get('/settings', isLoggedIn, user.settings);
-
-	app.post('/settings', isLoggedIn, user.changePassword);
 
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect:'/',
@@ -89,7 +86,6 @@ module.exports = function(app, passport) {
 
 	app.post('/submit', isLoggedIn, request.postSubmit);
 	app.post('/request/:id/order', isLoggedIn, request.orderProduct);
-	req.post('/request/:id/report', isLoggedIn, request.reportSubmit);
 
 	// REQUEST JOBS
 
@@ -101,6 +97,30 @@ module.exports = function(app, passport) {
 	app.get('/request/job/:id/done', isLoggedIn, requestJobs.done);
 
 	app.post('/request/job/:id', isLoggedIn, requestJobs.chat);
+
+	// SERVICE
+
+	var service = require('../config/service.js');
+
+	app.get('/service/submit', isLoggedIn, service.submit);
+	app.get('/service/:id', isLoggedIn, service.service);
+	app.get('/service/:id/offers', isLoggedIn, service.offers);
+	app.get('/service/:id/order', isLoggedIn, service.order);
+	app.get('/service/:id/report', isLoggedIn, service.report);
+
+	app.post('/service/submit', isLoggedIn, service.postSubmit);
+	app.post('/service/:id/order', isLoggedIn, service.orderService);
+
+	// SERVICE JOBS
+
+	var serviceJobs = require('../config/servicejob.js');
+
+	app.get('/service/job/:id', isLoggedIn, serviceJobs.job);
+	app.get('/service/job/:id/accept', isLoggedIn, serviceJobs.acceptJob);
+	app.get('/service/job/:id/deny', isLoggedIn, serviceJobs.denyJob);
+	app.get('/service/job/:id/done', isLoggedIn, serviceJobs.doneJob);
+
+	app.post('/service/job/:id', isLoggedIn, serviceJobs.chat);
 
 	// SEARCH
 

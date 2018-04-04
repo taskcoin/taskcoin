@@ -112,7 +112,7 @@
 							</p>
 							<% if (user.local.username != offerer) { %>
 								<% if (available == true) { %>
-								<a href="/request/<%= requestID %>/order">
+								<a href="/service/<%= requestID %>/order">
 									<div id='buy'>
 										<p>
 											BUY NOW
@@ -129,7 +129,7 @@
 								</a>
 								<% } %>
 							<% } else { %>
-							<a href="/request/<%= requestID %>/offers">
+							<a href="/service/<%= requestID %>/offers">
 								<div id='buy'>
 									<p>
 										VIEW OFFERS
@@ -163,7 +163,7 @@
 							</p>
 						</div>
 					</div>
-					<a id='report' href='/request/<%= requestID %>/report'>
+					<a id='report' href='/service/<%= requestID %>/report'>
 						REPORT LISTING
 					</a>
 				</div>

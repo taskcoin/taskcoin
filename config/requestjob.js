@@ -24,7 +24,7 @@ exports.job = function(req, res) {
 				res.redirect('/');
 			} else {
 				if(jobResult.completed == 1) {
-					res.redirect('/request/'+jobResult.requestID);
+					res.redirect('request/'+jobResult.requestID);
 				} else {
 					if(jobResult.from == username) {
 
@@ -214,7 +214,7 @@ exports.done = function(req, res) {
 					user.findOne({'local.username': jobResult.from}, function(err, userResult) {
 						if(err) throw err;
 						var currency = Number(userResult.local.currency);
-						var newTotal = + currency + Number(jobResult.amount);
+						var newTotal = +currency + Number(jobResult.amount);
 						userResult.local.currency = newTotal;
 
 						userResult.save(function(err, result) {
@@ -243,7 +243,7 @@ exports.done = function(req, res) {
 					jobResult.completed = 1
 					jobResult.save(function(err, result) {
 						if(err) throw err;
-						res.redirect('/request/' + jobResult.requestID);
+						res.redirect('request/' + jobResult.requestID);
 					});
 				}	
 			}

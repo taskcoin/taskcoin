@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var orderSchema = mongoose.Schema({
+var offerSchema = mongoose.Schema({
 	requestID: String,
 	from: String,
 	to: String,
@@ -8,4 +8,4 @@ var orderSchema = mongoose.Schema({
 	extraMessage: String
 });
 
-module.exports = mongoose.model('requestOffer', orderSchema);
+module.exports = mongoose.model('requestOffer', offerSchema);

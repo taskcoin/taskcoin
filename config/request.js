@@ -130,7 +130,7 @@ exports.order = function(req, res) {
 }
 
 exports.report = function(req, res) {
-	/*var requestID = striptags(req.params.id);
+	var requestID = striptags(req.params.id);
 	var username = req.user.local.username;
 
 	if (requestID.length == 24) {
@@ -147,7 +147,7 @@ exports.report = function(req, res) {
 		});
 	} else {
 		res.redirect('/');
-	}*/
+	}
 };
 
 /* POST */
@@ -388,4 +388,66 @@ exports.postSubmit = function(req, res) {
 			}
 		}*/
 	});
+};
+
+exports.reportSubmit = function(req, res) {
+	var title = striptags(req.body.title);
+	var reason = striptags(req.body.reason);
+	var requestID = striptags(req.params.id);
+	function renderSubmit(reason) {
+		res.render('report', {
+			user: req.user,
+			requestID: requestID,
+			reason: reason
+		});
+	};
+	if(requestID.length != 24) {
+		res.redirect('/');
+	} else {
+		if(title.length < 30) {
+			renderSubmit('Title too short');
+		} else {
+			if(title.length > 200) {
+				renderSubmit('Title too long');
+			} else {
+				if(reason.length < 50) {
+					renderSubmit('Reason too short');
+				} else {
+					if(reason.length > 1500) {
+						renderSubmit('Reason too long');
+					} else {
+
+						// CHECK REQUESTID EXISTS
+
+						var requests = mongoose.model('Request');
+						requests.findOne({'_id': requestID}, function(err, requestResult) {
+							if(err) throw err;
+							if(requestResult == null) {
+								res.redirect('/');
+							} else {
+
+								// SUBMIT REPORT
+
+								var report = mongoose.model('Report');
+
+								var newReport = new report();
+
+								newReport.from = req.user.local.username;
+								newReport.ID = requestID;
+								newReport.title = title;
+								newReport.reason = reason;
+								newReport.submitted = Date.now();
+
+								report.save(function(err, result) {
+									if(err) throw err;
+								});
+								
+								res.redirect('/report/submitted');
+							}
+						});
+					}
+				}
+			}
+		}
+	}
 };

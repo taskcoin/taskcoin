@@ -15,3 +15,8 @@ exports.errorPage = function(req, res) {
 		user: req.user
 	});
 };
+exports.submitted = function(req, res) {
+	res.render('submitted', {
+		user: req.user
+	});
+};

@@ -1,3 +1,7 @@
+var striptags = require('striptags');
+var mongoose = require('mongoose');
+var User = require('../app/models/user');
+
 /* GET */
 
 exports.login = function(req, res) {
@@ -23,20 +27,13 @@ exports.logout = function(req, res) {
 	res.redirect('/');
 };
 
-/* POST 
+/* POST */
 
-exports.postLogin = function(app, passport) {
-	passport.authenticate('local-login', {
-		successRedirect: '/',
-		failureRedirect: '/login',
-		failureFlash: true
+exports.changePassword = function(req, res) {
+	process.nextTick(function() {
+		var query = {
+			currentPassword: striptags(req.body.currentPassword),
+			newPassword: striptags(req.body.newPassword)
+		};
 	});
 };
-
-exports.postRegister = function(app, passport) {
-	passport.authenticate('local-signup', {
-		successRedirect:'/',
-		failureRedirect: '/register', 
-		failureFlash: true
-	});
-};*/

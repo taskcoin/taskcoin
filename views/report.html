@@ -92,9 +92,22 @@
 				<div class="col-sm-12">
 					<div id='report'>
 						<h5>
-							Report
+							Report Request
 						</h5>
-						
+						<form action='/request/<%= requestID %>/report' method='post'>
+							<label>
+								Title
+							</label>
+							<input type='input' name='title' class="form-control" />
+							<label>
+								Reason
+							</label>
+							<textarea name='reason' class="form-control">
+
+							</textarea>
+							<br>
+							<input type='submit' />
+						</form>
 					</div>
 				</div>
 			</div>				

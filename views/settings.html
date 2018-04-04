@@ -92,116 +92,19 @@
 						<p>
 							Change your Password
 						</p>
-						<form>
+						<form action='/settings' method='post'>
 							<label>
 								Current Password
 							</label>
-							<input type='password' class="form-control" />
+							<input type='password' name='currentPassword' class="form-control" />
 							<label>
 								New Password
 							</label>
-							<input type='password' class="form-control" />
+							<input type='password' name='newPassword' class="form-control" />
 							<br>
-							<input type='submit' value='Change'  /> 
+							<input type='submit' /> 
 						</form>
-						<br>
-						<p>
-							Change your Profile Picture
-						</p>
-						<form>
-							
-							<input type='file'  /> 
-							<br>
-							<input type='submit' value='Change'  /> 
-						</form>
-						
 					</div>
-					<div class="col-sm-3" id='settings'>
-						<h4>
-							Settings
-						</h4>
-						<ul>
-							<li>
-								Deposit
-							</li>
-							<li>	
-								Withdraw
-							</li>
-							<li>
-								History
-							</li>
-							<li>
-								Settings
-							</li>
-						</ul>
-					</div>
-					<div class="col-sm-9">
-						<h4>
-							Withdraw
-						</h4>
-						
-						<form>
-							<p>
-								Address to withdraw to:
-							</p>
-							<input type='form' class="form-control" />
-							<p>
-								Amount:
-							</p>
-							<input type='form' class="form-control" />
-							<p>
-								Fee
-							</p>
-							<input type='form' disabled value='1000' class="form-control" />
-							<br>
-							<input type='submit' value='Submit' />
-						</form>
-						<br>
-						<p>
-							View your <a href=''>history</a>
-						</p>
-					</div>
-					<div class="col-sm-9">
-						<h4>
-							Deposit
-						</h4>
-						<p>Deposit TaskCoin into this:</p>
-						<form>
-							<input type='form' class="form-control" />
-						</form>
-						<br>
-
-						<p>
-							View your <a href=''>history</a>
-						</p>
-					</div>
-					<div class="col-sm-9">
-						<h4>
-							History
-						</h4>
-						<table id='history' class='table-bordered'>
-							<th>
-								Date
-							</th>
-							<th>
-								Type
-							</th>
-							<th>
-								Amount
-							</th>
-							<th>
-								Total Amount
-							</th>
-							<tr>
-								<td>I hate faggots</td>
-								<td>I hate faggots</td>
-								<td>I hate faggots</td>
-								<td>I hate faggots</td>
-							</tr>
-						</table>
-						
-					</div>
-					
 				</div>
 			</div>
 

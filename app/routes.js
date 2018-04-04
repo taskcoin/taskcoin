@@ -26,6 +26,7 @@ module.exports = function(app, passport) {
 	app.get('/', general.index);
 	app.get('/why', general.why);
 	app.get('/404', general.errorPage);
+	app.get('/report/submitted', isLoggedIn, general.submitted);
 
 	// USER
 
@@ -35,6 +36,8 @@ module.exports = function(app, passport) {
 	app.get('/register', ifLoggedIn, user.register);
 	app.get('/logout', user.logout);
 	app.get('/settings', isLoggedIn, user.settings);
+
+	app.post('/settings', isLoggedIn, user.changePassword);
 
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect:'/',
@@ -86,6 +89,7 @@ module.exports = function(app, passport) {
 
 	app.post('/submit', isLoggedIn, request.postSubmit);
 	app.post('/request/:id/order', isLoggedIn, request.orderProduct);
+	req.post('/request/:id/report', isLoggedIn, request.reportSubmit);
 
 	// REQUEST JOBS
 
@@ -97,10 +101,6 @@ module.exports = function(app, passport) {
 	app.get('/request/job/:id/done', isLoggedIn, requestJobs.done);
 
 	app.post('/request/job/:id', isLoggedIn, requestJobs.chat);
-
-	// SERVICE
-
-	
 
 	// SEARCH
 

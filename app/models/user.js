@@ -9,7 +9,8 @@ var userSchema = mongoose.Schema({
 		location: String,
 		currency: Number,
 		reputation: Number,
-		ip: String
+		ip: String,
+		admin: Boolean
 	}
 });
 

@@ -122,6 +122,14 @@ module.exports = function(app, passport) {
 
 	app.post('/service/job/:id', isLoggedIn, serviceJobs.chat);
 
+	// ADMIN
+
+	var admin = require('../config/admin.js');
+
+	app.get('/admin/', isLoggedIn, admin.index);
+	app.get('/admin/reports', isLoggedIn, admin.report);
+	app.get('/admin/users', isLoggedIn, admin.users);
+
 	// SEARCH
 
 	app.get('/search', isLoggedIn, function(req, res) {

@@ -31,6 +31,7 @@ module.exports = function(passport) {
 					newUser.local.location = 'Global';
 					newUser.local.currency = 1000;
 					newUser.local.reputation = 0;
+					newUser.local.admin = 0;
 					newUser.save(function(err) {
 						if(err) throw err;
 						return done(null, newUser);

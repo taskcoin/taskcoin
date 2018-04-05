@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			TaskCoin Administrator
+		</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/admin.css" />
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+	</head>
+	<body>
+		<div id='adminWrapper'>
+			<aside>
+				<br>
+				<ul>
+					<a href='/'>
+						<li>
+							<img src="https://i.imgur.com/gjt9O1O.png" height='32px' width='32px' />
+
+							<p>
+								HOME
+							</p>
+						</li>
+					</a>
+					<a href='/admin/'>
+						<li>
+							<img src="https://i.imgur.com/osDeSHU.png" height='32px' width='32px' />
+
+							<p>
+								STATISTICS
+							</p>
+						</li>
+					</a>
+					<a href='/admin/reports'>
+						<li>
+							<img src="https://i.imgur.com/MIcTFnN.png" height='32px' width='32px' />
+
+							<p>
+								REPORTS
+							</p>
+						</li>
+					</a>
+					<a href='/admin/users'>
+						<li>
+							<img src="https://i.imgur.com/t1TRPKp.png" height='32px' width='32px' />
+
+							<p>
+								USERS
+							</p>
+						</li>
+					</a>
+				</ul>
+			</aside>
+			<div id='contentWrapper'>
+				<div id='wrapper'>
+					<h2>
+						STATISTICS
+					</h2>
+					<br>
+					<h5>
+						NEW LISTINGS
+					</h5>
+					
+					<div id='chart'>
+						<canvas id="newListings"></canvas>
+					</div>
+					<script>
+					var ctx = document.getElementById("newListings").getContext('2d');
+					var myChart = new Chart(ctx, {
+					    type: 'bar',
+					    data: {
+					        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+					        datasets: [{
+					            label: '# of Votes',
+					            data: [12, 19, 3, 5, 2, 3],
+					            borderWidth: 1
+					        }]
+					    },
+					    options: {
+					    	responsive: true,
+					    	maintainAspectRatio: false,
+					        scales: {
+					            yAxes: [{
+					                ticks: {
+					                    beginAtZero:true
+					                }
+					            }]
+					        }
+					    }
+					});
+					</script>
+					<h5>
+						NEW USERS
+					</h5>
+					
+					<div id='chart'>
+						<canvas id="newUsers"></canvas>
+					</div>
+					<script>
+					var ctx = document.getElementById("newUsers").getContext('2d');
+					var myChart = new Chart(ctx, {
+					    type: 'bar',
+					    data: {
+					        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+					        datasets: [{
+					            label: '# of Votes',
+					            data: [12, 19, 3, 5, 2, 3],
+					            backgroundColor: [
+					                'rgba(255, 99, 132, 0.2)',
+					                'rgba(54, 162, 235, 0.2)',
+					                'rgba(255, 206, 86, 0.2)',
+					                'rgba(75, 192, 192, 0.2)',
+					                'rgba(153, 102, 255, 0.2)',
+					                'rgba(255, 159, 64, 0.2)'
+					            ],
+					            borderColor: [
+					                'rgba(255,99,132,1)',
+					                'rgba(54, 162, 235, 1)',
+					                'rgba(255, 206, 86, 1)',
+					                'rgba(75, 192, 192, 1)',
+					                'rgba(153, 102, 255, 1)',
+					                'rgba(255, 159, 64, 1)'
+					            ],
+					            borderWidth: 1
+					        }]
+					    },
+					    options: {
+					    	responsive: true,
+					    	maintainAspectRatio: false,
+					        scales: {
+					            yAxes: [{
+					                ticks: {
+					                    beginAtZero:true
+					                }
+					            }]
+					        }
+					    }
+					});
+					</script>
+					<h5>
+						HOW MANY USERS HAVE WEALTH
+					</h5>
+					
+					<div id='chart'>
+						<canvas id="usersWithWealth"></canvas>
+					</div>
+					<script>
+					var ctx = document.getElementById("usersWithWealth").getContext('2d');
+					var myChart = new Chart(ctx, {
+					    type: 'bar',
+					    data: {
+					        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+					        datasets: [{
+					            label: '# of Votes',
+					            data: [12, 19, 3, 5, 2, 3],
+					            backgroundColor: [
+					                'rgba(255, 99, 132, 0.2)',
+					                'rgba(54, 162, 235, 0.2)',
+					                'rgba(255, 206, 86, 0.2)',
+					                'rgba(75, 192, 192, 0.2)',
+					                'rgba(153, 102, 255, 0.2)',
+					                'rgba(255, 159, 64, 0.2)'
+					            ],
+					            borderColor: [
+					                'rgba(255,99,132,1)',
+					                'rgba(54, 162, 235, 1)',
+					                'rgba(255, 206, 86, 1)',
+					                'rgba(75, 192, 192, 1)',
+					                'rgba(153, 102, 255, 1)',
+					                'rgba(255, 159, 64, 1)'
+					            ],
+					            borderWidth: 1
+					        }]
+					    },
+					    options: {
+					    	responsive: true,
+					    	maintainAspectRatio: false,
+					        scales: {
+					            yAxes: [{
+					                ticks: {
+					                    beginAtZero:true
+					                }
+					            }]
+					        }
+					    }
+					});
+					</script>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

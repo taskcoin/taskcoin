@@ -20,7 +20,18 @@
 						</a>
 					</div>
 					<div class='col-sm-7'>
-						<form>
+						<form method="get" action='/search'>
+							<select name='type'>
+								<option value='requests'>
+									REQUEST
+								</option>
+								<option value='services'>
+									SERVICE
+								</option>
+								<option value='users'>
+									USER
+								</option>
+							</select>
 							<input type="input" id='query' name="query" />
 							<input type="submit" id='submit' value='Search' />
 						</form>

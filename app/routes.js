@@ -132,9 +132,7 @@ module.exports = function(app, passport) {
 
 	// SEARCH
 
-	app.get('/search', isLoggedIn, function(req, res) {
-		res.render('search', {
-			user: req.user
-		});
-	});
+	var search = require('../config/search.js');
+
+	app.get('/search', isLoggedIn, search.index);
 }

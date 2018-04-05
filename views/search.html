@@ -27,7 +27,18 @@
 						</a>
 					</div>
 					<div class='col-sm-7'>
-						<form>
+						<form method="get" action='/search'>
+							<select name='type'>
+								<option value='requests'>
+									REQUEST
+								</option>
+								<option value='services'>
+									SERVICE
+								</option>
+								<option value='users'>
+									USER
+								</option>
+							</select>
 							<input type="input" id='query' name="query" />
 							<input type="submit" id='submit' value='Search' />
 						</form>
@@ -93,101 +104,7 @@
 			<div class="row"  id='search'>
 				<div class="col-sm-4" >
 					<div id='clarify' class="form-group">
-						<div id='wrapper'>
-							<h4 id='title'>
-								Clarify Search
-							<h4>
-							<div class='seperator'>
-							</div>
-							<h4>
-								Sort
-							</h4>
-							<select class="form-control">
-								<option>
-									Featured Listings
-								</option>
-								<option>
-									Price Low-High
-								</option>
-								<option>
-									Price High-Low
-								</option>
-								<option>
-									Title A-Z
-								</option>
-								<option>
-									Title Z-A
-								</option>
-							</select>
-
-							<br>
-
-							<h4>
-								Prices
-							</h4>
-							<p>
-								Min
-							</p>
-							<input type='form'  class="form-control"/>
-							<p>
-								Max
-							</p>
-							<input type='form' class="form-control" />
-
-							<br>
-
-							<h4>
-								Category
-							</h4>
-							<select class="form-control">
-								<option>
-									Graphics Design
-								</option>	
-								<option>
-
-								</option>
-								<option>
-
-								</option>
-							</select>
-
-							<br>
-							
-							<h4>
-								Delivery Time
-							</h4>
-							<select class="form-control">
-								<option>
-									1 Day
-								</option>	
-								<option>
-									3 Days
-								</option>
-								<option>
-									1 Week
-								</option>
-							</select>
-
-							<br>
-
-							<h4>
-								Location
-							</h4>
-							<select class="form-control">
-								<option>
-									International/Online
-								</option>
-								<option>
-
-								</option>
-								<option>
-
-								</option>
-							</select>
-
-							<br>
-							<br>
-						</div>
+						
 					</div>
 				</div>
 				<div class="col-sm-8">
@@ -195,18 +112,49 @@
 						Search Results
 					</h4>
 					<div id='result'>
-						<div id='wrapper'>
-							<div id='image'>
-
-							</div>
-							<div id='right'>
-								<h4>
-								titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle
-								</h4>
-								<h5>
-									TASK 900
-								</h5>
-							</div>
+						<% 
+							if (type == 'requests') {
+						%>
+						<script type="text/javascript">
+							var requests = <%- requests %>;
+							if(requests.length == 0) {
+								$('#result').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < 10; i++) {
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/requests/+"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div>");
+								};
+							};
+						</script>
+						<%
+							} else if (type == 'services') {
+						%>
+						<script type="text/javascript">
+							var services = <%- services %>;
+							if(services.length == 0) {
+								$('#result').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < 10; i++) {
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/services/+"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div>");
+								};
+							};
+						</script>
+						<%
+							} else {
+						%>
+						<script type="text/javascript">
+							var users = <%- users %>;
+							if(users.length == 0) {
+								$('#result').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < 10; i++) {
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/+"+users[i].username+"'><h4>"+users[i].username+"</h4></a><h5>"+services[i].price+"</h5></div>");
+								};
+							};
+						</script>
+						<%
+							}
+						%>
+						
 						</div>
 					</div>
 				</div>

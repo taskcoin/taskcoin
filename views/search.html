@@ -115,7 +115,7 @@
 								$('#result').append('<p>Nothing available.</p>');
 							} else {
 								for(var i = 0; i < requests.length; i++) {
-									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/requests/"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div>");
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/request/"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div>");
 								};
 							};
 						</script>
@@ -128,7 +128,7 @@
 								$('#result').append('<p>Nothing available.</p>');
 							} else {
 								for(var i = 0; i < services.length; i++) {
-									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/services/"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div>");
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/service/"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div>");
 								};
 							};
 						</script>

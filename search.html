@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			TaskCoin | Be Your Own Boss
+		</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/css.css" />
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<a href='/'>
+							<div id='logo'>
+
+							</div>
+						</a>
+					</div>
+					<div class='col-sm-7'>
+						<form method="get" action='/search'>
+							<select name='type'>
+								<option value='requests'>
+									REQUEST
+								</option>
+								<option value='services'>
+									SERVICE
+								</option>
+								<option value='users'>
+									USER
+								</option>
+							</select>
+							<input type="input" id='query' name="query" />
+							<input type="submit" id='submit' value='Search' />
+						</form>
+					</div>	
+					<div class="col-sm-3">
+						<% if (user) {%>
+							<div id='loggedIn'>
+								<div id='module'>
+									<div id='username'>
+										<a href='/profile/<%= user.local.username %>'> <%= user.local.username %> 
+										</a>
+									</div>
+									<div id='photo'>
+										<div id='image'>
+
+										</div>
+									</div>	
+								</div>
+								<div id='menuOptions'>
+									<ul>
+										<li>
+											0 TASKCOIN
+										</li>
+										<a href='/submit'>
+											<li>
+												SUBMIT
+											</li>
+										</a>
+										<a href='/settings'>
+											<li>
+												SETTINGS
+											</li>
+										</a>
+										<a href='/logout'>
+											<li>
+												LOGOUT
+											</li>
+										</a>
+									</ul>
+								</div>
+							</div>
+							<% } else { %>
+							<ul id='notLoggedIn'>
+								<li>
+									<a href='/login'>
+										LOGIN
+									</a>
+								</li>
+								<li>
+									<a href='/register'>
+										REGISTER
+									</a>
+								</li>
+							</ul>
+							<% } %>
+					</div>
+				</div>
+			</div>
+		</header>	
+		<br>
+
+		<div class="container" >
+			<div class="row"  id='search'>
+				<div class="col-sm-4" >
+					<div id='clarify' class="form-group">
+						
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<h4>
+						Search Results
+					</h4>
+					<div id='result'>
+						<% 
+							if (type == 'requests') {
+						%>
+						<script type="text/javascript">
+							var requests = <%- requests %>;
+							if(requests.length == 0) {
+								$('#result').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < requests.length; i++) {
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/request/"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div>");
+								};
+							};
+						</script>
+						<%
+							} else if (type == 'services') {
+						%>
+						<script type="text/javascript">
+							var services = <%- services %>;
+							if(services.length == 0) {
+								$('#result').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < services.length; i++) {
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/service/"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div>");
+								};
+							};
+						</script>
+						<%
+							} else {
+						%>
+						<script type="text/javascript">
+							var users = <%- users %>;
+							if(users.length == 0) {
+								$('#result').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < users.length; i++) {
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/"+users[i].username+"'><h4>"+users[i].username+"</h4></a><h5>"+services[i].price+"</h5></div>");
+								};
+							};
+						</script>
+						<%
+							}
+						%>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br>
+		<br>
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<h4>
+							Basics
+						</h4>
+						<ul id='basics'>
+							<li>
+								Home
+							</li>
+							<li>
+								About
+							</li>
+							<li>
+								Search
+							</li>
+							<li>
+								TOS
+							</li>
+						</ul>
+					</div>
+				<div class="col-sm-4">
+					<h4>
+						User
+					</h4>
+					<ul>
+						<li>
+							Login
+						</li>
+						<li>
+							Register
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-4">
+					<h4>
+						TaskCoin
+					</h4>
+					<ul>
+						<li>
+							About TaskCoin
+						</li>
+						<li>
+							Buy TaskCoin
+						</li>
+						<li>
+							Sell TaskCoin
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+			<h1>Task</h1>
+		</footer>
+		<footer id='footerBlack'>
+			<center>
+				&copy; 2018 Task
+			</center>
+		</footer>
+	</body>
+</html>

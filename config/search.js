@@ -7,13 +7,13 @@ var mongoose = require('mongoose');
 exports.index = function(req, res) {
 	var username = req.user.local.username;
 	var type = striptags(req.query.type);
-	var query = striptags(req.query.query) + '*';
+	var query = striptags(req.query.query);
 	if (type == 'requests') {
 
 		// RENDER RESULTS FOR REQUESTS
 
 		var request = mongoose.model('Request');
-		request.find({'title': new RegExp('^'+query+'$', "i")}, 'title price', function(err, result) {
+		request.find({'title':  new RegExp(query, 'i')}, 'title price', function(err, result) {
 			if(err) throw err;
 			res.render('search', {
 				user: req.user,
@@ -26,7 +26,7 @@ exports.index = function(req, res) {
 		// RENDER RESULTS FOR SERVICES
 
 		var service = mongoose.model('Service');
-		service.find({'title': new RegExp('^'+query+'$', "i")}, 'title price', function(err, result) {
+		service.find({'title': new RegExp(query, 'i')}, 'title price', function(err, result) {
 			if(err) throw err;
 			res.render('search', {
 				user: req.user,
@@ -39,7 +39,7 @@ exports.index = function(req, res) {
 		// RENDER RESULTS FOR USERS
 
 		var user = mongoose.model('User');
-		user.find({'local.username': new RegExp('^'+query+'$', "i")}, 'local.username local.created', function(err, result) {
+		user.find({'local.username': new RegExp(query, 'i')}, 'local.username local.created', function(err, result) {
 			if(err) throw err;
 			res.render('search', {
 				user: req.user,

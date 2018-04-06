@@ -7,13 +7,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-		<script type="text/javascript">
-			var search = "{{=it.q}}";
-			document.getElementById('searchBox').value = search;
-			if(search == 'undefined') {
-				document.getElementById('searchBox').value = '';
-			}
-		</script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 	<body>
 		<header>
@@ -120,8 +114,8 @@
 							if(requests.length == 0) {
 								$('#result').append('<p>Nothing available.</p>');
 							} else {
-								for(var i = 0; i < 10; i++) {
-									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/requests/+"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div>");
+								for(var i = 0; i < requests.length; i++) {
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/requests/"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div>");
 								};
 							};
 						</script>
@@ -133,8 +127,8 @@
 							if(services.length == 0) {
 								$('#result').append('<p>Nothing available.</p>');
 							} else {
-								for(var i = 0; i < 10; i++) {
-									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/services/+"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div>");
+								for(var i = 0; i < services.length; i++) {
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/services/"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div>");
 								};
 							};
 						</script>
@@ -146,8 +140,8 @@
 							if(users.length == 0) {
 								$('#result').append('<p>Nothing available.</p>');
 							} else {
-								for(var i = 0; i < 10; i++) {
-									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/+"+users[i].username+"'><h4>"+users[i].username+"</h4></a><h5>"+services[i].price+"</h5></div>");
+								for(var i = 0; i < users.length; i++) {
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/"+users[i].username+"'><h4>"+users[i].username+"</h4></a><h5>"+services[i].price+"</h5></div>");
 								};
 							};
 						</script>
@@ -225,25 +219,4 @@
 			</center>
 		</footer>
 	</body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
-    });
-} Th
-		</script>
 </html>

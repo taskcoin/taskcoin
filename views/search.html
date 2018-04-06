@@ -133,22 +133,27 @@
 							};
 						</script>
 						<%
-							} else {
+							} else if(type == 'users') {
 						%>
-						<script type="text/javascript">
-							var users = <%- users %>;
-							if(users.length == 0) {
-								$('#result').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < users.length; i++) {
-									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/"+users[i].username+"'><h4>"+users[i].username+"</h4></a><h5>"+services[i].price+"</h5></div>");
+							<script type="text/javascript">
+								var users = <%- users %>;
+								if(users.length == 0) {
+									$('#result').append('<p>Nothing available.</p>');
+								} else {
+									for(var i = 0; i < users.length; i++) {
+										$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/"+users[i].local.username+"'><h4>"+users[i].local.username+"</h4></a><h5>"+users[i].local.created+"</h5></div>");
+									};
 								};
-							};
-						</script>
+							</script>
+						<%
+						} else {
+						%>
+							<script type="text/javascript">
+							$('#result').append('<p>Nothing available.</p>');
+							</script>
 						<%
 							}
 						%>
-						
 						</div>
 					</div>
 				</div>

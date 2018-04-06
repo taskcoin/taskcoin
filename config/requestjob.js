@@ -34,14 +34,14 @@ exports.job = function(req, res) {
 						jobChats.find({'offerID': jobID}, function(err, result) {
 							if(err) throw err;
 							if(result == null) {
-								res.render('job', {
+								res.render('requests/job', {
 									user: req.user,
 									jobID: jobResult._id,
 									requestID: jobResult.requestID,
 									chats: 'na'	
 								});
 							} else {
-								res.render('job', {
+								res.render('requests/job', {
 									user: req.user,
 									jobID: jobResult._id,
 									requestID: jobResult.requestID,
@@ -58,14 +58,14 @@ exports.job = function(req, res) {
 							jobChats.find({'offerID': jobID}, function(err, result) {
 								if(err) throw err;
 								if(result == null) {
-									res.render('job', {
+									res.render('requests/job', {
 										user: req.user,
 										jobID: jobResult._id,
 										requestID: jobResult.requestID,
 										chats: 'na'	
 									});
 								} else {
-									res.render('job', {
+									res.render('requests/job', {
 										user: req.user,
 										jobID: jobResult._id,
 										requestID: jobResult.requestID,
@@ -285,7 +285,7 @@ exports.chat = function(req, res) {
 
 					chat.save(function(err, result) {
 						if (err) throw err;
-						res.render('job', {
+						res.render('requests/job', {
 							user: req.user,
 							jobID: jobID,
 							requestID: jobResult.requestID,
@@ -308,7 +308,7 @@ exports.chat = function(req, res) {
 
 						chat.save(function(err, result) {
 							if (err) throw err;
-							res.render('job', {
+							res.render('requests/job', {
 								user: req.user,
 								jobID: jobID,
 								requestID: jobResult.requestID,

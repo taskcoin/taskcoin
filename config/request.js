@@ -27,7 +27,7 @@ exports.request = function(req, res) {
 
 				var request = mongoose.model('Request');
 				request.findOne({"_id": requestID}, function(err, result) {
-					res.render('product', {
+					res.render('requests/request', {
 						user: req.user,
 						title: result.title,
 						type: result.type,
@@ -73,7 +73,7 @@ exports.offers = function(req, res) {
 						if(requestResults.available == true) {
 							var offers = mongoose.model('requestOffer');
 							offers.find({'requestID': requestID}, function(err, result) {
-								res.render('offers', {
+								res.render('requests/offers', {
 									user: req.user,
 									title: requestResults.title,
 									offers: JSON.stringify(result)
@@ -112,7 +112,7 @@ exports.order = function(req, res) {
 					res.redirect('/request/' + requestID + '/offers');
 				} else {
 					if(requestResults.available == true) {
-						res.render('order', {
+						res.render('requests/order', {
 							user: req.user,
 							title: requestResults.title,
 							requestID: requestID,
@@ -167,7 +167,7 @@ exports.orderProduct = function(req, res) {
 					res.send(404);
 				} else {
 					if(query.offer.length == 0) {
-						res.render('/request/'+ query.requestID +'/order')
+						res.redirect('/request/'+ query.requestID +'/order')
 					} else {
 						if(query.extraMessage.length > 1500) {
 						

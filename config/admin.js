@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 
 			// RENDER STATISTICS
 
-			res.render('admin');
+			res.render('admin/admin');
 		} else { 
 			res.redirect('/');
 		}
@@ -32,7 +32,7 @@ exports.report = function(req, res) {
 			// RENDER REPORTS
 
 			Reports.find({}, function(err, result) {
-				res.render('adminreports', {
+				res.render('admin/adminreports', {
 					reports: JSON.stringify(result)
 				});
 			});
@@ -56,7 +56,7 @@ exports.users = function(req, res) {
 			// RENDER USERS
 
 				Users.find({},'local.username local.currency local.reputation local.location local.created', function(err, result) {
-					res.render('adminusers', {
+					res.render('admin/adminusers', {
 						users: JSON.stringify(result)
 					});
 				});

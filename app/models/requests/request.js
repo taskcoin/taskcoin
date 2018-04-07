@@ -9,7 +9,7 @@ var requestSchema = mongoose.Schema({
 	description: String,
 	fees: String,
 	totalCost: String,
-	posted: String,
+	posted: Date,
 	offerer: String,
 	available: Boolean
 });

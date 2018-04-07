@@ -36,6 +36,8 @@ module.exports = function(app, passport) {
 	app.get('/logout', user.logout);
 	app.get('/settings', isLoggedIn, user.settings);
 
+	app.post('/settings/location', isLoggedIn, user.changeLocation);
+
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect:'/',
 		failureRedirect: '/login', 

@@ -1,3 +1,7 @@
+var mongoose = require('mongoose');
+var striptags = require('striptags');
+var User = require('../app/models/user');
+
 /* GET */
 
 exports.login = function(req, res) {
@@ -40,3 +44,22 @@ exports.postRegister = function(app, passport) {
 		failureFlash: true
 	});
 };*/
+
+exports.changeLocation = function(req, res) {
+	var location = striptags(req.body.location);
+	var username = req.user.local.username;
+
+	if(location.length == 3) {
+		var Users = mongoose.model('User');
+		Users.findOne({'local.username': username}, function(err, result) {
+			if(err) throw err;
+			result.local.location = location;
+			result.save( function(err, result) {
+				if(err) throw err;
+				res.redirect('/settings');
+			});
+		});
+	} else {
+		res.redirect('/');
+	}
+};	

@@ -28,19 +28,29 @@ exports.service = function(req, res) {
 
 				var service = mongoose.model('Service');
 				service.findOne({"_id": serviceID}, function(err, result) {
-					res.render('services/service', {
-						user: req.user,
-						title: result.title,
-						type: result.type,
-						price: result.price,
-						category: result.category,
-						delivery: result.delivery,
-						location: result.location,
-						description: result.description,
-						offerer: result.seller,
-						requestID: serviceID,
-						available: result.available
-					});
+
+					// USER CHECKING
+
+					var user = mongoose.model('User');
+					user.findOne({'local.username': result.seller}, function(err, userResult) {
+						res.render('services/service', {
+							user: req.user,
+							title: result.title,
+							type: result.type,
+							price: result.price,
+							category: result.category,
+							delivery: result.delivery,
+							location: result.location,
+							posted: result.posted,
+							description: result.description,
+							offerer: result.seller,
+							requestID: serviceID,
+							available: result.available,
+							userLocation: userResult.local.location,
+							userReputation: userResult.local.reputation,
+							userCreated: userResult.local.created
+						});
+					});	
 				});
 			}
 		});

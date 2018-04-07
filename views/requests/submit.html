@@ -7,13 +7,6 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-		<script type="text/javascript">
-			var search = "{{=it.q}}";
-			document.getElementById('searchBox').value = search;
-			if(search == 'undefined') {
-				document.getElementById('searchBox').value = '';
-			}
-		</script>
 	</head>
 	<body id='submit'>
 		<header>
@@ -129,8 +122,11 @@
 								Location
 							</label>
 							<select class='form-control' name='location'>
-								<option default value='1'>
+								<option selected value='Global'>
 									Global
+								</option>
+								<option value='<%= user.local.location %>'>
+									<%= user.local.location %>
 								</option>
 							</select>
 							<label for='price'>

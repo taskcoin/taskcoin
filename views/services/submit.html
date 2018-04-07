@@ -118,8 +118,11 @@
 								Location
 							</label>
 							<select class='form-control' name='location'>
-								<option default value='1'>
+								<option selected value='Global'>
 									Global
+								</option>
+								<option value='<%= user.local.location %>'>
+									<%= user.local.location %>
 								</option>
 							</select>
 							<label for='price'>

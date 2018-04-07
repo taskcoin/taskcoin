@@ -102,13 +102,13 @@
 								description of aids 
 							</p>
 							<p>
-								<i class="fas fa-truck"></i> <strong>Delivery time:</strong> 24 hours.
+								<i class="fas fa-truck"></i> <strong>Delivery time:</strong> <%= delivery %>
 							</p>
 							<p>
-								<i class="fas fa-calendar"></i> <strong>Posted:</strong> 2/6/6
+								<i class="fas fa-calendar"></i> <strong>Posted:</strong> <%= posted %>
 							</p>
 							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> Nigeria
+								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
 							</p>
 							<% if (user.local.username != offerer) { %>
 								<% if (available == true) { %>
@@ -153,13 +153,13 @@
 								VIEW PROFILE
 							</a>
 							<p>
-								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='/profile/<%= offerer %>/reputation'>0</a>
+								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='/profile/<%= offerer %>/reputation'><%= userReputation %></a>
 							</p>
 							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> USA.
+								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= userLocation %>
 							</p>
 							<p>
-								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> 24 hours.
+								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= userCreated %>
 							</p>
 						</div>
 					</div>

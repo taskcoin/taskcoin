@@ -27,18 +27,28 @@ exports.request = function(req, res) {
 
 				var request = mongoose.model('Request');
 				request.findOne({"_id": requestID}, function(err, result) {
-					res.render('requests/request', {
-						user: req.user,
-						title: result.title,
-						type: result.type,
-						price: result.price,
-						category: result.category,
-						delivery: result.delivery,
-						location: result.location,
-						description: result.description,
-						offerer: result.offerer,
-						requestID: requestID,
-						available: result.available
+
+					// GET USER INFORMATION
+
+					var user = mongoose.model('User');
+					user.findOne({'local.username': result.offerer}, function(err, userResult) {
+						res.render('requests/request', {
+							user: req.user,
+							title: result.title,
+							type: result.type,
+							price: result.price,
+							posted: result.posted,
+							category: result.category,
+							delivery: result.delivery,
+							location: result.location,
+							description: result.description,
+							offerer: result.offerer,
+							requestID: requestID,
+							available: result.available,
+							userLocation: userResult.local.location,
+							userReputation: userResult.local.reputation,
+							userCreated: userResult.local.created
+						});
 					});
 				});
 			}

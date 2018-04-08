@@ -187,7 +187,7 @@
 		if(chats.length == 0) {
 			$('.col-sm-12').append('<p>Nothing available.</p>');
 		} else {
-			for(var i = 0; i < 10; i++) {
+			for(var i = 0; i < chats.length; i++) {
 				$('#jobChat').append("<div class='row'><div class='col-sm-10'><p>"+chats.message+"</p><p id='date'>"+chats.date+"</p></div><div class='col-sm-2'><p>"+chats.poster+"</p></div></div>");
 			};
 		};

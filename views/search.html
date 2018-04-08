@@ -35,7 +35,6 @@
 							</select>
 							<input type="input" id='query' name="query" />
 							<input type="submit" id='submit' value='Search' />
-						</form>
 					</div>	
 					<div class="col-sm-3">
 						<% if (user) {%>
@@ -98,13 +97,72 @@
 			<div class="row"  id='search'>
 				<div class="col-sm-4" >
 					<div id='clarify' class="form-group">
-						
+						<div id='wrapper'>
+								<h4>
+									Category
+								</h4>
+								
+								<input type='radio' name='category' value='Art & Design' /> Art & Design 
+								<br>
+								<input type='radio' name='category' value='Marketing' /> Marketing
+								<br>
+								<input type='radio' name='category' value='Content' /> Content
+								<br>
+								<input type='radio' name='category' value='Videos' /> Videos
+								<br>
+								<input type='radio' name='category' value='Audio' /> Audio
+								<br>
+								<input type='radio' name='category' value='Programming' /> Programming
+								<br>
+								<input type='radio' name='category' value='Business' /> Business
+								<br>
+								<input type='radio' name='category' value='Lifestyle' /> Lifestyle
+								<br>
+								<input type='radio' name='category' value='Websites' /> Websites
+								<br>
+								<input type='radio' name='category' value='Computers' /> Computers
+								<br>
+								<input type='radio' name='category' value='Homes' /> Homes
+								<br>
+								<input type='radio' name='category' value='Cars' /> Cars
+								<br>
+								<input type='radio' name='category' value='Property' /> Property
+								<br>
+								<input type='radio' name='category' value='Furniture' /> Furniture
+								<br>
+								<input type='radio' name='category' value='Plumbing' /> Plumbing
+								<br>
+								<input type='radio' name='category' value='Miscellaneous' /> Miscellaneous
+
+								<h4>
+									Delivery Time
+								</h4>
+
+								<input type='radio' name='delivery' value='24 Hours' /> 24 Hours
+								<br>
+								<input type='radio' name='delivery' value='48 Hours' /> 48 Hours
+								<br>
+								<input type='radio' name='delivery' value='1 Week' /> 1 Week
+
+								<h4>
+									Location
+								</h4>
+
+								<input type='radio' name='location'value='Global'  /> Global
+								<br>
+								<input type='radio' name='location' value='<%= user.local.location %>' /> <%= user.local.location %>
+
+								<br>
+								<input type='submit' value='Search' />
+							</form>
+						</div>
 					</div>
 				</div>
 				<div class="col-sm-8">
 					<h4>
 						Search Results
 					</h4>
+
 					<div id='result'>
 						<% 
 							if (type == 'requests') {
@@ -115,7 +173,7 @@
 								$('#result').append('<p>Nothing available.</p>');
 							} else {
 								for(var i = 0; i < requests.length; i++) {
-									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/request/"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div>");
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/request/"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div></div>");
 								};
 							};
 						</script>
@@ -128,7 +186,7 @@
 								$('#result').append('<p>Nothing available.</p>');
 							} else {
 								for(var i = 0; i < services.length; i++) {
-									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/service/"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div>");
+									$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/service/"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div></div>");
 								};
 							};
 						</script>
@@ -141,7 +199,7 @@
 									$('#result').append('<p>Nothing available.</p>');
 								} else {
 									for(var i = 0; i < users.length; i++) {
-										$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/"+users[i].local.username+"'><h4>"+users[i].local.username+"</h4></a><h5>"+users[i].local.created+"</h5></div>");
+										$('#result').append("<div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/"+users[i].local.username+"'><h4>"+users[i].local.username+"</h4></a><h5>"+users[i].local.created+"</h5></div></div>");
 									};
 								};
 							</script>
@@ -155,6 +213,7 @@
 							}
 						%>
 						</div>
+					</div>
 					</div>
 				</div>
 			</div>

@@ -316,121 +316,124 @@ exports.postSubmit = function(req, res) {
 										else {
 										 */
 
-										 	// MAKE SURE USER HAS ENOUGH BALANCE FOR FEES
+										 	if(query.category == 'Art & Design' || query.category == 'Marketing' || query.category == 'Content' || query.category == 'Videos' || query.category == 'Audio' || query.category == 'Programming' || query.category == 'Business' || query.category == 'Lifestyle' || query.category == 'Websites' || query.category == 'Computers' || query.category == 'Homes' || query.category == 'Cars' || query.category == 'Property' || query.category == 'Furniture' || query.category == 'Plumbing' || query.category == 'Miscellaneous') {
+										 		// MAKE SURE USER HAS ENOUGH BALANCE FOR FEES
+											 	var user = mongoose.model('User');
+											 	user.findOne({'local.username': req.user.local.username}, function (err, userResult) {
+											 		if(err) throw err;
+											 		var balance = Number(userResult.local.currency);
+											 		var price = Number(query.price);
+											 		var fees = Math.floor(price * 0.01);
+											 		if (fees < 10) {
+											 			var fees = 10;
+											 			var total = fees;
+											 			if (fees > balance) {
+											 				redirectSubmit('Total fees exceeds balance');
+											 			} else {
 
-										 	var user = mongoose.model('User');
-										 	user.findOne({'local.username': req.user.local.username}, function (err, userResult) {
-										 		if(err) throw err;
-										 		var balance = Number(userResult.local.currency);
-										 		var price = Number(query.price);
-										 		var fees = Math.floor(price * 0.01);
-										 		if (fees < 10) {
-										 			var fees = 10;
-										 			var total = fees;
-										 			if (fees > balance) {
-										 				redirectSubmit('Total fees exceeds balance');
-										 			} else {
+											 				// CREATE TRANSACTION
 
-										 				// CREATE TRANSACTION
+															var transaction = mongoose.model('Transaction');
+															var createTransaction = new transaction();
 
-														var transaction = mongoose.model('Transaction');
-														var createTransaction = new transaction();
+															createTransaction.userA = req.user.local.username;
+															createTransaction.userB = query.offerer;
+															createTransaction.reason = 'Created services for ' + fees;
+															createTransaction.amount = total;
+															createTransaction.date = Date.now();
 
-														createTransaction.userA = req.user.local.username;
-														createTransaction.userB = query.offerer;
-														createTransaction.reason = 'Created services for ' + fees;
-														createTransaction.amount = total;
-														createTransaction.date = Date.now();
+															createTransaction.save(function(err, result) {
+																if(err) throw err;
+															});
 
-														createTransaction.save(function(err, result) {
-															if(err) throw err;
-														});
+															// DEDUCT AMOUNT FROM ORIGINAL USER
 
-														// DEDUCT AMOUNT FROM ORIGINAL USER
+															var totalAmount = Math.floor(userResult.local.currency - total);
 
-														var totalAmount = Math.floor(userResult.local.currency - total);
+															userResult.local.currency = totalAmount;
 
-														userResult.local.currency = totalAmount;
+															userResult.save(function(err, result) {
+																if(err) throw err;
+															});
 
-														userResult.save(function(err, result) {
-															if(err) throw err;
-														});
+															// CREATE PRODUCT
 
-														// CREATE PRODUCT
+															var Service = mongoose.model('Service');
+															var service = new Service();
 
-														var Service = mongoose.model('Service');
-														var service = new Service();
+															service.title = query.title;
+															service.type = query.type;
+															service.price = price;
+															service.category = query.category;
+															service.location = query.location;
+															service.delivery = query.delivery;
+															service.description = query.description;
+															service.posted = Date.now();
+															service.seller = query.offerer;
+															service.available = true;
+												
+															service.save(function(err, result) {
+																if (err) throw err;
+																res.redirect('/service/' + result._id)
+															});
+											 			}
+											 		} else {
+											 			var total = fees;
+											 			if (total > balance) {
+						 									redirectSubmit('Total cost exceeds balance');
+											 			} else {
 
-														service.title = query.title;
-														service.type = query.type;
-														service.price = price;
-														service.category = query.category;
-														service.location = query.location;
-														service.delivery = query.delivery;
-														service.description = query.description;
-														service.posted = Date.now();
-														service.seller = query.offerer;
-														service.available = true;
-											
-														service.save(function(err, result) {
-															if (err) throw err;
-															res.redirect('/service/' + result._id)
-														});
-										 			}
-										 		} else {
-										 			var total = fees;
-										 			if (total > balance) {
-					 									redirectSubmit('Total cost exceeds balance');
-										 			} else {
+										 					// CREATE TRANSACTION
 
-									 					// CREATE TRANSACTION
+															var transaction = mongoose.model('Transaction');
+															var createTransaction = new transaction();
 
-														var transaction = mongoose.model('Transaction');
-														var createTransaction = new transaction();
+															createTransaction.userA = req.user.local.username;
+															createTransaction.userB = query.offerer;
+															createTransaction.reason = 'Created services for ' + fees;
+															createTransaction.amount = total;
+															createTransaction.date = Date.now();
 
-														createTransaction.userA = req.user.local.username;
-														createTransaction.userB = query.offerer;
-														createTransaction.reason = 'Created services for ' + fees;
-														createTransaction.amount = total;
-														createTransaction.date = Date.now();
+															createTransaction.save(function(err, result) {
+																if(err) throw err;
+															});
 
-														createTransaction.save(function(err, result) {
-															if(err) throw err;
-														});
+															// DEDUCT AMOUNT FROM ORIGINAL USER
 
-														// DEDUCT AMOUNT FROM ORIGINAL USER
+															var totalAmount = Math.floor(userResult.local.currency - total);
 
-														var totalAmount = Math.floor(userResult.local.currency - total);
+															userResult.local.currency = totalAmount;
 
-														userResult.local.currency = totalAmount;
+															userResult.save(function(err, result) {
+																if(err) throw err;
+															});
 
-														userResult.save(function(err, result) {
-															if(err) throw err;
-														});
+															// CREATE PRODUCT
 
-														// CREATE PRODUCT
+															var Service = mongoose.model('Service');
+															var service = new Service();
 
-														var Service = mongoose.model('Service');
-														var service = new Service();
-
-														service.title = query.title;
-														service.type = query.type;
-														service.price = price;
-														service.category = query.category;
-														service.location = query.location;
-														service.delivery = query.delivery;
-														service.description = query.description;
-														service.posted = Date.now();
-														service.seller = query.offerer;
-														service.available = true;
-											
-														service.save(function(err, result) {
-															if (err) throw err;
-															res.redirect('/service/' + result._id)
-														});
-										 			}
-										 		}
-										 	});
+															service.title = query.title;
+															service.type = query.type;
+															service.price = price;
+															service.category = query.category;
+															service.location = query.location;
+															service.delivery = query.delivery;
+															service.description = query.description;
+															service.posted = Date.now();
+															service.seller = query.offerer;
+															service.available = true;
+												
+															service.save(function(err, result) {
+																if (err) throw err;
+																res.redirect('/service/' + result._id)
+															});
+											 			}
+											 		}
+											 	});
+										 	} else {
+										 		redirectSubmit('Category not specified');
+										 	}
 										/*}
 										} 
 									}

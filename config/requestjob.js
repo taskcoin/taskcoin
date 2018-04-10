@@ -243,7 +243,7 @@ exports.done = function(req, res) {
 					jobResult.completed = 1
 					jobResult.save(function(err, result) {
 						if(err) throw err;
-						res.redirect('request/' + jobResult.requestID);
+						res.redirect('/request/' + jobResult.requestID);
 					});
 				}	
 			}
@@ -285,12 +285,7 @@ exports.chat = function(req, res) {
 
 					chat.save(function(err, result) {
 						if (err) throw err;
-						res.render('requests/job', {
-							user: req.user,
-							jobID: jobID,
-							requestID: jobResult.requestID,
-							chats: JSON.stringify(result)
-						});
+						res.redirect('/request/job/'+jobID);
 					});
 
 				} else {
@@ -308,12 +303,7 @@ exports.chat = function(req, res) {
 
 						chat.save(function(err, result) {
 							if (err) throw err;
-							res.render('requests/job', {
-								user: req.user,
-								jobID: jobID,
-								requestID: jobResult.requestID,
-								chats: JSON.stringify(result)
-							});
+							res.redirect('/request/job/'+jobID);
 						});
 
 					} else {

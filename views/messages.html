@@ -8,20 +8,20 @@
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
 	</head>
-	<body id='messages'>
+	<body>
 		<header>
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<a href='/'>
-							<div id='logo'>
-
-							</div>
+							<img id='logo' src="https://i.imgur.com/EAjp5n9.pngs" />
 						</a>
 					</div>
-					<div class='col-sm-7'>
-						<form method="get" action='/search'>
+					<div class="col-sm-5">
+						<form method="get" action='/search' id='search'>
 							<select name='type'>
 								<option value='requests'>
 									REQUEST
@@ -34,107 +34,66 @@
 								</option>
 							</select>
 							<input type="input" id='query' name="query" />
-							<input type="submit" id='submit' value='Search' />
+							<button id='submit' type="submit">
+								<i class="fas fa-search"></i>
+							</button>
 						</form>
-					</div>	
-					<div class="col-sm-3">
-						<% if (user) {%>
-							<div id='loggedIn'>
-								<div id='module'>
-									<div id='username'>
-										<a href='/profile/<%= user.local.username %>'> <%= user.local.username %> 
-										</a>
-									</div>
-									<div id='photo'>
-										<div id='image'>
-
-										</div>
-									</div>	
-								</div>
-								<div id='menuOptions'>
-									<ul>
-										<li>
-											0 TASKCOIN
-										</li>
-										<a href='/submit'>
-											<li>
-												SUBMIT
-											</li>
-										</a>
-										<a href='/settings'>
-											<li>
-												SETTINGS
-											</li>
-										</a>
-										<a href='/logout'>
-											<li>
-												LOGOUT
-											</li>
-										</a>
-									</ul>
-								</div>
-							</div>
-							<% } else { %>
-							<ul id='notLoggedIn'>
+					</div>
+					<div class="col-sm-4">
+						<ul id='loggedIn'>
+							<a href="/profile/<%=user.local.username%>">
 								<li>
-									<a href='/login'>
-										LOGIN
-									</a>
+									<%=user.local.username%>
 								</li>
-								<li>
-									<a href='/register'>
-										REGISTER
-									</a>
-								</li>
-							</ul>
-							<% } %>
+							</a>
+						</ul>
 					</div>
 				</div>
 			</div>
-		</header>	
+		</header>
 
 		<br>
 
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-4">
-					<div id='sidebar'>
+		<div id='messages'>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8">
+						<h4>
+							<%= type %>
+						</h4>
+						<script type="text/javascript">
+						var messages = <%- messagesContent %>;
+						if(messages.length == 0) {
+							$('.col-sm-8').append('<p>Nothing available.</p>');
+						} else {
+							for(var i = 0; i < messages.length; i++) {
+								$('.col-sm-8').append("<div class='message'><div class='wrapper'><div id='title'><h4>" + messages[i].subject + "</h4><p>By: <a href=''>" + messages[i].from + "</a></p></div><p id='content'>" + messages[i].content + "</p><ul><a href='/profile/" + messages[i].from + "'><li>Reply</li></a><a href='/messages/"+messages[i]._id+"/trash'><li>Trash</li></a></ul></div></div>");
+							};
+						};	
+						</script>
+					</div>
+					<div class="col-sm-4">
 						<a href='/messages/compose'>
-							<div id='categories'>
-								COMPOSE
+							<div id='messageButton'>
+								COMPOSE MESSAGE
 							</div>
 						</a>
-						<a href="/messages/">
-							<div id='categories'>
+						<a href='/messages'>
+							<div id='messageButton'>
 								INBOX
 							</div>
 						</a>
-						<a href="/messages/sent">
-							<div id='categories'>
+						<a href='/messages/sent'>
+							<div id='messageButton'>
 								SENT
-							</div>
+							</div>	
 						</a>
-						<a href="/messages/trash">
-							<div id='categories'>
+						<a href='/messages/trash'>
+							<div id='messageButton'>
 								TRASH
-							</div>
+							</div>	
 						</a>
 					</div>
-				</div>
-				<div class="col-sm-8" id='messageWrapper'>
-					<h4>
-						<%= type %>
-					</h4>
-					<script type="text/javascript">
-					var messages = <%- messagesContent %>;
-					if(messages.length == 0) {
-						$('.col-sm-8').append('<p>Nothing available.</p>');
-					} else {
-						for(var i = 0; i < messages.length; i++) {
-							$('.col-sm-8').append("<div class='message'><div class='wrapper'><div id='title'><h4>" + messages[i].subject + "</h4><p>By: <a href=''>" + messages[i].from + "</a></p></div><div class='seperator'> </div><p id='content'>" + messages[i].content + "</p><ul><a href='/profile/" + messages[i].from + "'><li>Reply</li></a><a href='/messages/"+messages[i]._id+"/trash'><li>Trash</li></a></ul></div></div>");
-						};
-					};	
-					</script>
 				</div>
 			</div>
 		</div>
@@ -146,60 +105,88 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
-						<h4>
-							Basics
-						</h4>
-						<ul id='basics'>
-							<li>
-								Home
-							</li>
-							<li>
-								About
-							</li>
-							<li>
-								Search
-							</li>
-							<li>
-								TOS
-							</li>
+						<ul>
+							<a href='/'>
+								<li>
+									HOME 
+								</li>
+							</a>
+							<a href='/about'>
+								<li>
+									ABOUT
+								</li>
+							</a>
+							<a href='/blog'>
+								<li>
+									BLOG
+								</li>
+							</a>
+							<a href='mailto:'>
+								<li>
+									CONTACT
+								</li>
+							</a>
 						</ul>
 					</div>
-				<div class="col-sm-4">
-					<h4>
-						User
-					</h4>
-					<ul>
-						<li>
-							Login
-						</li>
-						<li>
-							Register
-						</li>
-					</ul>
-				</div>
-				<div class="col-sm-4">
-					<h4>
-						TaskCoin
-					</h4>
-					<ul>
-						<li>
-							About TaskCoin
-						</li>
-						<li>
-							Buy TaskCoin
-						</li>
-						<li>
-							Sell TaskCoin
-						</li>
-					</ul>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/dashboard'>
+								<li>
+									DASHBOARD
+								</li>
+							</a>
+							<a href='/profile/   username   '>
+								<li>
+									PROFILE
+								</li>
+							</a>
+							<a href='/messages'>
+								<li>
+									MESSAGES
+								</li>
+							</a>
+							<a href='/settings'>
+								<li>
+									SETTINGS 
+								</li>
+							</a>
+							<a href='/logout'>
+								<li>
+									LOGOUT
+								</li>
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/request/submit'>
+								<li>
+									SUBMIT REQUEST
+								</li>
+							</a>
+							<a href='/service/submit'>
+								<li>
+									SUBMIT SERVICE 
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									CATEGORIES
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									LOCATIONS 
+								</li>
+							</a>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-			<h1>Task</h1>
 		</footer>
 		<footer id='footerBlack'>
 			<center>
-				&copy; 2018 Task
+				&copy; 2018 TaskCoin
 			</center>
 		</footer>
 	</body>

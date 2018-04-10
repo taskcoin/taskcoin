@@ -1,5 +1,6 @@
 var Message = require('../app/models/message');
 var mongoose = require('mongoose');
+var striptags = require('striptags');
 
 /* GET */
 

@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var User = require('../app/models/user');
 var Result = require('../app/models/report');
+var Request = require('../app/models/requests/request');
+var Service = require('../app/models/services/service');
 
 exports.index = function(req, res) {
 	
@@ -11,9 +13,29 @@ exports.index = function(req, res) {
 		if(err) throw err;
 		if(userResult != null) {
 
-			// RENDER STATISTICS
+			// REQUEST JOBS
 
-			res.render('admin/admin');
+			var requests = mongoose.model('Request');
+			requests.count({}, function(err, requestCount) {
+				if(err) throw err;
+
+				// SERVICE JOBS
+
+				var services = mongoose.model('Service');
+				services.count({}, function(err, serviceCount) {
+
+					// USERS
+
+					var user = mongoose.model('User');
+					user.count({}, function(err, userCount) {
+						res.render('admin/admin', {
+							requests: requestCount,
+							services: serviceCount,
+							users: userCount
+						});
+					});
+				});
+			});
 		} else { 
 			res.redirect('/');
 		}

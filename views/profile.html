@@ -13,19 +13,17 @@
 	</head>
 
 
-	<body id='profile'>
+	<body>
 		<header>
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<a href='/'>
-							<div id='logo'>
-
-							</div>
+							<img id='logo' src="https://i.imgur.com/EAjp5n9.pngs" />
 						</a>
 					</div>
-					<div class='col-sm-7'>
-						<form method="get" action='/search'>
+					<div class="col-sm-5">
+						<form method="get" action='/search' id='search'>
 							<select name='type'>
 								<option value='requests'>
 									REQUEST
@@ -38,171 +36,137 @@
 								</option>
 							</select>
 							<input type="input" id='query' name="query" />
-							<input type="submit" id='submit' value='Search' />
+							<button id='submit' type="submit">
+								<i class="fas fa-search"></i>
+							</button>
 						</form>
-					</div>	
-					<div class="col-sm-3">
-						<% if (user) {%>
-							<div id='loggedIn'>
-								<div id='module'>
-									<div id='username'>
-										<a href='/profile/<%= user.local.username %>'> <%= user.local.username %> 
-										</a>
-									</div>
-									<div id='photo'>
-										<div id='image'>
-
-										</div>
-									</div>	
-								</div>
-								<div id='menuOptions'>
-									<ul>
-										<li>
-											0 TASKCOIN
-										</li>
-										<a href='/submit'>
-											<li>
-												SUBMIT
-											</li>
-										</a>
-										<a href='/settings'>
-											<li>
-												SETTINGS
-											</li>
-										</a>
-										<a href='/logout'>
-											<li>
-												LOGOUT
-											</li>
-										</a>
-									</ul>
-								</div>
-							</div>
-							<% } else { %>
-							<ul id='notLoggedIn'>
+					</div>
+					<div class="col-sm-4">
+						<ul id='loggedIn'>
+							<a href="/profile/<%=user.local.username%>">
 								<li>
-									<a href='/login'>
-										LOGIN
-									</a>
+									<%=user.local.username%>
 								</li>
-								<li>
-									<a href='/register'>
-										REGISTER
-									</a>
-								</li>
-							</ul>
-							<% } %>
+							</a>
+						</ul>
 					</div>
 				</div>
 			</div>
-		</header>	
-		<br>
+		</header>
 
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-4">
-					<div id='user'>
-						<div id='wrapper'>
-							<div id='image'>
-									
+		<div id='profile'>
+			<!--<div id='background'>
+
+			</div>
+			<br>-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8" id='listings'>
+						<% 
+						if (type == 'services') {
+						%>
+						<h4>
+							Services
+						</h4>
+						<script type="text/javascript">
+							var services = <%- services %>;
+							if(services.length == 0) {
+								$('#listings').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < 10; i++) {
+									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/service/"+services[i]._id+"'><h4>"+ services[i].title+"</h4></a><h6>"+ services[i].price+"</h6></div></div></div></div>");
+								};
+							};
+						</script>
+						<%
+							} else if (type == 'requests') {
+						%>
+						<h4>
+							Requests
+						</h4>
+						<script type="text/javascript">
+							var requests = <%- products %>;
+							if(requests.length == 0) {
+								$('#listings').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < 10; i++) {
+									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/request/"+requests[i]._id+"'><h4>"+ requests[i].title+"</h4></a><h6>"+ requests[i].price+"</h6></div></div></div></div>");
+								};
+							};
+						</script>
+						<%
+							} else {
+						%>
+						<h4>
+							Reputation
+						</h4>
+						<a href='/profile/<%= name %>/reputation/give'>
+							<div id='giveRep'>
+								GIVE REPUTATION
 							</div>
-							<h5>
-								<%= name %> 
-							</h5>
-							<div class='seperator'></div>							
-							<p>
-								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='/profile/<%= name %>/reputation'><%= rep %></a>
-							</p>
-							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
-							</p>
-							<p>
-								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= created %>
-							</p>
+						</a>
+						<script type="text/javascript">
+							var rep = <%- reputation %>;
+							if(rep.length == 0 || rep == null) {
+								$('#listings').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < rep.length; i++) {
+									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/profile/"+rep[i].userA+"'><h4>"+ rep[i].userA+"</h4></a><h6>"+ rep[i].given+"</h6></div></div></div></div>");
+								};
+							};
+						</script>
+						<%
+							}
+						%>
+					</div>
+					<div class="col-sm-4">
+						<div id='user'>
+							<div id='sidebar'>
+								<br>
+								<div id='profilePhoto'>
+									<img src='' />
+								</div>
+								
+								<h5>
+									<center>
+										<%= name %>
+									</center>
+								</h5>
+								<p>
+									<strong><i class="fas fa-star"></i> Reputation:</strong> <a href='/profile/<%= name %>/reputation'><%= rep %></a>
+								</p>
+								<p>
+									<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
+								</p>
+								<p>
+									<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= created %>
+								</p>
+								<br>
+							</div>
+							<a href='/profile/<%= name %>'>
+								<div class='profileButton'>
+									REQUESTS
+								</div>
+							</a>
+							<a href='/profile/<%= name %>/services'>
+								<div class='profileButton'>
+									SERVICES
+								</div>
+							</a>
+							<a href='/profile/<%= name %>/reputation'>
+								<div class='profileButton'>
+									REPUTATION
+								</div>
+							</a>
+							<a href='/messages'>
+								<div class='profileButton'>
+									MESSAGES (INBOX)
+								</div>
+							</a>
 						</div>
 					</div>
-					<ul id='seperators'>
-						<a href='../messages/compose'>
-							<li>
-								MESSAGE <u><%= name %></u>
-							</li>
-						</a>
-						<a href='/profile/<%= name %>'>
-							<li>
-								REQUESTS
-							</li>
-						</a>
-						<a href='/profile/<%= name %>/services'>
-							<li>
-								SERVICES
-							</li>
-						</a>
-						<a href='/profile/<%= name %>/reputation'>
-							<li>
-								REPUTATION
-							</li>
-						</a>
-					</ul>
-					<a id='report' href=''>
-						REPORT LISTING
-					</a>
 				</div>
-
-				<div class="col-sm-8" id='products'>
-					<% 
-						if (type == 'services') {
-					%>
-					<h4>
-						Services
-					</h4>
-					<script type="text/javascript">
-						var products = <%- services %>;
-						if(products.length == 0) {
-							$('#products').append('<p>Nothing available.</p>');
-						} else {
-							for(var i = 0; i < 10; i++) {
-								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><a href='/service/"+products[i]._id+"'><h4>"+ products[i].title+"</h4></a><h5>TASK"+ products[i].price+"</h5></div></div></div>");
-							};
-						};
-					</script>
-					<%
-						} else if (type == 'requests') {
-					%>
-					<h4>
-						Requests
-					</h4>
-					<script type="text/javascript">
-						var products = <%- products %>;
-						if(products.length == 0) {
-							$('#products').append('<p>Nothing available.</p>');
-						} else {
-							for(var i = 0; i < 10; i++) {
-								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><a href='/request/"+products[i]._id+"'><h4>"+ products[i].title+"</h4></a><h5>"+ products[i].price+"</h5></div></div></div>");
-							};
-						};
-					</script>
-					<%
-						} else {
-					%>
-					<h4>
-						Reputation
-					</h4>
-					<script type="text/javascript">
-						var rep = <%- reputation %>;
-						console.log(rep);
-						if(rep.length == 0 || rep == null) {
-							$('#products').append('<p>Nothing available.</p>');
-						} else {
-							for(var i = 0; i < rep.length; i++) {
-								$('#products').append("<div id='action'><div id='wrapper'><div id='image'></div><div id='right'><a href='/profile/"+rep[i].userA+"'><h4>"+ rep[i].userA+"</h4></a><h5>"+ rep[i].given+"</h5></div></div></div>");
-							};
-						};
-					</script>
-					<%
-						}
-					%>
-				</div>
-			</div>				
+			</div>
 		</div>
 
 		<br>
@@ -212,60 +176,88 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
-						<h4>
-							Basics
-						</h4>
-						<ul id='basics'>
-							<li>
-								Home
-							</li>
-							<li>
-								About
-							</li>
-							<li>
-								Search
-							</li>
-							<li>
-								TOS
-							</li>
+						<ul>
+							<a href='/'>
+								<li>
+									HOME 
+								</li>
+							</a>
+							<a href='/about'>
+								<li>
+									ABOUT
+								</li>
+							</a>
+							<a href='/blog'>
+								<li>
+									BLOG
+								</li>
+							</a>
+							<a href='mailto:'>
+								<li>
+									CONTACT
+								</li>
+							</a>
 						</ul>
 					</div>
-				<div class="col-sm-4">
-					<h4>
-						User
-					</h4>
-					<ul>
-						<li>
-							Login
-						</li>
-						<li>
-							Register
-						</li>
-					</ul>
-				</div>
-				<div class="col-sm-4">
-					<h4>
-						TaskCoin
-					</h4>
-					<ul>
-						<li>
-							About TaskCoin
-						</li>
-						<li>
-							Buy TaskCoin
-						</li>
-						<li>
-							Sell TaskCoin
-						</li>
-					</ul>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/dashboard'>
+								<li>
+									DASHBOARD
+								</li>
+							</a>
+							<a href='/profile/   username   '>
+								<li>
+									PROFILE
+								</li>
+							</a>
+							<a href='/messages'>
+								<li>
+									MESSAGES
+								</li>
+							</a>
+							<a href='/settings'>
+								<li>
+									SETTINGS 
+								</li>
+							</a>
+							<a href='/logout'>
+								<li>
+									LOGOUT
+								</li>
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/request/submit'>
+								<li>
+									SUBMIT REQUEST
+								</li>
+							</a>
+							<a href='/service/submit'>
+								<li>
+									SUBMIT SERVICE 
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									CATEGORIES
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									LOCATIONS 
+								</li>
+							</a>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-			<h1>Task</h1>
 		</footer>
 		<footer id='footerBlack'>
 			<center>
-				&copy; 2018 Task
+				&copy; 2018 TaskCoin
 			</center>
 		</footer>
 	</body>

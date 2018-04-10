@@ -27,6 +27,10 @@ module.exports = function(app, passport) {
 	app.get('/why', general.why);
 	app.get('/404', general.errorPage);
 
+	app.get('/test', function(req, res) {
+		res.render('test');
+	});
+
 	// USER
 
 	var user = require('../config/user.js');
@@ -35,14 +39,17 @@ module.exports = function(app, passport) {
 	app.get('/register', ifLoggedIn, user.register);
 	app.get('/logout', user.logout);
 	app.get('/settings', isLoggedIn, user.settings);
+	app.get('/dashboard', isLoggedIn, user.dashboard);
+
+	app.post('/settings/location', isLoggedIn, user.changeLocation);
 
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect:'/',
+		successRedirect:'/dashboard',
 		failureRedirect: '/login', 
 		failureFlash: true
 	}));
 	app.post('/register', passport.authenticate('local-signup', {
-		successRedirect:'/',
+		successRedirect:'/dashboard',
 		failureRedirect: '/register', 
 		failureFlash: true
 	}));	
@@ -50,16 +57,11 @@ module.exports = function(app, passport) {
 	// PROFILE
 
 	var profile = require('../config/profile.js');
-	var currency = require('../config/currency.js');
-
+	
 	app.get('/profile/:user/', isLoggedIn, profile.profile);
 	app.get('/profile/:user/services', isLoggedIn, profile.services);
 	app.get('/profile/:user/reputation', isLoggedIn, profile.reputation);
 	app.get('/profile/:user/reputation/give', isLoggedIn, profile.giveRep);
-
-	app.get('/profile/:user/send', isLoggedIn, currency.send);
-	app.get('/profile/:user/transactions', isLoggedIn, currency.transactions);
-	app.post('/profile/:user/send', isLoggedIn, currency.sendMoney);
 
 	app.post('/profile/:user/reputation/give', isLoggedIn, profile.giveReputation);
  	
@@ -78,7 +80,7 @@ module.exports = function(app, passport) {
 
 	var request = require('../config/request.js');
 
-	app.get('/submit', isLoggedIn, request.submit);
+	app.get('/request/submit', isLoggedIn, request.submit);
 	app.get('/request/:id', isLoggedIn, request.request);
 	app.get('/request/:id/offers', isLoggedIn, request.offers);
 	app.get('/request/:id/order', isLoggedIn, request.order);

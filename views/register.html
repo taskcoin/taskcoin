@@ -7,6 +7,8 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/css.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
 	</head>
 	<body>
 		<header>
@@ -14,28 +16,45 @@
 				<div class="row">
 					<div class="col-sm-3">
 						<a href='/'>
-							<div id='logo'>
-
-							</div>
+							<img id='logo' src="https://i.imgur.com/EAjp5n9.pngs" />
 						</a>
 					</div>
-					<div class="col-sm-9">
-						<ul id='notLoggedIn'>
-							<li>
-								<a href='/login'>
-									LOGIN
-								</a>
-							</li>
-							<li>
-								<a href='/register'>
-									REGISTER
-								</a>
-							</li>
+					<div class="col-sm-5">
+						<form method="get" action='/search' id='search'>
+							<select name='type'>
+								<option value='requests'>
+									REQUEST
+								</option>
+								<option value='services'>
+									SERVICE
+								</option>
+								<option value='users'>
+									USER
+								</option>
+							</select>
+							<input type="input" id='query' name="query" />
+							<button id='submit' type="submit">
+								<i class="fas fa-search"></i>
+							</button>
+						</form>
+					</div>
+					<div class="col-sm-4">
+						<ul id='loggedOut'>
+							<a href="/register">
+								<li>
+									<i class="fas fa-user-plus"></i> REGISTER
+								</li>
+							</a>
+							<a href="/login">
+								<li>
+									<i class="fas fa-sign-in-alt"></i> LOGIN
+								</li>
+							</a>
 						</ul>
 					</div>
 				</div>
 			</div>
-		</header>	
+		</header>
 		<br>
 
 		<div class="container">
@@ -48,39 +67,28 @@
 				        <div class="alert alert-danger"><%= message %></div>
 				    <% } %>
 
-				</div>
-			</div>
-
-
-			<div class="row">
-				<div class="col-sm-12">
 					<div id='register'>
 						<form action='/register' method='post'>
-							<br>
-							<h4>
-								Register
-							</h4>
+							<h3>
+								REGISTER
+							</h3>
 							<label>
 								Username
 							</label>
 							<br>
-							<input type='input' name='username' max='30' min='3' class="form-control" />
+							<input type='input' name='username' class='form-control' />
 							<label>
 								Password
 							</label>
 							<br>
-							<input type='password' name='password' class="form-control" />
+							<input type='password' name='password' class='form-control' />
 							<br>
-							<input type='submit' class="form-control" value='Register' />
-						</form>
-						<a href='/login'><div id='loginRegister'>
-							<p>
-								LOGIN
-							</p>
-						</div></a>
+							<input type='submit' value='Submit' />
+						</form>	
 					</div>
 				</div>
 			</div>
+		</div>
 
 
 		</div>
@@ -92,82 +100,53 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
-						<h4>
-							Basics
-						</h4>
-						<ul id='basics'>
-							<li>
-								Home
-							</li>
-							<li>
-								About
-							</li>
-							<li>
-								Search
-							</li>
-							<li>
-								TOS
-							</li>
+						<ul>
+							<a href='/'>
+								<li>
+									HOME 
+								</li>
+							</a>
+							<a href='/about'>
+								<li>
+									ABOUT
+								</li>
+							</a>
+							<a href='/blog'>
+								<li>
+									BLOG
+								</li>
+							</a>
+							<a href='mailto:'>
+								<li>
+									CONTACT
+								</li>
+							</a>
 						</ul>
 					</div>
-				<div class="col-sm-4">
-					<h4>
-						User
-					</h4>
-					<ul>
-						<li>
-							Login
-						</li>
-						<li>
-							Register
-						</li>
-					</ul>
-				</div>
-				<div class="col-sm-4">
-					<h4>
-						TaskCoin
-					</h4>
-					<ul>
-						<li>
-							About TaskCoin
-						</li>
-						<li>
-							Buy TaskCoin
-						</li>
-						<li>
-							Sell TaskCoin
-						</li>
-					</ul>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/login'>
+								<li>
+									LOGIN 
+								</li>
+							</a>
+							<a href='/register'>
+								<li>
+									REGISTER
+								</li>
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						
+					</div>
 				</div>
 			</div>
-		</div>
-			<h1>Task</h1>
 		</footer>
 		<footer id='footerBlack'>
 			<center>
-				&copy; 2018 Task
+				&copy; 2018 TaskCoin
 			</center>
 		</footer>
 	</body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
-    });
-} Th
-		</script>
 </html>

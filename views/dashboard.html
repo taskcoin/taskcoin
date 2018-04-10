@@ -12,7 +12,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 
-	<body id='product'>
+	<body>
 		<header>
 			<div class="container">
 				<div class="row">
@@ -52,23 +52,104 @@
 				</div>
 			</div>
 		</header>
-		
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<h3>
-						OFFERS FOR: <%= title %>
-					</h3>
-					<script type="text/javascript">
-						var offers = <%- offers %>;
-						if(offers.length == 0) {
-							$('.col-sm-12').append('<p>Nothing available.</p>');
-						} else {
-							for(var i = 0; offers.length; i++) {
-								$('.col-sm-12').append("<div id='offers'><h4>" + offers[i].from + "</h4><p> TASK " + offers[i].offer + "</p><p>REPUTATION</p><a href='/request/job/" + offers[i]._id + "/accept'>ACCEPT</a><a href='/request/job/" + offers[i]._id + "/deny'>DENY</a></div>");
-							};
-						};
-					</script>
+
+		<div id='dashboard'>
+			<div class="container">
+				<div class="row" id='dashboard'>
+					<div class="col-sm-8">
+						<h4>
+							Dashboard
+						</h4>
+						
+						<div id='activeJobs'>
+							<div id='wrapper'>
+								<h5>
+									Active Jobs
+								</h5>
+							</div>
+						</div>
+						<br>
+						<div id='activeJobs'>
+							<div id='wrapper'>
+								<h5>
+									Tasks to Do
+								</h5>
+
+							</div>
+						</div>
+						<br>
+						<% if(transactions) { %>
+							<div id='transactions'>
+								<div id='wrapper'>
+									<h5>
+										Transactions
+									</h5>
+									<table id='transaction' border='1'>
+										<tr>
+											<th>
+												TO
+											</th>
+											<th>
+												FROM
+											</th>
+											<th>
+												AMOUNT
+											</th>
+											<th>
+												DATE
+											</th>
+										</tr>
+									</table>
+								</div>
+							</div>
+						<% } %>
+					</div>
+					<div class="col-sm-4">
+						<div id='user'>
+							<div id='sidebar'>
+								<br>
+								<div id='profilePhoto'>
+									<img src='' />
+								</div>
+								
+								<h5>
+									<center>
+										<%= user.local.username %>
+									</center>
+								</h5>
+								<p>
+									<strong><i class="fas fa-star"></i> Reputation:</strong> <a href='/profile/<%= user.local.username %>/reputation'><%= user.local.reputation %></a>
+								</p>
+								<p>
+									<i class="fas fa-globe"></i> <strong>Location:</strong> <%= user.local.location %>
+								</p>
+								<p>
+									<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= user.local.created %>
+								</p>
+								<br>
+							</div>
+							<a href='/profile/<%= user.local.username %>'>
+								<div class='profileButton'>
+									REQUESTS
+								</div>
+							</a>
+							<a href='/profile/<%= user.local.username %>/services'>
+								<div class='profileButton'>
+									SERVICES
+								</div>
+							</a>
+							<a href='/profile/<%= user.local.username %>/reputation'>
+								<div class='profileButton'>
+									REPUTATION
+								</div>
+							</a>
+							<a href='/messages'>
+								<div class='profileButton'>
+									MESSAGES (INBOX)
+								</div>
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -162,4 +243,14 @@
 			</center>
 		</footer>
 	</body>
+	<script type="text/javascript">
+		var transactions = <%- transactions %>;
+		if(transactions.length == 0) {
+			$('#transaction').append('<p>Nothing available.</p>');
+		} else {
+			for(var i = 0; i > transactions; i++) {
+				$('#transaction').append("<tr><td>"+transactions[i].userA+"</td><td>"+transactions[i].userB+"</td><td>"+transactions[i].amount+"</td><td>"+transactions[i].date+"</td></tr>");
+			};
+		};
+	</script>
 </html>

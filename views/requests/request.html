@@ -15,15 +15,13 @@
 		<header>
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<a href='/'>
-							<div id='logo'>
-
-							</div>
+							<img id='logo' src="https://i.imgur.com/EAjp5n9.pngs" />
 						</a>
 					</div>
-					<div class='col-sm-7'>
-						<form method="get" action='/search'>
+					<div class="col-sm-5">
+						<form method="get" action='/search' id='search'>
 							<select name='type'>
 								<option value='requests'>
 									REQUEST
@@ -36,90 +34,70 @@
 								</option>
 							</select>
 							<input type="input" id='query' name="query" />
-							<input type="submit" id='submit' value='Search' />
+							<button id='submit' type="submit">
+								<i class="fas fa-search"></i>
+							</button>
 						</form>
-					</div>	
-					<div class="col-sm-3">
-						<% if (user) {%>
-							<div id='loggedIn'>
-								<div id='module'>
-									<div id='username'>
-										<a href='/profile/<%= user.local.username %>'> <%= user.local.username %> 
-										</a>
-									</div>
-									<div id='photo'>
-										<div id='image'>
-
-										</div>
-									</div>	
-								</div>
-								<div id='menuOptions'>
-									<ul>
-										<li>
-											0 TASKCOIN
-										</li>
-										<a href='/submit'>
-											<li>
-												SUBMIT
-											</li>
-										</a>
-										<a href='/settings'>
-											<li>
-												SETTINGS
-											</li>
-										</a>
-										<a href='/logout'>
-											<li>
-												LOGOUT
-											</li>
-										</a>
-									</ul>
-								</div>
-							</div>
-							<% } else { %>
-							<ul id='notLoggedIn'>
+					</div>
+					<div class="col-sm-4">
+						<ul id='loggedIn'>
+							<a href="/profile/<%=user.local.username%>">
 								<li>
-									<a href='/login'>
-										LOGIN
-									</a>
+									<%=user.local.username%>
 								</li>
-								<li>
-									<a href='/register'>
-										REGISTER
-									</a>
-								</li>
-							</ul>
-							<% } %>
+							</a>
+						</ul>
 					</div>
 				</div>
 			</div>
-		</header>	
-		<br>
+		</header>
+
 		<div class="container">
-			<div class="row">
+			<div class="row" id='request'>
+				<div class="col-sm-8">
+					<main>
+						<div id='wrapper'>
+							<h3>
+								<%= title %>
+							</h3>
+							<div class='seperator'>
+
+							</div>
+							<a href=''> 
+								<%= category %>
+							</a>
+							<div id='image'>
+
+							</div>
+						</div>
+					</main>
+					<div id='about'>
+						<div id='wrapper'>
+							<h4>
+								Description
+							</h4>
+							<p>
+								<%= description %> 
+							</p>
+						</div>
+					</div>
+				</div>
 				<div class="col-sm-4">
 					<aside>
 						<div id='wrapper'>
 							<h4>
-								Hire Service
+								Request
 							</h4>
 							<div class='seperator'></div>
 							<h5>TASK <%= price %></h5>
 							<p>
-								description of aids 
-								description of aids 
-								description of aids 
-								description of aids 
-								description of aids 
+								<i class="fas fa-truck"></i> <strong>Delivery time:</strong> <%= delivery %>
 							</p>
 							<p>
-								<i class="fas fa-truck"></i> <strong>Delivery time:</strong> 24 hours.
+								<i class="fas fa-calendar"></i> <strong>Posted:</strong> <%= posted %>
 							</p>
 							<p>
-								<i class="fas fa-calendar"></i> <strong>Posted:</strong> 2/6/6
-							</p>
-							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> Nigeria
+								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
 							</p>
 							<% if (user.local.username != offerer) { %>
 								<% if (available == true) { %>
@@ -148,142 +126,150 @@
 								</div>
 							</a>
 							<% } %>
-							
 						</div>
 					</aside>
+
 					<div id='user'>
-						<div id='wrapper'>
-							<div id='image'>
-									
+						<div id='sidebar'>
+							<br>
+							<div id='profilePhoto'>
+								<img src='' />
 							</div>
+							
 							<h5>
-								<%= offerer %>
+								<center>
+									<%= user.local.username %>
+								</center>
 							</h5>
-							<div class='seperator'></div>
-							<a href='/profile/<%= offerer %>'>
-								VIEW PROFILE
-							</a>
 							<p>
-								<i class="fas fa-star"></i> <strong>Reputation:</strong> <a href='/profile/<%= offerer %>/reputation'>0</a>
+								<strong><i class="fas fa-star"></i> Reputation:</strong> <a href='/profile/<%= offerer %>/reputation'><%= userReputation %></a>
 							</p>
 							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> USA.
+								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= userLocation %>
 							</p>
 							<p>
-								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> 24 hours.
+								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= userCreated %>
 							</p>
+							<br>
 						</div>
-					</div>
-					<a id='report' href='/request/<%= requestID %>/report'>
-						REPORT LISTING
-					</a>
-				</div>
-				<div class="col-sm-8">
-					<main>
-						<div id='wrapper'>
-							<h3>
-								<%= title %>
-							</h3>
-							<div class='seperator'>
-
+						<a href='/profile/<%= user.local.username %>'>
+							<div class='profileButton'>
+								REQUESTS
 							</div>
-							<a href=''> 
-								<%= category %>
-							</a>
-							<div id='image'>
-
+						</a>
+						<a href='/profile/<%= user.local.username %>/services'>
+							<div class='profileButton'>
+								SERVICES
 							</div>
-						</div>
-					</main>
-
-					<div id='about'>
-						<div id='wrapper'>
-							<h4>
-								About This Service
-							</h4>
-							<div class='seperator'>
-
+						</a>
+						<a href='/profile/<%= user.local.username %>/reputation'>
+							<div class='profileButton'>
+								REPUTATION
 							</div>
-							<p>
-								<%= description %> 
-							</p>
-						</div>
+						</a>
+						<a href='/messages/compose'>
+							<div class='profileButton'>
+								SEND MESSAGE
+							</div>
+						</a>
 					</div>
-
-					<div id='price'>
-						<div id='wrapper'>
-							<h4>
-								Purchase
-							</h4>
-							<div class='seperator'>
-						</div>
-					</div>
+					<br>
+					<center>
+						<a id='report' href='/request/<%= requestID %>/report'>
+							REPORT LISTING
+						</a>
+					</center>
 				</div>
 			</div>
 		</div>
 	</div>
-		
-		<br>
-		<br>
 
 		<footer>
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
-						<h4>
-							Basics
-						</h4>
-						<ul id='basics'>
-							<li>
-								Home
-							</li>
-							<li>
-								About
-							</li>
-							<li>
-								Search
-							</li>
-							<li>
-								TOS
-							</li>
+						<ul>
+							<a href='/'>
+								<li>
+									HOME 
+								</li>
+							</a>
+							<a href='/about'>
+								<li>
+									ABOUT
+								</li>
+							</a>
+							<a href='/blog'>
+								<li>
+									BLOG
+								</li>
+							</a>
+							<a href='mailto:'>
+								<li>
+									CONTACT
+								</li>
+							</a>
 						</ul>
 					</div>
-				<div class="col-sm-4">
-					<h4>
-						User
-					</h4>
-					<ul>
-						<li>
-							Login
-						</li>
-						<li>
-							Register
-						</li>
-					</ul>
-				</div>
-				<div class="col-sm-4">
-					<h4>
-						TaskCoin
-					</h4>
-					<ul>
-						<li>
-							About TaskCoin
-						</li>
-						<li>
-							Buy TaskCoin
-						</li>
-						<li>
-							Sell TaskCoin
-						</li>
-					</ul>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/dashboard'>
+								<li>
+									DASHBOARD
+								</li>
+							</a>
+							<a href='/profile/   username   '>
+								<li>
+									PROFILE
+								</li>
+							</a>
+							<a href='/messages'>
+								<li>
+									MESSAGES
+								</li>
+							</a>
+							<a href='/settings'>
+								<li>
+									SETTINGS 
+								</li>
+							</a>
+							<a href='/logout'>
+								<li>
+									LOGOUT
+								</li>
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/request/submit'>
+								<li>
+									SUBMIT REQUEST
+								</li>
+							</a>
+							<a href='/service/submit'>
+								<li>
+									SUBMIT SERVICE 
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									CATEGORIES
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									LOCATIONS 
+								</li>
+							</a>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-			<h1>Task</h1>
 		</footer>
 		<footer id='footerBlack'>
 			<center>
-				&copy; 2018 Task
+				&copy; 2018 TaskCoin
 			</center>
 		</footer>
 	</body>

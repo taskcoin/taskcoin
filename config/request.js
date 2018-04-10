@@ -27,18 +27,28 @@ exports.request = function(req, res) {
 
 				var request = mongoose.model('Request');
 				request.findOne({"_id": requestID}, function(err, result) {
-					res.render('requests/request', {
-						user: req.user,
-						title: result.title,
-						type: result.type,
-						price: result.price,
-						category: result.category,
-						delivery: result.delivery,
-						location: result.location,
-						description: result.description,
-						offerer: result.offerer,
-						requestID: requestID,
-						available: result.available
+
+					// GET USER INFORMATION
+
+					var user = mongoose.model('User');
+					user.findOne({'local.username': result.offerer}, function(err, userResult) {
+						res.render('requests/request', {
+							user: req.user,
+							title: result.title,
+							type: result.type,
+							price: result.price,
+							posted: result.posted,
+							category: result.category,
+							delivery: result.delivery,
+							location: result.location,
+							description: result.description,
+							offerer: result.offerer,
+							requestID: requestID,
+							available: result.available,
+							userLocation: userResult.local.location,
+							userReputation: userResult.local.reputation,
+							userCreated: userResult.local.created
+						});
 					});
 				});
 			}
@@ -260,123 +270,130 @@ exports.postSubmit = function(req, res) {
 										} 
 										
 										else {
-										 */
+										 */	
 
-										 	// MAKE SURE USER HAS ENOUGH BALANCE 
+										 	if(query.category == 'Art & Design' || query.category == 'Marketing' || query.category == 'Content' || query.category == 'Videos' || query.category == 'Audio' || query.category == 'Programming' || query.category == 'Business' || query.category == 'Lifestyle' || query.category == 'Websites' || query.category == 'Computers' || query.category == 'Homes' || query.category == 'Cars' || query.category == 'Property' || query.category == 'Furniture' || query.category == 'Plumbing' || query.category == 'Miscellaneous') {
+										 		
+										 		// MAKE SURE USER HAS ENOUGH BALANCE 
 
-										 	var user = mongoose.model('User');
-										 	user.findOne({'local.username': req.user.local.username}, function (err, userResult) {
-										 		if(err) throw err;
-										 		var balance = Number(userResult.local.currency);
-										 		var fees = Math.floor(balance * 0.01);
-										 		if (fees < 10) {
-										 			var fees = 10;
-										 			var total = fees + Number(query.price);
-										 			if (total > balance) {
-										 				redirectSubmit('Total cost exceeds balance');
-										 			} else {
+											 	var user = mongoose.model('User');
+											 	user.findOne({'local.username': req.user.local.username}, function (err, userResult) {
+											 		if(err) throw err;
+											 		var balance = Number(userResult.local.currency);
+											 		var fees = Math.floor(balance * 0.01);
+											 		if (fees < 10) {
+											 			var fees = 10;
+											 			var total = fees + Number(query.price);
+											 			if (total > balance) {
+											 				redirectSubmit('Total cost exceeds balance');
+											 			} else {
 
-										 				// CREATE TRANSACTION
+											 				// CREATE TRANSACTION
 
-														var transaction = mongoose.model('Transaction');
-														var createTransaction = new transaction();
+															var transaction = mongoose.model('Transaction');
+															var createTransaction = new transaction();
 
-														createTransaction.userA = req.user.local.username;
-														createTransaction.userB = query.offerer;
-														createTransaction.reason = 'Created listing';
-														createTransaction.amount = total;
-														createTransaction.date = Date.now();
+															createTransaction.userA = req.user.local.username;
+															createTransaction.userB = query.offerer;
+															createTransaction.reason = 'Created listing';
+															createTransaction.amount = total;
+															createTransaction.date = Date.now();
 
-														createTransaction.save(function(err, result) {
-															if(err) throw err;
-														});
+															createTransaction.save(function(err, result) {
+																if(err) throw err;
+															});
 
-														// DEDUCT AMOUNT FROM ORIGINAL USER
+															// DEDUCT AMOUNT FROM ORIGINAL USER
 
-														var totalAmount = Math.floor(userResult.local.currency - total);
+															var totalAmount = Math.floor(userResult.local.currency - total);
 
-														userResult.local.currency = totalAmount;
+															userResult.local.currency = totalAmount;
 
-														userResult.save(function(err, result) {
-															if(err) throw err;
-														});
+															userResult.save(function(err, result) {
+																if(err) throw err;
+															});
 
-														// CREATE PRODUCT
+															// CREATE PRODUCT
 
-														var Request = mongoose.model('Request');
-														var request = new Request();
+															var Request = mongoose.model('Request');
+															var request = new Request();
 
-														request.title = query.title;
-														request.type = query.type;
-														request.price = query.price;
-														request.category = query.category;
-														request.location = query.location;
-														request.delivery = query.delivery;
-														request.description = query.description;
-														request.posted = Date.now();
-														request.offerer = query.offerer;
-														request.available = true;
-											
-														request.save(function(err, result) {
-															if (err) throw err;
-															res.redirect('/request/' + result._id)
-														});
-										 			}
-										 		} else {
-										 			var total = fees + Number(query.price);
-										 			if (total > balance) {
-					 									redirectSubmit('Total cost exceeds balance');
-										 			} else {
+															request.title = query.title;
+															request.type = query.type;
+															request.price = query.price;
+															request.category = query.category;
+															request.location = query.location;
+															request.delivery = query.delivery;
+															request.description = query.description;
+															request.posted = Date.now();
+															request.offerer = query.offerer;
+															request.available = true;
+												
+															request.save(function(err, result) {
+																if (err) throw err;
+																res.redirect('/request/' + result._id)
+															});
+											 			}
+											 		} else {
+											 			var total = fees + Number(query.price);
+											 			if (total > balance) {
+						 									redirectSubmit('Total cost exceeds balance');
+											 			} else {
 
-									 					// CREATE TRANSACTION
+										 					// CREATE TRANSACTION
 
-														var transaction = mongoose.model('Transaction');
-														var createTransaction = new transaction();
+															var transaction = mongoose.model('Transaction');
+															var createTransaction = new transaction();
 
-														createTransaction.userA = req.user.local.username;
-														createTransaction.userB = query.offerer;
-														createTransaction.reason = 'Created listing';
-														createTransaction.amount = total;
-														createTransaction.date = Date.now();
+															createTransaction.userA = req.user.local.username;
+															createTransaction.userB = query.offerer;
+															createTransaction.reason = 'Created listing';
+															createTransaction.amount = total;
+															createTransaction.date = Date.now();
 
-														createTransaction.save(function(err, result) {
-															if(err) throw err;
-														});
+															createTransaction.save(function(err, result) {
+																if(err) throw err;
+															});
 
-														// DEDUCT AMOUNT FROM ORIGINAL USER
+															// DEDUCT AMOUNT FROM ORIGINAL USER
 
-														var totalAmount = Math.floor(userResult.local.currency - total);
+															var totalAmount = Math.floor(userResult.local.currency - total);
 
-														userResult.local.currency = totalAmount;
+															userResult.local.currency = totalAmount;
 
-														userResult.save(function(err, result) {
-															if(err) throw err;
-														});
+															userResult.save(function(err, result) {
+																if(err) throw err;
+															});
 
-														// CREATE PRODUCT
+															// CREATE PRODUCT
 
-														var Request = mongoose.model('Request');
-														var request = new Request();
+															var Request = mongoose.model('Request');
+															var request = new Request();
 
-														request.title = query.title;
-														request.type = query.type;
-														request.price = query.price;
-														request.category = query.category;
-														request.location = query.location;
-														request.delivery = query.delivery;
-														request.description = query.description;
-														request.posted = Date.now();
-														request.offerer = query.offerer;
-														request.available = true;
-														request.availableOnce = query.once;
-											
-														request.save(function(err, result) {
-															if (err) throw err;
-															res.redirect('/request/' + result._id)
-														});
-										 			}
-										 		}
-										 	});
+															request.title = query.title;
+															request.type = query.type;
+															request.price = query.price;
+															request.category = query.category;
+															request.location = query.location;
+															request.delivery = query.delivery;
+															request.description = query.description;
+															request.posted = Date.now();
+															request.offerer = query.offerer;
+															request.available = true;
+															request.availableOnce = query.once;
+												
+															request.save(function(err, result) {
+																if (err) throw err;
+																res.redirect('/request/' + result._id)
+															});
+											 			}
+											 		}
+											 	});
+										 	} else {
+										 		redirectSubmit('Category not specified');
+										 	}
+
+										 	
 										/*}
 										} 
 									}

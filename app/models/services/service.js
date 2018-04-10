@@ -9,7 +9,7 @@ var serviceSchema = mongoose.Schema({
 	description: String,
 	fees: String,
 	totalCost: String,
-	posted: String,
+	posted: Date,
 	seller: String,
 	available: Boolean,
 	oneTime: Boolean

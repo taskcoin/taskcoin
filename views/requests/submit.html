@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			TaskCoin | Be Your Own Boss
+		</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/css.css" />
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
+	</head>
+	<body>
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-3">
+						<a href='/'>
+							<img id='logo' src="https://i.imgur.com/EAjp5n9.pngs" />
+						</a>
+					</div>
+					<div class="col-sm-5">
+						<form method="get" action='/search' id='search'>
+							<select name='type'>
+								<option value='requests'>
+									REQUEST
+								</option>
+								<option value='services'>
+									SERVICE
+								</option>
+								<option value='users'>
+									USER
+								</option>
+							</select>
+							<input type="input" id='query' name="query" />
+							<button id='submit' type="submit">
+								<i class="fas fa-search"></i>
+							</button>
+						</form>
+					</div>
+					<div class="col-sm-4">
+						<ul id='loggedIn'>
+							<a href="/profile/<%=user.local.username%>">
+								<li>
+									<%=user.local.username%>
+								</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<br>
+
+		<div class="container" >
+			<div class="row" id='requestSubmit'>
+				<div class="col-sm-8">
+					<div class='submitWrapper'>
+						<h3>
+							Submit Request
+						</h3>
+						<form action='/submit' method='post'>
+							<% 
+							if (reason) {
+							%>
+							<div class="alert alert-danger"><%= reason %></div>
+							<%
+							} else {
+							
+							}
+							%>
+							<label for='title'>
+								Title
+							</label>
+							<input type="input" name='title' class='form-control' />
+							<label for='title'>
+								Type
+							</label>
+							<select class='form-control' name='type'>
+								<option value='1'>
+									Request
+								</option>
+								<option value='2'>
+									Service
+								</option>
+							</select>
+							<label for='price'>
+								Price
+							</label>
+							<input class='form-control' type="number" name='price' min='1' id='price' max='50000' value='1' />
+							<label for='location'>
+								Location
+							</label>
+							<select class='form-control' name='location'>
+								<option selected value='Global'>
+									Global
+								</option>
+								<option value='<%= user.local.location %>'>
+									<%= user.local.location %>
+								</option>
+							</select>
+							<label for='price'>
+								Category
+							</label>
+							<select class='form-control' name='category'>
+								<option selected value='Art & Design'>	
+									Art & Design 
+								</option>
+								<option value='Marketing'>
+									Marketing
+								</option>
+								<option value='Content'>
+									Content 
+								</option>
+								<option value='Videos'>
+									Videos
+								</option>
+								<option value='Audio'>
+									Audio
+								</option>
+								<option value='Programming'>
+									Programming
+								</option>
+								<option value='Business'>
+									Business
+								</option>
+								<option value='Lifestyle'>
+									Lifestyle
+								</option>
+								<option value='Websites'>
+									Websites
+								</option>
+								<option value='Computers'>
+									Computers
+								</option>
+								<option value='Homes'>
+									Homes
+								</option>
+								<option value='Cars'>
+									Cars
+								</option>
+								<option value='Property'>
+									Property
+								</option>
+								<option value='Furniture'>
+									Furniture
+								</option>
+								<option value='Plumbing'>
+									Plumbing
+								</option>
+								<option value='Miscellaneous'>
+									Miscellaneous 
+								</option>
+							</select>
+							<label for='delivery'>
+								Delivery
+							</label>
+							<select class='form-control' name='delivery'>
+								<option value='24 Hours'>
+									24 Hours
+								</option>
+								<option value='48 Hours'>
+									48 Hours
+								</option>
+								<option value='1 Week'>
+									1 Week
+								</option>
+							</select>
+							<label for='price'>
+								One-time Task?
+							</label>
+							<select class='form-control' name='once'>
+								<option value='true' selected>
+									One-time task
+								</option>
+								<option value='false'>
+									Constantly available
+								</option>
+							</select>
+							<br>
+							<div class='seperator'>
+
+							</div>
+							<br>
+							<label>
+								Description
+							</label>
+							<textarea name='description' class='form-control'>
+								
+							</textarea>
+							<label>
+								Fees
+							</label>
+							<input type="number" class='form-control' id='fees' min='0' name="fees" disabled />
+							<label>
+								Your Balance
+							</label>
+							<input type="number" class='form-control' value='<%= user.local.currency %>' disabled id='balance' min='0' id='balance' name="balance" />
+							<label>
+								Total Cost
+							</label>
+							<input type="number" class='form-control' disabled id='total' min='0' id='total' name="total" />
+							<br>
+							<input type="submit" />
+							<br>
+							<br>
+						</form>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<a href='/service/submit'>
+						<div id='service'>
+							SUBMIT SERVICE
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<ul>
+							<a href='/'>
+								<li>
+									HOME 
+								</li>
+							</a>
+							<a href='/about'>
+								<li>
+									ABOUT
+								</li>
+							</a>
+							<a href='/blog'>
+								<li>
+									BLOG
+								</li>
+							</a>
+							<a href='mailto:'>
+								<li>
+									CONTACT
+								</li>
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						<ul>
+							<% if(user) { %>
+								<a href='/dashboard'>
+									<li>
+										DASHBOARD
+									</li>
+								</a>
+								<a href='/profile/   username   '>
+									<li>
+										PROFILE
+									</li>
+								</a>
+								<a href='/messages'>
+									<li>
+										MESSAGES
+									</li>
+								</a>
+								<a href='/settings'>
+									<li>
+										SETTINGS 
+									</li>
+								</a>
+								<a href='/logout'>
+									<li>
+										LOGOUT
+									</li>
+								</a>
+							<% } else { %>
+								<a href='/login'>
+									<li>
+										LOGIN
+									</li>
+								</a>
+								<a href='/register'>
+									<li>
+										REGISTER
+									</li>
+								</a>
+							<% } %>
+						</ul>
+					</div>
+					<% if(user) { %>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/request/submit'>
+								<li>
+									SUBMIT REQUEST
+								</li>
+							</a>
+							<a href='/service/submit'>
+								<li>
+									SUBMIT SERVICE 
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									CATEGORIES
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									LOCATIONS 
+								</li>
+							</a>
+						</ul>
+					</div>
+					<% } %>
+				</div>
+			</div>
+		</footer>
+		<footer id='footerBlack'>
+			<center>
+				&copy; 2018 TaskCoin
+			</center>
+		</footer>
+	</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$('#price').on('click',function() {
+			var price = $('#price').val();
+			var fees = Math.round(price/100);
+			if(10 > fees) {
+				var fees = 10;
+				$('#fees').val(fees);
+				var price = parseInt(price);
+				var fees = parseInt(fees);
+				var total = price + fees;
+				$('#total').val(total);
+			} else {
+				$('#fees').val(fees);
+				var price = parseInt(price);
+				var fees = parseInt(fees);
+				var total = price + fees;
+				$('#total').val(total);
+			}
+		});
+		</script>
+</html>

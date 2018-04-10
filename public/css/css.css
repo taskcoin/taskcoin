@@ -1,0 +1,418 @@
+/* EVERYTHING */
+
+html, body {
+	width: 100%;
+	padding: 0px 0px;
+	margin: 0px 0px;
+	background-color: #eee;
+}
+header {
+	background-color: #ff9900;
+	width: 100%;
+	height: 75px;
+	margin-bottom: 25px;
+}
+header a #logo {
+	width: 225px;
+	height: 45px;
+	background-size: cover;
+	margin-top: 16px;
+}
+header #loggedOut {
+	padding: 0px 0px;
+
+}
+header #loggedOut li {
+	list-style-type: none;
+	float: right;
+	color: white;
+	margin-top: 25px;
+	margin-left: 50px;
+}
+header #search {
+	margin-top: 25px;
+}
+header #search select {
+	height: 28px;
+	border: 1px solid #eee;
+}
+header #search #query {
+	margin-left: 15px;
+	border: 1px solid #eee;
+}
+header #search #submit {
+	margin-left: -6px;
+	height: 28px;
+	width: 34px;
+	border: 1px solid #eee;
+}
+header #loggedIn {
+	padding: 0px 0px;
+}
+header #loggedIn li {
+	list-style-type: none;
+	float: right;
+	color: white;
+	margin-top: 25px;
+	margin-left: 50px;
+}
+
+#user {
+	background-color: #eee;
+}
+#user #sidebar {
+	width: 100%;
+	background-color: white;
+	margin-bottom: 30px;
+}
+#user #sidebar #profilePhoto {
+	height: 75px;
+	width: 75px;
+	margin: 0px auto 0px auto;
+	border-radius: 100%;
+}
+#user #sidebar #profilePhoto img {
+	height: 75px;
+	width: 75px;
+	border: 1px solid #eee;
+	border-radius: 100%;
+}
+#user #sidebar h5 {
+	text-decoration: underline;
+}
+#user #sidebar p {
+	margin: 0px 30px 10px;
+}
+#user .profileButton {
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: white;
+	text-align: center;
+	border: 1px solid #ddd;
+	margin-top: 10px;
+}
+
+
+footer {
+	width: 100%;
+	background-color: #333;
+	margin-top: 25px;
+	padding-top: 25px;
+	padding-bottom: 20px;
+}
+footer ul {
+	padding: 0px 0px;
+}
+footer ul a:active a:hover a:link a:visited {
+	color: white;
+	text-decoration: none;
+}
+footer ul li {
+	color: white;
+	list-style-type: none;
+
+}
+#footerBlack {
+	width: 100%;
+	margin-top: 0px;
+	padding-top: 20px;
+	color: white;
+	background-color: black;
+}
+
+/* LOGIN */
+
+#login {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+#login form {
+	margin: 25px 50px;
+}
+
+/* REGISTER */
+
+#register {
+	width: 100%;
+	background-color: white;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+#register form {
+	margin: 25px 50px;
+}
+
+/* PROFILE */
+
+#profile #background {
+	width: 100%;
+	height: 350px;
+	background-color: white;
+}
+#profile #generalInformation {
+
+}
+
+#profile .result {
+	width: 100%;
+	background-color: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+#profile .result #image {
+	height: 100px;
+	width: 100%;
+	border: 1px solid #ddd;
+}
+#profile .result a h4 {
+	overflow: none;
+	display: block;
+}
+#profile #sidebar {
+	width: 100%;
+	background-color: white;
+	margin-bottom: 30px;
+}
+
+/* MESSAGES */
+
+#messages #messageButton {
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: white;
+	text-align: center;
+	border: 1px solid #ddd;
+	margin-top: 10px;
+}
+#messages .message {
+	width: 100%;
+	background-color: white;
+	margin-bottom: 10px;
+}
+#messages .message .wrapper {
+	width: 98%;
+	margin: 0px auto;
+	overflow: auto;
+}
+#messages .message .wrapper ul {
+	padding: 0px 0px;
+}
+#messages .message .wrapper ul li {
+	list-style-type: none;
+	float: left;
+	margin-right: 10px;
+}
+
+/* DASHBOARD */
+
+#dashboard #sidebar {
+	width: 100%;
+	background-color: white;
+	margin-bottom: 30px;
+}
+#dashboard #transactions {
+	width: 100%;
+	background-color: white;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+#dashboard #transactions #wrapper {
+	width: 98%;
+	margin: 0px auto;
+}
+#dashboard #transactions table {
+	width: 100%;
+}
+
+/* REQUEST */
+
+
+#request main {
+	width: 100%;
+	background-color: white;
+}
+#request main #wrapper {
+	width: 98%;
+	margin: 0px auto;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+#request #about {
+	margin-top: 15px;
+	width: 100%;
+	background-color: white;
+}
+#request #about #wrapper {
+	width: 98%;
+	margin: 0px auto;
+	padding-top: 10px;
+	padding-bottom: 1px;
+}
+#request aside {
+	width: 100%;
+	background-color: white;
+}
+#request aside #wrapper {
+	width: 95%;
+	padding-top: 5px;
+	padding-bottom: 1px;
+	margin: 0px auto 20px;
+}
+#request aside #report {
+	text-align: center;
+	display: text;
+}
+#request aside #buy {
+	width: 100%;
+	margin: 0px auto;
+	border: 1px solid #ccc;
+	text-align: center;
+	padding-top: 15px;
+	padding-bottom: 0.1px;
+	margin-bottom: 10px;
+}
+
+/* OFFERS */
+
+#offers {
+	background-color: white;
+	width: 100%;
+	margin-bottom: 15px;
+}
+#offers h4 {
+	padding: 10px 10px;
+}
+#offers p {
+	padding: 0px 10px;
+}
+#offers a {
+	padding-left: 10px;
+}
+
+/* JOB */
+
+#jobWrapper #actions {
+	width: 100%;
+	border: 1px solid #ddd;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 12px;
+}
+#jobChat {
+	
+	width: 100%;
+}
+#jobChat .row .col-sm-10, .col-sm-2 {
+	background-color: white;
+	margin-bottom: 10px;
+}
+#jobChat #date {
+	font-weight: 700;
+}
+#jobChat .row .col-sm-2 p {
+	text-align: center;
+	padding-top: 27px;
+}
+
+/* REQUEST */
+
+#requestSubmit #service {
+	width: 100%;
+	border: 1px solid #ddd;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 12px;
+}
+
+/* SEARCH */
+
+#search #clarify {
+	background-color: white;
+}
+#search #clarify h4 {
+	padding: 10px 0px;
+}
+#search #clarify #wrapper {
+	padding-left: 10px;
+}
+#result {
+
+}
+#result #wrapper {
+	width: 100%;
+	background-color: white;
+}
+#result #wrapper {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 15px;
+}
+#result #wrapper #image {
+	width: 100%;
+	border: 1px solid black;
+	height: 100px;
+}
+
+/* SERVICE SUBMIT */
+
+#serviceSubmit #request {
+	width: 100%;
+	border: 1px solid #ddd;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 12px;
+}
+
+/* SERVICE */
+
+#service main {
+	width: 100%;
+	background-color: white;
+}
+#service main #wrapper {
+	width: 98%;
+	margin: 0px auto;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+#service #about {
+	margin-top: 15px;
+	width: 100%;
+	background-color: white;
+}
+#service #about #wrapper {
+	width: 98%;
+	margin: 0px auto;
+	padding-top: 10px;
+	padding-bottom: 1px;
+}
+#service aside {
+	width: 100%;
+	background-color: white;
+}
+#service aside #wrapper {
+	width: 95%;
+	padding-top: 5px;
+	padding-bottom: 1px;
+	margin: 0px auto 20px;
+}
+#service aside #report {
+	text-align: center;
+	display: text;
+}
+#service aside #buy {
+	width: 100%;
+	margin: 0px auto;
+	border: 1px solid #ccc;
+	text-align: center;
+	padding-top: 15px;
+	padding-bottom: 0.1px;
+	margin-bottom: 10px;
+}

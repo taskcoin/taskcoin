@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			TaskCoin | Be Your Own Boss
+		</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/css.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
+	</head>
+	<body>
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-3">
+						<a href='/'>
+							<img id='logo' src="https://i.imgur.com/EAjp5n9.pngs" />
+						</a>
+					</div>
+					<div class="col-sm-5">
+						<form method="get" action='/search' id='search'>
+							<select name='type'>
+								<option value='requests'>
+									REQUEST
+								</option>
+								<option value='services'>
+									SERVICE
+								</option>
+								<option value='users'>
+									USER
+								</option>
+							</select>
+							<input type="input" id='query' name="query" />
+							<button id='submit' type="submit">
+								<i class="fas fa-search"></i>
+							</button>
+					</div>
+					<div class="col-sm-4">
+						<ul id='loggedIn'>
+							<a href="/profile/<%=user.local.username%>">
+								<li>
+									<%=user.local.username%>
+								</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</header>
+		
+		<br>
+
+		<div class="container" >
+			<div class="row" id='search'>
+				<div class="col-sm-4" >
+					<div id='clarify' class="form-group">
+						<div id='wrapper'>
+								<h4>
+									Category
+								</h4>
+								
+								<input type='radio' name='category' value='Art & Design' /> Art & Design 
+								<br>
+								<input type='radio' name='category' value='Marketing' /> Marketing
+								<br>
+								<input type='radio' name='category' value='Content' /> Content
+								<br>
+								<input type='radio' name='category' value='Videos' /> Videos
+								<br>
+								<input type='radio' name='category' value='Audio' /> Audio
+								<br>
+								<input type='radio' name='category' value='Programming' /> Programming
+								<br>
+								<input type='radio' name='category' value='Business' /> Business
+								<br>
+								<input type='radio' name='category' value='Lifestyle' /> Lifestyle
+								<br>
+								<input type='radio' name='category' value='Websites' /> Websites
+								<br>
+								<input type='radio' name='category' value='Computers' /> Computers
+								<br>
+								<input type='radio' name='category' value='Homes' /> Homes
+								<br>
+								<input type='radio' name='category' value='Cars' /> Cars
+								<br>
+								<input type='radio' name='category' value='Property' /> Property
+								<br>
+								<input type='radio' name='category' value='Furniture' /> Furniture
+								<br>
+								<input type='radio' name='category' value='Plumbing' /> Plumbing
+								<br>
+								<input type='radio' name='category' value='Miscellaneous' /> Miscellaneous
+								<br>
+
+								<h4>
+									Delivery Time
+								</h4>
+
+								<input type='radio' name='delivery' value='24 Hours' /> 24 Hours
+								<br>
+								<input type='radio' name='delivery' value='48 Hours' /> 48 Hours
+								<br>
+								<input type='radio' name='delivery' value='1 Week' /> 1 Week
+
+								<h4>
+									Location
+								</h4>
+
+								<input type='radio' name='location'value='Global'  /> Global
+								<br>
+								<input type='radio' name='location' value='<%= user.local.location %>' /> <%= user.local.location %>
+
+								<br>
+								<br>
+								<input type='submit' value='Search' />
+								<br>
+								<br>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<h4>
+						Search Results
+					</h4>
+
+					<div id='result'>
+						<% 
+							if (type == 'requests') {
+						%>
+						<script type="text/javascript">
+							var requests = <%- requests %>;
+							if(requests.length == 0) {
+								$('#result').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < requests.length; i++) {
+									$('#result').append("<div id='wrapper'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/request/"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div></div></div></div>");
+								};
+							};
+						</script>
+
+						<%
+							} else if (type == 'services') {
+						%>
+						<script type="text/javascript">
+							var services = <%- services %>;
+							if(services.length == 0) {
+								$('#result').append('<p>Nothing available.</p>');
+							} else {
+								for(var i = 0; i < services.length; i++) {
+									$('#result').append("<div id='wrapper'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/service/"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div></div></div></div>");
+								};
+							};
+						</script>
+						<%
+							} else if(type == 'users') {
+						%>
+							<script type="text/javascript">
+								var users = <%- users %>;
+								if(users.length == 0) {
+									$('#result').append('<p>Nothing available.</p>');
+								} else {
+									for(var i = 0; i < users.length; i++) {
+										$('#result').append("<div id='wrapper'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/profile/"+users[i].local.username+"'><h4>"+users[i].local.username+"</h4></a><h5>CREATED: "+users[i].local.created+"</h5></div></div></div></div>");
+									};
+								};
+							</script>
+						<%
+						} else {
+						%>
+							<script type="text/javascript">
+							$('#result').append('<p>Nothing available.</p>');
+							</script>
+						<%
+							}
+						%>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br>
+		<br>
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<ul>
+							<a href='/'>
+								<li>
+									HOME 
+								</li>
+							</a>
+							<a href='/about'>
+								<li>
+									ABOUT
+								</li>
+							</a>
+							<a href='/blog'>
+								<li>
+									BLOG
+								</li>
+							</a>
+							<a href='mailto:'>
+								<li>
+									CONTACT
+								</li>
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/dashboard'>
+								<li>
+									DASHBOARD
+								</li>
+							</a>
+							<a href='/profile/   username   '>
+								<li>
+									PROFILE
+								</li>
+							</a>
+							<a href='/messages'>
+								<li>
+									MESSAGES
+								</li>
+							</a>
+							<a href='/settings'>
+								<li>
+									SETTINGS 
+								</li>
+							</a>
+							<a href='/logout'>
+								<li>
+									LOGOUT
+								</li>
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/request/submit'>
+								<li>
+									SUBMIT REQUEST
+								</li>
+							</a>
+							<a href='/service/submit'>
+								<li>
+									SUBMIT SERVICE 
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									CATEGORIES
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									LOCATIONS 
+								</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<footer id='footerBlack'>
+			<center>
+				&copy; 2018 TaskCoin
+			</center>
+		</footer>
+	</body>
+</html>

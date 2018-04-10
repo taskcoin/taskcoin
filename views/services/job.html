@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			TaskCoin | Be Your Own Boss
+		</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/css.css" />
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script defer src="/css/fontawesome-all.js"></script>
+		<link rel="stylesheet" href="/css/fontawesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+
+	<body>
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-3">
+						<a href='/'>
+							<img id='logo' src="https://i.imgur.com/EAjp5n9.pngs" />
+						</a>
+					</div>
+					<div class="col-sm-5">
+						<form method="get" action='/search' id='search'>
+							<select name='type'>
+								<option value='requests'>
+									REQUEST
+								</option>
+								<option value='services'>
+									SERVICE
+								</option>
+								<option value='users'>
+									USER
+								</option>
+							</select>
+							<input type="input" id='query' name="query" />
+							<button id='submit' type="submit">
+								<i class="fas fa-search"></i>
+							</button>
+						</form>
+					</div>
+					<div class="col-sm-4">
+						<ul id='loggedIn'>
+							<a href="/profile/<%=user.local.username%>">
+								<li>
+									<%=user.local.username%>
+								</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</header>
+		<br>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div id='jobWrapper'>
+						<div class="container">
+							<div class="row">
+								<div class="col-sm-6">
+									<h4>
+										Job Chat
+									</h4>
+									<form method='post' action='/service/job/<%= jobID %>' class='form-group'>
+										<input type="message" name="message" class='form-control' />
+										<br>
+										<input type="submit" value='SEND' />
+									</form>
+								</div>
+								<div class="col-sm-6">
+									<h4>
+										Job Actions
+									</h4>
+									<div id='actions'>
+										<a href='/service/job/<%= jobID %>/done'>
+											DONE
+										</a>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="container" id='jobChat'>	
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<br>
+		<br>
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<ul>
+							<a href='/'>
+								<li>
+									HOME 
+								</li>
+							</a>
+							<a href='/about'>
+								<li>
+									ABOUT
+								</li>
+							</a>
+							<a href='/blog'>
+								<li>
+									BLOG
+								</li>
+							</a>
+							<a href='mailto:'>
+								<li>
+									CONTACT
+								</li>
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/dashboard'>
+								<li>
+									DASHBOARD
+								</li>
+							</a>
+							<a href='/profile/   username   '>
+								<li>
+									PROFILE
+								</li>
+							</a>
+							<a href='/messages'>
+								<li>
+									MESSAGES
+								</li>
+							</a>
+							<a href='/settings'>
+								<li>
+									SETTINGS 
+								</li>
+							</a>
+							<a href='/logout'>
+								<li>
+									LOGOUT
+								</li>
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/request/submit'>
+								<li>
+									SUBMIT REQUEST
+								</li>
+							</a>
+							<a href='/service/submit'>
+								<li>
+									SUBMIT SERVICE 
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									CATEGORIES
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									LOCATIONS 
+								</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<footer id='footerBlack'>
+			<center>
+				&copy; 2018 TaskCoin
+			</center>
+		</footer>
+	</body>
+
+	<script type="text/javascript">
+		var chats = <%- chats %>;
+		if(chats.length == 0) {
+			$('.col-sm-12').append('<p>Nothing available.</p>');
+		} else {
+			for(var i = 0; i < 10; i++) {
+				$('#jobChat').append("<div class='row'><div class='col-sm-10'><p>"+chats.message+"</p><p id='date'>"+chats.date+"</p></div><div class='col-sm-2'><p>"+chats.poster+"</p></div></div>");
+			};
+		};
+	</script>
+
+</html>

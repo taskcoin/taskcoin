@@ -47,7 +47,8 @@ exports.request = function(req, res) {
 							available: result.available,
 							userLocation: userResult.local.location,
 							userReputation: userResult.local.reputation,
-							userCreated: userResult.local.created
+							userCreated: userResult.local.created,
+							userPicture: userResult.local.pic
 						});
 					});
 				});

@@ -10,7 +10,8 @@ var userSchema = mongoose.Schema({
 		currency: Number,
 		reputation: Number,
 		ip: String,
-		admin: Boolean
+		admin: Boolean,
+		pic: String
 	}
 });
 

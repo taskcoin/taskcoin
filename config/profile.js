@@ -27,6 +27,7 @@ exports.profile = function(req, res) {
 						created: person.local.created,
 						type: 'requests',
 						rep: person.local.reputation,
+						userPicture: person.local.pic,
 						products: JSON.stringify(requestResult)
 					});	
 				});
@@ -56,6 +57,7 @@ exports.services = function(req, res) {
 						created: person.local.created,
 						type: 'services',
 						rep: person.local.reputation,
+						userPicture: person.local.pic,
 						services: JSON.stringify(serivceResult)
 					});	
 				});
@@ -84,6 +86,7 @@ exports.reputation = function(req, res) {
 						location: person.local.location,
 						created: person.local.created,
 						rep: person.local.reputation,
+						userPicture: person.local.pic,
 						type: 'reputation',
 						reputation: JSON.stringify(reputation)
 					});

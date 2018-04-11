@@ -90,3 +90,21 @@ exports.changeLocation = function(req, res) {
 		res.redirect('/');
 	}
 };	
+exports.changePicture = function(req, res) {
+	var picture = striptags(req.body.picture);
+	var username = req.user.local.username;
+
+	if(picture.length > 10) {
+		var Users = mongoose.model('User');
+		Users.findOne({'local.username': username}, function(err, result) {
+			if(err) throw err;
+			result.local.pic = picture;
+			result.save(function(err, result) {
+				if(err) throw err;
+				res.redirect('/settings');
+			});
+		});
+	} else {
+		res.redirect('/settings');
+	}
+};	

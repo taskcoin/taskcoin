@@ -125,21 +125,67 @@
 					</div>
 					<div class="col-sm-4">
 						<ul>
-							<a href='/login'>
+							<% if(user) { %>
+								<a href='/dashboard'>
+									<li>
+										DASHBOARD
+									</li>
+								</a>
+								<a href='/messages'>
+									<li>
+										MESSAGES
+									</li>
+								</a>
+								<a href='/settings'>
+									<li>
+										SETTINGS 
+									</li>
+								</a>
+								<a href='/logout'>
+									<li>
+										LOGOUT
+									</li>
+								</a>
+							<% } else { %>
+								<a href='/login'>
+									<li>
+										LOGIN
+									</li>
+								</a>
+								<a href='/register'>
+									<li>
+										REGISTER
+									</li>
+								</a>
+							<% } %>
+						</ul>
+					</div>
+					<% if(user) { %>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/request/submit'>
 								<li>
-									LOGIN 
+									SUBMIT REQUEST
 								</li>
 							</a>
-							<a href='/register'>
+							<a href='/service/submit'>
 								<li>
-									REGISTER
+									SUBMIT SERVICE 
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									CATEGORIES
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									LOCATIONS 
 								</li>
 							</a>
 						</ul>
 					</div>
-					<div class="col-sm-4">
-						
-					</div>
+					<% } %>
 				</div>
 			</div>
 		</footer>

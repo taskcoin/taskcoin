@@ -43,7 +43,15 @@
 						<ul id='loggedIn'>
 							<a href="/profile/<%=user.local.username%>">
 								<li>
-									<%=user.local.username%>
+									<div id='menuProfilePic'>
+										<img src='<%=user.local.pic%>' height='50px' width='50px' />
+									</div>
+									
+								</li>
+								<li>
+									<p>
+										<%=user.local.username%>
+									</p>
 								</li>
 							</a>
 						</ul>
@@ -66,8 +74,169 @@
 			</div>
 		</header>
 
+		<div id='mainIndexImage'>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<div id='logo'>
+
+						</div>
+						<h1>
+							Be Your Own Boss
+						</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<br>
+					<br>
+					<center>
+						<h2>
+							Benefits of Using TaskCoin
+						</h2>
+					
+						<br>
+						<p>
+							TaskCoin is the first platform and currency where you can earn money or hire labour.
+							<br>
+							<br>
+							Anyone is free to participate and get started. Our core belief is that anyone should be able to get involved.
+						</p>
+					</center>
+					<br>
+					<br>
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class='Cards'>
+									<div class='icon'>
+
+									</div>
+									<h5>
+										ANYONE CAN EARN
+									</h5>
+									<p>
+										Anyone, regardless of any factors, can join TaskCoin and start making money. 
+									</p>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class='Cards'>
+									<div class='icon'>
+										
+									</div>
+									<h5>
+										GET STUFF DONE
+									</h5>
+									<p>
+										If you need work to be done, TaskCoin is the platform for getting it completed.
+									</p>
+								</div>
+								
+							</div>
+							<div class="col-sm-4">
+								<div class='Cards'>
+									<div class='icon'>
+										
+									</div>
+									<h5>
+										YOU OWN WHAT YOU MAKE
+									</h5>
+									<p>
+										We believe what you make is yours to keep. We don't charge any hidden fees.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<br>
+
+		<div id='whitepaper'>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<center>
+							<br>
+							<br>
+							<h2>
+								Want to Know More?
+							</h2>
+							<p>
+								hav a quick squiz at our whitepaper aye 
+							</p>
+							<a href=''>
+								<div id='readWhitepaper'>
+									<p>
+										READ WHITEPAPER
+									</p>
+								</div>
+							</a>
+							<br>
+							<br>
+						</center>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<center>
+						<br>
+						<br>
+						<h2>
+							Our Social Media
+						</h2>
+						<br>
+						<br>
+						<div class="container" id='social'>
+							<div class="row">
+								<div class="col-sm-4">
+									<a href=''>
+										<img src='https://cdn-assets.minds.com/front/dist/assets/logos/bulb.svg' />
+										<br>
+										<br>
+										<center>
+											MINDS
+										</center>
+									</a>
+								</div>
+								<div class="col-sm-4">
+									<a href=''>
+										<img src='https://gab.ai/assets/img/logo.png' />
+										<br>
+										<br>
+										<center>
+											GAB.AI
+										</center>
+									</a>
+								</div>
+								<div class="col-sm-4">
+									<a href=''>
+										<img src='' />
+									</a>
+								</div>
+							</div>
+						</div>
+					</center>
+				</div>
+			</div>
+		</div>
+		<br>
+							<br>
+
 		
-		
+
 		<footer>
 			<div class="container">
 				<div class="row">
@@ -101,11 +270,6 @@
 								<a href='/dashboard'>
 									<li>
 										DASHBOARD
-									</li>
-								</a>
-								<a href='/profile/   username   '>
-									<li>
-										PROFILE
 									</li>
 								</a>
 								<a href='/messages'>

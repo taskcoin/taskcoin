@@ -42,6 +42,7 @@ module.exports = function(app, passport) {
 	app.get('/dashboard', isLoggedIn, user.dashboard);
 
 	app.post('/settings/location', isLoggedIn, user.changeLocation);
+	app.post('/settings/picture', isLoggedIn, user.changePicture);
 
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect:'/dashboard',

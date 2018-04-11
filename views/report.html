@@ -13,19 +13,17 @@
 	</head>
 
 
-	<body id='profile'>
+	<body>
 		<header>
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<a href='/'>
-							<div id='logo'>
-
-							</div>
+							<img id='logo' src="https://i.imgur.com/EAjp5n9.pngs" />
 						</a>
 					</div>
-					<div class='col-sm-7'>
-						<form method="get" action='/search'>
+					<div class="col-sm-5">
+						<form method="get" action='/search' id='search'>
 							<select name='type'>
 								<option value='requests'>
 									REQUEST
@@ -38,64 +36,46 @@
 								</option>
 							</select>
 							<input type="input" id='query' name="query" />
-							<input type="submit" id='submit' value='Search' />
+							<button id='submit' type="submit">
+								<i class="fas fa-search"></i>
+							</button>
 						</form>
-					</div>	
-					<div class="col-sm-3">
-						<% if (user) {%>
-							<div id='loggedIn'>
-								<div id='module'>
-									<div id='username'>
-										<a href='/profile/<%= user.local.username %>'> <%= user.local.username %> 
-										</a>
+					</div>
+					<div class="col-sm-4">
+						<% if (user) { %>
+						<ul id='loggedIn'>
+							<a href="/profile/<%=user.local.username%>">
+								<li>
+									<div id='menuProfilePic'>
+										<img src='<%=user.local.pic%>' height='50px' width='50px' />
 									</div>
-									<div id='photo'>
-										<div id='image'>
-
-										</div>
-									</div>	
-								</div>
-								<div id='menuOptions'>
-									<ul>
-										<li>
-											0 TASKCOIN
-										</li>
-										<a href='/submit'>
-											<li>
-												SUBMIT
-											</li>
-										</a>
-										<a href='/settings'>
-											<li>
-												SETTINGS
-											</li>
-										</a>
-										<a href='/logout'>
-											<li>
-												LOGOUT
-											</li>
-										</a>
-									</ul>
-								</div>
-							</div>
-							<% } else { %>
-							<ul id='notLoggedIn'>
-								<li>
-									<a href='/login'>
-										LOGIN
-									</a>
+									
 								</li>
 								<li>
-									<a href='/register'>
-										REGISTER
-									</a>
+									<p>
+										<%=user.local.username%>
+									</p>
 								</li>
+							</a>
+						</ul>
+						<% } else { %>
+							<ul id='loggedOut'>
+								<a href="/register">
+									<li>
+										<i class="fas fa-user-plus"></i> REGISTER
+									</li>
+								</a>
+								<a href="/login">
+									<li>
+										<i class="fas fa-sign-in-alt"></i> LOGIN
+									</li>
+								</a>
 							</ul>
-							<% } %>
+						<% } %>
 					</div>
 				</div>
 			</div>
-		</header>	
+		</header>
 		<br>
 
 		<div class="container">
@@ -131,60 +111,98 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
-						<h4>
-							Basics
-						</h4>
-						<ul id='basics'>
-							<li>
-								Home
-							</li>
-							<li>
-								About
-							</li>
-							<li>
-								Search
-							</li>
-							<li>
-								TOS
-							</li>
+						<ul>
+							<a href='/'>
+								<li>
+									HOME 
+								</li>
+							</a>
+							<a href='/about'>
+								<li>
+									ABOUT
+								</li>
+							</a>
+							<a href='/blog'>
+								<li>
+									BLOG
+								</li>
+							</a>
+							<a href='mailto:'>
+								<li>
+									CONTACT
+								</li>
+							</a>
 						</ul>
 					</div>
-				<div class="col-sm-4">
-					<h4>
-						User
-					</h4>
-					<ul>
-						<li>
-							Login
-						</li>
-						<li>
-							Register
-						</li>
-					</ul>
-				</div>
-				<div class="col-sm-4">
-					<h4>
-						TaskCoin
-					</h4>
-					<ul>
-						<li>
-							About TaskCoin
-						</li>
-						<li>
-							Buy TaskCoin
-						</li>
-						<li>
-							Sell TaskCoin
-						</li>
-					</ul>
+					<div class="col-sm-4">
+						<ul>
+							<% if(user) { %>
+								<a href='/dashboard'>
+									<li>
+										DASHBOARD
+									</li>
+								</a>
+								<a href='/messages'>
+									<li>
+										MESSAGES
+									</li>
+								</a>
+								<a href='/settings'>
+									<li>
+										SETTINGS 
+									</li>
+								</a>
+								<a href='/logout'>
+									<li>
+										LOGOUT
+									</li>
+								</a>
+							<% } else { %>
+								<a href='/login'>
+									<li>
+										LOGIN
+									</li>
+								</a>
+								<a href='/register'>
+									<li>
+										REGISTER
+									</li>
+								</a>
+							<% } %>
+						</ul>
+					</div>
+					<% if(user) { %>
+					<div class="col-sm-4">
+						<ul>
+							<a href='/request/submit'>
+								<li>
+									SUBMIT REQUEST
+								</li>
+							</a>
+							<a href='/service/submit'>
+								<li>
+									SUBMIT SERVICE 
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									CATEGORIES
+								</li>
+							</a>
+							<a href='/search?type=requests&query='>
+								<li>
+									LOCATIONS 
+								</li>
+							</a>
+						</ul>
+					</div>
+					<% } %>
 				</div>
 			</div>
-		</div>
-			<h1>Task</h1>
 		</footer>
 		<footer id='footerBlack'>
 			<center>
-				&copy; 2018 Task
+				&copy; 2018 TaskCoin
 			</center>
 		</footer>
 	</body>

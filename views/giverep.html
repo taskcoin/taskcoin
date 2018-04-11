@@ -39,13 +39,36 @@
 						</form>
 					</div>
 					<div class="col-sm-4">
+						<% if (user) { %>
 						<ul id='loggedIn'>
 							<a href="/profile/<%=user.local.username%>">
 								<li>
-									<%=user.local.username%>
+									<div id='menuProfilePic'>
+										<img src='<%=user.local.pic%>' height='50px' width='50px' />
+									</div>
+									
+								</li>
+								<li>
+									<p>
+										<%=user.local.username%>
+									</p>
 								</li>
 							</a>
 						</ul>
+						<% } else { %>
+							<ul id='loggedOut'>
+								<a href="/register">
+									<li>
+										<i class="fas fa-user-plus"></i> REGISTER
+									</li>
+								</a>
+								<a href="/login">
+									<li>
+										<i class="fas fa-sign-in-alt"></i> LOGIN
+									</li>
+								</a>
+							</ul>
+						<% } %>
 					</div>
 				</div>
 			</div>
@@ -119,33 +142,42 @@
 					</div>
 					<div class="col-sm-4">
 						<ul>
-							<a href='/dashboard'>
-								<li>
-									DASHBOARD
-								</li>
-							</a>
-							<a href='/profile/   username   '>
-								<li>
-									PROFILE
-								</li>
-							</a>
-							<a href='/messages'>
-								<li>
-									MESSAGES
-								</li>
-							</a>
-							<a href='/settings'>
-								<li>
-									SETTINGS 
-								</li>
-							</a>
-							<a href='/logout'>
-								<li>
-									LOGOUT
-								</li>
-							</a>
+							<% if(user) { %>
+								<a href='/dashboard'>
+									<li>
+										DASHBOARD
+									</li>
+								</a>
+								<a href='/messages'>
+									<li>
+										MESSAGES
+									</li>
+								</a>
+								<a href='/settings'>
+									<li>
+										SETTINGS 
+									</li>
+								</a>
+								<a href='/logout'>
+									<li>
+										LOGOUT
+									</li>
+								</a>
+							<% } else { %>
+								<a href='/login'>
+									<li>
+										LOGIN
+									</li>
+								</a>
+								<a href='/register'>
+									<li>
+										REGISTER
+									</li>
+								</a>
+							<% } %>
 						</ul>
 					</div>
+					<% if(user) { %>
 					<div class="col-sm-4">
 						<ul>
 							<a href='/request/submit'>
@@ -170,6 +202,7 @@
 							</a>
 						</ul>
 					</div>
+					<% } %>
 				</div>
 			</div>
 		</footer>

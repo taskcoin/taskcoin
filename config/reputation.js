@@ -1,6 +1,7 @@
 var Reputation = require('../app/models/reputation');
 var Jobs = require('../app/models/jobs');
 var mongoose = require('mongoose');
+var cleanForm = require('../app/cleanhtml');
 
 exports.giveRep = function(req, res) {
 	var Job = mongoose.model('Job');
@@ -9,7 +10,7 @@ exports.giveRep = function(req, res) {
 		if(result.length == 1) {
 			var job = result._id;
 			var to = result.to;
-			var reason = req.body.reason;
+			var reason = cleanForm(req.body.reason);
 
 			var reputation = mongoose.model('Reputation');
 			var newRep = new reputation();

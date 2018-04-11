@@ -1,17 +1,17 @@
 var User = require('../app/models/user');
 var Request = require('../app/models/requests/request');
 var Service = require('../app/models/services/service');
-var striptags = require('striptags');
 var mongoose = require('mongoose');
+var cleanForm = require('../app/cleanhtml');
 
 exports.index = function(req, res) {
 	var username = req.user.local.username;
-	var type = striptags(req.query.type);
-	var query = striptags(req.query.query);
+	var type = cleanForm(req.query.type);
+	var query = cleanForm(req.query.query);
 
-	var category = striptags(req.query.category);
-	var location = striptags(req.query.location);
-	var delivery = striptags(req.query.delivery);
+	var category = cleanForm(req.query.category);
+	var location = cleanForm(req.query.location);
+	var delivery = cleanForm(req.query.delivery);
 
 	if (type == 'requests') {
 

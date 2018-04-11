@@ -7,12 +7,12 @@ var Request = require('../app/models/requests/request');
 var Message = require('../app/models/message');
 var Offer = require('../app/models/requests/requestoffer');
 var Job = require('../app/models/requests/requestjob');
-var striptags = require('striptags');
+var cleanForm = require('../app/cleanhtml');
 
 /* GET */
 
 exports.job = function(req, res) {
-	var jobID = striptags(req.params.id);
+	var jobID = cleanForm(req.params.id);
 	var username = req.user.local.username;
 	if(jobID.length == 24) {
 
@@ -87,7 +87,7 @@ exports.job = function(req, res) {
 };
 
 exports.accept = function(req, res) {
-	var jobID = striptags(req.params.id);
+	var jobID = cleanForm(req.params.id);
 	var username = req.user.local.username;
 
 	if(jobID.length == 24) {
@@ -163,7 +163,7 @@ exports.accept = function(req, res) {
 };
 
 exports.deny = function(req, res) {
-	var jobID = striptags(req.params.id);
+	var jobID = cleanForm(req.params.id);
 	var username = req.user.local.username;
 
 	if(jobID.length == 24) {
@@ -195,7 +195,7 @@ exports.deny = function(req, res) {
 };
 
 exports.done = function(req, res) {
-	var jobID = striptags(req.params.id);
+	var jobID = cleanForm(req.params.id);
 	var username = req.user.local.username;
 	if(jobID.length == 24) {
 		var job = mongoose.model('requestJob');
@@ -256,9 +256,9 @@ exports.done = function(req, res) {
 /* POST */
 
 exports.chat = function(req, res) {
-	var jobID = striptags(req.params.id);
+	var jobID = cleanForm(req.params.id);
 	var username = req.user.local.username;
-	var message = striptags(req.body.message);
+	var message = cleanForm(req.body.message);
 	if(jobID.length == 24) {
 
 		// CHECK IF JOB EXISTS

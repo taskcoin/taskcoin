@@ -1,5 +1,6 @@
 var localStrategy = require('passport-local').Strategy;
 var User = require('../app/models/user');
+var cleanForm = require('../app/cleanhtml');
 
 module.exports = function(passport) {
 	passport.serializeUser(function(user, done) {
@@ -13,8 +14,8 @@ module.exports = function(passport) {
 	});
 
 	passport.use('local-signup', new localStrategy({
-		usernameField: 'username',
-		passwordField: 'password',
+		usernameField: cleanForm('username'),
+		passwordField: cleanForm('password'),
 		passReqToCallback: true
 	}, 
 	function(req, username, password, done) {
@@ -43,8 +44,8 @@ module.exports = function(passport) {
 	}));
 
 	passport.use('local-login', new localStrategy({
-		usernameField: 'username',
-		passwordField: 'password',
+		usernameField: cleanForm('username'),
+		passwordField: cleanForm('password'),
 		passReqToCallback: true
 	},
 	function(req, username, password, done) {

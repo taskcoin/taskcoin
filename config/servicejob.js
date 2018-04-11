@@ -5,13 +5,11 @@ var Request = require('../app/models/services/service');
 var Message = require('../app/models/message');
 var Offer = require('../app/models/services/serviceoffer');
 var Job = require('../app/models/services/servicejob');
-var striptags = require('striptags');
-
+var cleanForm = require('../app/cleanhtml');
 /* GET */
 
 exports.job = function(req, res) {
-	var jobID = striptags(req.params.id);
-	var username = req.user.local.username;
+	var jobID = cleanForm(req.params.id);
 	if(jobID.length != 24) {
 		res.redirect('/');
 	} else {
@@ -85,7 +83,7 @@ exports.job = function(req, res) {
 };
 
 exports.acceptJob = function(req, res) {
-	var jobID = striptags(req.params.id);
+	var jobID = cleanForm(req.params.id);
 	var username = req.user.local.username;
 
 	if(jobID.length != 24) {
@@ -184,7 +182,7 @@ exports.acceptJob = function(req, res) {
 };
 
 exports.denyJob = function(req, res) {
-	var jobID = striptags(req.params.id);
+	var jobID = cleanForm(req.params.id);
 	var username = req.user.local.username;
 
 	if(jobID.length == 24) {
@@ -235,7 +233,7 @@ exports.denyJob = function(req, res) {
 };
 
 exports.doneJob = function(req, res) {
-	var jobID = striptags(req.params.id);
+	var jobID = cleanForm(req.params.id);
 	var username = req.user.local.username;
 	if(jobID.length == 24) {
 		var job = mongoose.model('serviceJob');
@@ -315,9 +313,9 @@ exports.doneJob = function(req, res) {
 /* POST */
 
 exports.chat = function(req, res) {
-	var jobID = striptags(req.params.id);
+	var jobID = cleanForm(req.params.id);
 	var username = req.user.local.username;
-	var message = striptags(req.body.message);
+	var message = cleanForm(req.body.message);
 	if(jobID.length == 24) {
 
 		// CHECK IF JOB EXISTS

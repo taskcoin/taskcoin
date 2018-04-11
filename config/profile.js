@@ -1,13 +1,13 @@
 var User = require('../app/models/user');
 var Job = require('../app/models/requests/requestjob.js');
 var mongoose = require('mongoose');
-var striptags = require('striptags');
 var Reputation = require('../app/models/reputation');
+var cleanForm = require('../app/cleanhtml');
 
 /* GET */
 
 exports.profile = function(req, res) {
-	var username = striptags(req.params.user);
+	var username = cleanForm(req.params.user);
 	if (username.length < 3) {
 		res.redirect('/');
 	} else {
@@ -37,7 +37,7 @@ exports.profile = function(req, res) {
 };
 
 exports.services = function(req, res) {
-	var username = req.params.user;
+	var username = cleanForm(req.params.user);
 	if (username.length < 3) {
 		res.redirect('/');
 	} else {
@@ -67,7 +67,7 @@ exports.services = function(req, res) {
 };
 
 exports.reputation = function(req, res) {
-	var username = req.params.user;
+	var username = cleanForm(req.params.user);
 	if (username.length < 3) {
 		res.redirect('/');
 	} else {
@@ -105,10 +105,10 @@ exports.giveRep = function(req, res) {
 };
 
 exports.giveReputation = function(req, res) {
-	var receiver = striptags(req.params.user);
-	var giver = striptags(req.user.local.username);
-	var reason = striptags(req.body.reason);
-	var posOrNeg = striptags(req.body.posOrNeg);
+	var receiver = cleanForm(req.params.user);
+	var giver = cleanForm(req.user.local.username);
+	var reason = cleanForm(req.body.reason);
+	var posOrNeg = cleanForm(req.body.posOrNeg);
 	var date = Date.now();
 
 	var Job = mongoose.model('Job');

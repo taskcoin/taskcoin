@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 var Service = require('../app/models/services/service');
 var serviceOffer = require('../app/models/services/serviceoffer');
 var Message = require('../app/models/message');
-var striptags = require('striptags');
 var serviceJob = require('../app/models/services/servicejob');
 var Transaction = require('../app/models/transactions');
+var cleanForm = require('../app/cleanhtml');
 
 /* GET */
 
@@ -16,7 +16,7 @@ exports.submit = function(req, res) {
 };
 
 exports.service = function(req, res) {
-	var serviceID = req.params.id;
+	var serviceID = cleanForm(req.params.id);
 	if (serviceID.length == 24) {
 		var service = mongoose.model('Service');
 		service.findOne({'_id': serviceID}, function(err, result) {
@@ -62,7 +62,7 @@ exports.service = function(req, res) {
 }
 
 exports.offers = function(req, res) {
-	var serviceID = striptags(req.params.id);
+	var serviceID = cleanForm(req.params.id);
 	var username = req.user.local.username;
 	if (serviceID.length == 24) {
 		var service = mongoose.model('Service');
@@ -110,7 +110,7 @@ exports.offers = function(req, res) {
 }
 
 exports.order = function(req, res) {
-	var serviceID = striptags(req.params.id);
+	var cleanForm = striptags(req.params.id);
 	var username = req.user.local.username;
 
 	if(serviceID.length == 24) {
@@ -168,9 +168,9 @@ exports.report = function(req, res) {
 exports.orderService = function(req, res) {
 	process.nextTick(function() {
 		var query = {
-			serviceID: striptags(req.params.id),
-			offer: striptags(req.body.offer),
-			extraMessage: striptags(req.body.extra)
+			serviceID: cleanForm(req.params.id),
+			offer: cleanForm(req.body.offer),
+			extraMessage: cleanForm(req.body.extra)
 		}
 		if (query.serviceID.length == 24) {
 
@@ -267,14 +267,14 @@ exports.orderService = function(req, res) {
 exports.postSubmit = function(req, res) {
 	process.nextTick(function() {
 		var query = {
-			title: striptags(req.body.title),
-			type: striptags(req.body.type),
-			price: striptags(req.body.price),
-			category: striptags(req.body.category),
-			location: striptags(req.body.location),
-			delivery: striptags(req.body.delivery),
-			description: striptags(req.body.description),
-			offerer: striptags(req.user.local.username)
+			title: cleanForm(req.body.title),
+			type: cleanForm(req.body.type),
+			price: cleanForm(req.body.price),
+			category: cleanForm(req.body.category),
+			location: cleanForm(req.body.location),
+			delivery: cleanForm(req.body.delivery),
+			description: cleanForm(req.body.description),
+			offerer: cleanForm(req.user.local.username)
 		}
 		function redirectSubmit(reason) {
 			res.render('services/submit', {

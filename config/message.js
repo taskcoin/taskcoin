@@ -1,6 +1,6 @@
 var Message = require('../app/models/message');
 var mongoose = require('mongoose');
-var striptags = require('striptags');
+var cleanForm = require('../app/cleanhtml');
 
 /* GET */
 
@@ -46,9 +46,9 @@ exports.postCompose = function(req, res) {
 	process.nextTick(function() {
 		var query = {
 			from: req.user.local.username,
-			to: striptags(req.body.to),
-			subject: striptags(req.body.subject),
-			content: striptags(req.body.content)
+			to: cleanForm(req.body.to),
+			subject: cleanForm(req.body.subject),
+			content: cleanForm(req.body.content)
 		}
 
 		function redirectMessage(reason) {

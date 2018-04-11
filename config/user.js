@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
-var striptags = require('striptags');
 var User = require('../app/models/user');
 var requestJob = require('../app/models/requests/requestjob');
 var serviceJob = require('../app/models/services/servicejob');
+var cleanForm = require('../app/cleanhtml');
 
 /* GET */
 
@@ -73,7 +73,7 @@ exports.postRegister = function(app, passport) {
 };*/
 
 exports.changeLocation = function(req, res) {
-	var location = striptags(req.body.location);
+	var location = cleanForm(req.body.location);
 	var username = req.user.local.username;
 
 	if(location.length == 3) {
@@ -91,7 +91,7 @@ exports.changeLocation = function(req, res) {
 	}
 };	
 exports.changePicture = function(req, res) {
-	var picture = striptags(req.body.picture);
+	var picture = cleanForm(req.body.picture);
 	var username = req.user.local.username;
 
 	if(picture.length > 10) {

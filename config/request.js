@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Request = require('../app/models/requests/request');
 var requestOffer = require('../app/models/requests/requestoffer');
 var Message = require('../app/models/message');
-var cleanForm = require('../app/cleanhtml');
+var sanitize = require('html-css-sanitizer').sanitize;
 
 /* GET */
 
@@ -14,7 +14,7 @@ exports.submit = function(req, res) {
 };
 
 exports.request = function(req, res) {
-	var requestID = cleanForm(req.params.id);
+	var requestID = sanitize(req.params.id);
 	if (requestID.length == 24) {
 		var request = mongoose.model('Request');
 		request.findOne({'_id': requestID}, function(err, result) {
@@ -60,7 +60,7 @@ exports.request = function(req, res) {
 }
 
 exports.offers = function(req, res) {
-	var requestID = cleanForm(req.params.id);
+	var requestID = sanitize(req.params.id);
 	var username = req.user.local.username;
 	if (requestID.length == 24) {
 		var request = mongoose.model('Request');
@@ -108,7 +108,7 @@ exports.offers = function(req, res) {
 }
 
 exports.order = function(req, res) {
-	var requestID = cleanForm(req.params.id);
+	var requestID = sanitize(req.params.id);
 	var username = req.user.local.username;
 
 	if(requestID.length == 24) {
@@ -166,9 +166,9 @@ exports.report = function(req, res) {
 exports.orderProduct = function(req, res) {
 	process.nextTick(function() {
 		var query = {
-			requestID: cleanForm(req.params.id),
-			offer: cleanForm(req.body.offer),
-			extraMessage: cleanForm(req.body.extra)
+			requestID: sanitize(req.params.id),
+			offer: sanitize(req.body.offer),
+			extraMessage: sanitize(req.body.extra)
 		}
 		if (query.requestID.length == 24) {
 			var requests = mongoose.model('Request');
@@ -222,14 +222,14 @@ exports.orderProduct = function(req, res) {
 exports.postSubmit = function(req, res) {
 	process.nextTick(function() {
 		var query = {
-			title: cleanForm(req.body.title),
-			type: cleanForm(req.body.type),
-			price: cleanForm(req.body.price),
-			category: cleanForm(req.body.category),
-			location: cleanForm(req.body.location),
-			delivery: cleanForm(req.body.delivery),
-			description: cleanForm(req.body.description),
-			offerer: cleanForm(req.user.local.username)
+			title: sanitize(req.body.title),
+			type: sanitize(req.body.type),
+			price: sanitize(req.body.price),
+			category: sanitize(req.body.category),
+			location: sanitize(req.body.location),
+			delivery: sanitize(req.body.delivery),
+			description: sanitize(req.body.description),
+			offerer: sanitize(req.user.local.username)
 		}
 		function redirectSubmit(reason) {
 			res.render('requests/submit', {
@@ -409,9 +409,9 @@ exports.postSubmit = function(req, res) {
 };
 
 exports.reportSubmit = function(req, res) {
-	var title = cleanForm(req.body.title);
-	var reason = cleanForm(req.body.reason);
-	var requestID = cleanForm(req.params.id);
+	var title = sanitize(req.body.title);
+	var reason = sanitize(req.body.reason);
+	var requestID = sanitize(req.params.id);
 	function renderSubmit(reason) {
 		res.render('report', {
 			user: req.user,

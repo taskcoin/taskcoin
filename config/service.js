@@ -4,7 +4,7 @@ var serviceOffer = require('../app/models/services/serviceoffer');
 var Message = require('../app/models/message');
 var serviceJob = require('../app/models/services/servicejob');
 var Transaction = require('../app/models/transactions');
-var cleanForm = require('../app/cleanhtml');
+var sanitize = require('html-css-sanitizer').sanitize;
 
 /* GET */
 
@@ -16,7 +16,7 @@ exports.submit = function(req, res) {
 };
 
 exports.service = function(req, res) {
-	var serviceID = cleanForm(req.params.id);
+	var serviceID = sanitize(req.params.id);
 	if (serviceID.length == 24) {
 		var service = mongoose.model('Service');
 		service.findOne({'_id': serviceID}, function(err, result) {
@@ -62,7 +62,7 @@ exports.service = function(req, res) {
 }
 
 exports.offers = function(req, res) {
-	var serviceID = cleanForm(req.params.id);
+	var serviceID = sanitize(req.params.id);
 	var username = req.user.local.username;
 	if (serviceID.length == 24) {
 		var service = mongoose.model('Service');
@@ -110,7 +110,7 @@ exports.offers = function(req, res) {
 }
 
 exports.order = function(req, res) {
-	var cleanForm = striptags(req.params.id);
+	var cleanForm = sanitize(req.params.id);
 	var username = req.user.local.username;
 
 	if(serviceID.length == 24) {
@@ -168,9 +168,9 @@ exports.report = function(req, res) {
 exports.orderService = function(req, res) {
 	process.nextTick(function() {
 		var query = {
-			serviceID: cleanForm(req.params.id),
-			offer: cleanForm(req.body.offer),
-			extraMessage: cleanForm(req.body.extra)
+			serviceID: sanitize(req.params.id),
+			offer: sanitize(req.body.offer),
+			extraMessage: sanitize(req.body.extra)
 		}
 		if (query.serviceID.length == 24) {
 
@@ -267,14 +267,14 @@ exports.orderService = function(req, res) {
 exports.postSubmit = function(req, res) {
 	process.nextTick(function() {
 		var query = {
-			title: cleanForm(req.body.title),
-			type: cleanForm(req.body.type),
-			price: cleanForm(req.body.price),
-			category: cleanForm(req.body.category),
-			location: cleanForm(req.body.location),
-			delivery: cleanForm(req.body.delivery),
-			description: cleanForm(req.body.description),
-			offerer: cleanForm(req.user.local.username)
+			title: sanitize(req.body.title),
+			type: sanitize(req.body.type),
+			price: sanitize(req.body.price),
+			category: sanitize(req.body.category),
+			location: sanitize(req.body.location),
+			delivery: sanitize(req.body.delivery),
+			description: sanitize(req.body.description),
+			offerer: sanitize(req.user.local.username)
 		}
 		function redirectSubmit(reason) {
 			res.render('services/submit', {

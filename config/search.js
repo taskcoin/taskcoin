@@ -2,16 +2,16 @@ var User = require('../app/models/user');
 var Request = require('../app/models/requests/request');
 var Service = require('../app/models/services/service');
 var mongoose = require('mongoose');
-var cleanForm = require('../app/cleanhtml');
+var sanitize = require('html-css-sanitizer').sanitize;
 
 exports.index = function(req, res) {
 	var username = req.user.local.username;
-	var type = cleanForm(req.query.type);
-	var query = cleanForm(req.query.query);
+	var type = sanitize(req.query.type);
+	var query = sanitize(req.query.query);
 
-	var category = cleanForm(req.query.category);
-	var location = cleanForm(req.query.location);
-	var delivery = cleanForm(req.query.delivery);
+	var category = sanitize(req.query.category);
+	var location = sanitize(req.query.location);
+	var delivery = sanitize(req.query.delivery);
 
 	if (type == 'requests') {
 

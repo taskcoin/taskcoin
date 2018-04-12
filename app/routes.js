@@ -3,8 +3,6 @@ var User = require('../app/models/user');
 var Request = require('../app/models/requests/request');
 var Message = require('../app/models/message');
 var Offer = require('../app/models/requests/requestoffer.js');
-var striptags = require('striptags');
-
 
 module.exports = function(app, passport) {
 	function isLoggedIn(req, res, next) {

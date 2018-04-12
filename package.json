@@ -12,12 +12,15 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "google-caja": "0.0.2",
+    "html-css-sanitizer": "0.0.3",
     "mongodb": "^3.0.3",
     "mongoose": "^5.0.14",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "striptags": "^3.1.1"
+    "strip-js": "^1.2.0",
+    "striptags": "^3.1.1",
+    "xss": "^0.3.7"
   },
   "devDependencies": {},
   "scripts": {

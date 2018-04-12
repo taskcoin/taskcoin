@@ -76,7 +76,7 @@ exports.offers = function(req, res) {
 				// CHECK IF JOB EXISTS ALREADY, IF SO REDIRECT TO JOB
 
 				var jobModel = mongoose.model('requestJob');
-				jobModel.findOne({'requestID': requestID}, function(err, jobResult) {
+				jobModel.findOne({'requestID': requestID, 'completed': 0}, function(err, jobResult) {
 					if(jobResult == null) {
 
 						// CHECK IF REQUEST IS AVAILABLE AND CAN ACCEPT OFFERS, OTHERWISE REDIRECT TO PRODUCT PAGE
@@ -225,10 +225,10 @@ exports.postSubmit = function(req, res) {
 			title: sanitize(req.body.title).replace(/[^a-z0-9]/gi,''),
 			type: sanitize(req.body.type).replace(/[^a-z0-9]/gi,''),
 			price: sanitize(req.body.price).replace(/[^a-z0-9]/gi,''),
-			category: sanitize(req.body.category).replace(/[^a-z0-9]/gi,''),
+			category: sanitize(req.body.category),
 			location: sanitize(req.body.location).replace(/[^a-z0-9]/gi,''),
 			delivery: sanitize(req.body.delivery).replace(/[^a-z0-9]/gi,''),
-			description: sanitize(req.body.description).replace(/[^a-z0-9]/gi,''),
+			description: sanitize(req.body.description),
 			offerer: sanitize(req.user.local.username).replace(/[^a-z0-9]/gi,'')
 		}
 		function redirectSubmit(reason) {
@@ -273,7 +273,7 @@ exports.postSubmit = function(req, res) {
 										else {
 										 */	
 
-										 	if(query.category == 'Art & Design' || query.category == 'Marketing' || query.category == 'Content' || query.category == 'Videos' || query.category == 'Audio' || query.category == 'Programming' || query.category == 'Business' || query.category == 'Lifestyle' || query.category == 'Websites' || query.category == 'Computers' || query.category == 'Homes' || query.category == 'Cars' || query.category == 'Property' || query.category == 'Furniture' || query.category == 'Plumbing' || query.category == 'Miscellaneous') {
+										 	if(query.category == 'Art and Design' || query.category == 'Marketing' || query.category == 'Content' || query.category == 'Videos' || query.category == 'Audio' || query.category == 'Programming' || query.category == 'Business' || query.category == 'Lifestyle' || query.category == 'Websites' || query.category == 'Computers' || query.category == 'Homes' || query.category == 'Cars' || query.category == 'Property' || query.category == 'Furniture' || query.category == 'Plumbing' || query.category == 'Miscellaneous') {
 										 		
 										 		// MAKE SURE USER HAS ENOUGH BALANCE 
 

@@ -24,11 +24,34 @@ exports.job = function(req, res) {
 				res.redirect('/');
 			} else {
 				if(jobResult.completed == 1) {
-					res.redirect('request/'+jobResult.requestID);
+					res.redirect('/request/'+jobResult.requestID);
 				} else {
 					if(jobResult.from == username) {
 
-					// CHECK CHATS & RENDER THEM IF USERB
+						// CHECK CHATS & RENDER THEM IF USERB
+
+						var jobChats = mongoose.model('requestJobChat');
+						jobChats.find({'offerID': jobID}, function(err, result) {
+							if(err) throw err;
+							if(result == null) {
+								res.render('requests/job', {
+									user: req.user,
+									jobID: jobResult._id,
+									requestID: jobResult.requestID,
+									chats: 'na'	
+								});
+							} else {
+								res.render('requests/job', {
+									user: req.user,
+									jobID: jobResult._id,
+									requestID: jobResult.requestID,
+									chats: JSON.stringify(result)	
+								});
+							}
+						});
+					} else if(jobResult.to == username) {
+
+						// CHECK CHATS & RENDER THEM IF USERA
 
 						var jobChats = mongoose.model('requestJobChat');
 						jobChats.find({'offerID': jobID}, function(err, result) {
@@ -50,35 +73,9 @@ exports.job = function(req, res) {
 							}
 						});
 					} else {
-						if(jobResult.to == username) {
-
-							// CHECK CHATS & RENDER THEM IF USERA
-
-							var jobChats = mongoose.model('requestJobChat');
-							jobChats.find({'offerID': jobID}, function(err, result) {
-								if(err) throw err;
-								if(result == null) {
-									res.render('requests/job', {
-										user: req.user,
-										jobID: jobResult._id,
-										requestID: jobResult.requestID,
-										chats: 'na'	
-									});
-								} else {
-									res.render('requests/job', {
-										user: req.user,
-										jobID: jobResult._id,
-										requestID: jobResult.requestID,
-										chats: JSON.stringify(result)	
-									});
-								}
-							});
-						} else {
-							res.redirect('/request/'+result.requestID);
-						}
+						res.redirect('/request/'+result.requestID);
 					}
 				}
-				
 			}	
 		});
 	} else {
@@ -240,7 +237,7 @@ exports.done = function(req, res) {
 					// FINISH JOB, GIVE REPUTATION
 
 					jobResult.canGiveRep = 1;
-					jobResult.completed = 1
+					jobResult.completed = 1;
 					jobResult.save(function(err, result) {
 						if(err) throw err;
 						res.redirect('/request/' + jobResult.requestID);

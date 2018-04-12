@@ -269,10 +269,10 @@ exports.postSubmit = function(req, res) {
 			title: sanitize(req.body.title).replace(/[^a-z0-9]/gi,''),
 			type: sanitize(req.body.type).replace(/[^a-z0-9]/gi,''),
 			price: sanitize(req.body.price).replace(/[^a-z0-9]/gi,''),
-			category: sanitize(req.body.category).replace(/[^a-z0-9]/gi,''),
+			category: sanitize(req.body.category),
 			location: sanitize(req.body.location).replace(/[^a-z0-9]/gi,''),
 			delivery: sanitize(req.body.delivery).replace(/[^a-z0-9]/gi,''),
-			description: sanitize(req.body.description).replace(/[^a-z0-9]/gi,''),
+			description: sanitize(req.body.description),
 			offerer: sanitize(req.user.local.username).replace(/[^a-z0-9]/gi,'')
 		}
 		function redirectSubmit(reason) {

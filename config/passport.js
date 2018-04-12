@@ -1,6 +1,7 @@
 var localStrategy = require('passport-local').Strategy;
 var User = require('../app/models/user');
 var sanitize = require('strip-js');
+var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(passport) {
 	passport.serializeUser(function(user, done) {
@@ -53,8 +54,14 @@ module.exports = function(passport) {
 		User.findOne({'local.username': username.replace(/[^a-z0-9]/gi,'')}, function(err, user) {
 			if(err) return done(err);
 			if(!user) return done(null, false, req.flash('loginMessage', 'No user found.'));
-			if (!user.validPassword(password)) return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-			return done(null, user);
+
+			// PASSWORD CHECKING
+
+			if(bcrypt.hashSync(password, user.local.password) == user.local.password) {
+				return done(null, user);
+			} else {
+				return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+			}
 		});
 	}));
 }

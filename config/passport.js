@@ -33,6 +33,7 @@ module.exports = function(passport) {
 					newUser.local.currency = 1000;
 					newUser.local.reputation = 0;
 					newUser.local.admin = 0;
+					newUser.local.ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 					newUser.local.pic = 'https://i.imgur.com/ojhClua.jpg';
 					newUser.save(function(err) {
 						if(err) throw err;

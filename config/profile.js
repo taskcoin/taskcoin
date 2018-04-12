@@ -2,7 +2,6 @@ var User = require('../app/models/user');
 var Job = require('../app/models/requests/requestjob.js');
 var mongoose = require('mongoose');
 var Reputation = require('../app/models/reputation');
-var cleanForm = require('../app/cleanhtml');
 var sanitize = require('html-css-sanitizer').sanitize;
 
 /* GET */

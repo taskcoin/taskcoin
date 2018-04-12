@@ -1,6 +1,6 @@
 var localStrategy = require('passport-local').Strategy;
 var User = require('../app/models/user');
-var sanitize = require('html-css-sanitizer').sanitize;
+var sanitize = require('strip-js');
 
 module.exports = function(passport) {
 	passport.serializeUser(function(user, done) {
@@ -14,19 +14,19 @@ module.exports = function(passport) {
 	});
 
 	passport.use('local-signup', new localStrategy({
-		usernameField: sanitize('username'),
-		passwordField: sanitize('password'),
+		usernameField: sanitize('username').replace(/[^a-z0-9]/gi,''),
+		passwordField: sanitize('password').replace(/[^a-z0-9]/gi,''),
 		passReqToCallback: true
 	}, 
 	function(req, username, password, done) {
 		process.nextTick(function() {
-			User.findOne({'local.username': username}, function(err, user) {
+			User.findOne({'local.username': username.replace(/[^a-z0-9]/gi,'')}, function(err, user) {
 				if(err) return done(err);
 				if(user) {
 					return done(null, false, req.flash('signupMessage', 'That username is already taken.'));
 				} else {
 					var newUser = new User();
-					newUser.local.username = username;
+					newUser.local.username = username.replace(/[^a-z0-9]/gi,'');
 					newUser.local.password = newUser.generateHash(password);
 					newUser.local.created = Date.now();
 					newUser.local.location = 'Global';
@@ -45,12 +45,12 @@ module.exports = function(passport) {
 	}));
 
 	passport.use('local-login', new localStrategy({
-		usernameField: sanitize('username'),
-		passwordField: sanitize('password'),
+		usernameField: sanitize('username').replace(/[^a-z0-9]/gi,''),
+		passwordField: sanitize('password').replace(/[^a-z0-9]/gi,''),
 		passReqToCallback: true
 	},
 	function(req, username, password, done) {
-		User.findOne({'local.username': username}, function(err, user) {
+		User.findOne({'local.username': username.replace(/[^a-z0-9]/gi,'')}, function(err, user) {
 			if(err) return done(err);
 			if(!user) return done(null, false, req.flash('loginMessage', 'No user found.'));
 			if (!user.validPassword(password)) return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));

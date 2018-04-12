@@ -18,6 +18,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "sanitize-html": "^1.18.2",
     "strip-js": "^1.2.0",
     "striptags": "^3.1.1",
     "xss": "^0.3.7"

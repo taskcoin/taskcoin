@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Request = require('../app/models/requests/request');
 var requestOffer = require('../app/models/requests/requestoffer');
 var Message = require('../app/models/message');
-var sanitize = require('html-css-sanitizer').sanitize;
+var sanitize = require('strip-js');
 
 /* GET */
 
@@ -14,7 +14,7 @@ exports.submit = function(req, res) {
 };
 
 exports.request = function(req, res) {
-	var requestID = sanitize(req.params.id);
+	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
 	if (requestID.length == 24) {
 		var request = mongoose.model('Request');
 		request.findOne({'_id': requestID}, function(err, result) {
@@ -60,7 +60,7 @@ exports.request = function(req, res) {
 }
 
 exports.offers = function(req, res) {
-	var requestID = sanitize(req.params.id);
+	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
 	var username = req.user.local.username;
 	if (requestID.length == 24) {
 		var request = mongoose.model('Request');
@@ -108,7 +108,7 @@ exports.offers = function(req, res) {
 }
 
 exports.order = function(req, res) {
-	var requestID = sanitize(req.params.id);
+	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
 	var username = req.user.local.username;
 
 	if(requestID.length == 24) {
@@ -166,9 +166,9 @@ exports.report = function(req, res) {
 exports.orderProduct = function(req, res) {
 	process.nextTick(function() {
 		var query = {
-			requestID: sanitize(req.params.id),
-			offer: sanitize(req.body.offer),
-			extraMessage: sanitize(req.body.extra)
+			requestID: sanitize(req.params.id).replace(/[^a-z0-9]/gi,''),
+			offer: sanitize(req.body.offer).replace(/[^a-z0-9]/gi,''),
+			extraMessage: sanitize(req.body.extra).replace(/[^a-z0-9]/gi,'')
 		}
 		if (query.requestID.length == 24) {
 			var requests = mongoose.model('Request');
@@ -222,14 +222,14 @@ exports.orderProduct = function(req, res) {
 exports.postSubmit = function(req, res) {
 	process.nextTick(function() {
 		var query = {
-			title: sanitize(req.body.title),
-			type: sanitize(req.body.type),
-			price: sanitize(req.body.price),
-			category: sanitize(req.body.category),
-			location: sanitize(req.body.location),
-			delivery: sanitize(req.body.delivery),
-			description: sanitize(req.body.description),
-			offerer: sanitize(req.user.local.username)
+			title: sanitize(req.body.title).replace(/[^a-z0-9]/gi,''),
+			type: sanitize(req.body.type).replace(/[^a-z0-9]/gi,''),
+			price: sanitize(req.body.price).replace(/[^a-z0-9]/gi,''),
+			category: sanitize(req.body.category).replace(/[^a-z0-9]/gi,''),
+			location: sanitize(req.body.location).replace(/[^a-z0-9]/gi,''),
+			delivery: sanitize(req.body.delivery).replace(/[^a-z0-9]/gi,''),
+			description: sanitize(req.body.description).replace(/[^a-z0-9]/gi,''),
+			offerer: sanitize(req.user.local.username).replace(/[^a-z0-9]/gi,'')
 		}
 		function redirectSubmit(reason) {
 			res.render('requests/submit', {
@@ -409,9 +409,9 @@ exports.postSubmit = function(req, res) {
 };
 
 exports.reportSubmit = function(req, res) {
-	var title = sanitize(req.body.title);
-	var reason = sanitize(req.body.reason);
-	var requestID = sanitize(req.params.id);
+	var title = sanitize(req.body.title).replace(/[^a-z0-9]/gi,'');
+	var reason = sanitize(req.body.reason).replace(/[^a-z0-9]/gi,'');
+	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
 	function renderSubmit(reason) {
 		res.render('report', {
 			user: req.user,

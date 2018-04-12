@@ -1,7 +1,7 @@
 var Reputation = require('../app/models/reputation');
 var Jobs = require('../app/models/jobs');
 var mongoose = require('mongoose');
-var sanitize = require('html-css-sanitizer').sanitize;
+var sanitize = require('strip-js');
 
 exports.giveRep = function(req, res) {
 	var Job = mongoose.model('Job');
@@ -10,7 +10,7 @@ exports.giveRep = function(req, res) {
 		if(result.length == 1) {
 			var job = result._id;
 			var to = result.to;
-			var reason = sanitize(req.body.reason);
+			var reason = sanitize(req.body.reason).replace(/[^a-z0-9]/gi,'');
 
 			var reputation = mongoose.model('Reputation');
 			var newRep = new reputation();

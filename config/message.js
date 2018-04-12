@@ -1,6 +1,6 @@
 var Message = require('../app/models/message');
 var mongoose = require('mongoose');
-var sanitize = require('html-css-sanitizer').sanitize;
+var sanitize = require('strip-js');
 
 /* GET */
 
@@ -46,9 +46,9 @@ exports.postCompose = function(req, res) {
 	process.nextTick(function() {
 		var query = {
 			from: req.user.local.username,
-			to: sanitize(req.body.to),
-			subject: sanitize(req.body.subject),
-			content: sanitize(req.body.content)
+			to: sanitize(req.body.to).replace(/[^a-z0-9]/gi,''),
+			subject: sanitize(req.body.subject).replace(/[^a-z0-9]/gi,''),
+			content: sanitize(req.body.content).replace(/[^a-z0-9]/gi,'')
 		}
 
 		function redirectMessage(reason) {

@@ -2,12 +2,12 @@ var User = require('../app/models/user');
 var Job = require('../app/models/requests/requestjob.js');
 var mongoose = require('mongoose');
 var Reputation = require('../app/models/reputation');
-var sanitize = require('html-css-sanitizer').sanitize;
+var sanitize = require('strip-js');
 
 /* GET */
 
 exports.profile = function(req, res) {
-	var username = sanitize(req.params.user);
+	var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
 	if (username.length < 3) {
 		res.redirect('/');
 	} else {
@@ -37,7 +37,7 @@ exports.profile = function(req, res) {
 };
 
 exports.services = function(req, res) {
-	var username = sanitize(req.params.user);
+	var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
 	if (username.length < 3) {
 		res.redirect('/');
 	} else {
@@ -67,7 +67,7 @@ exports.services = function(req, res) {
 };
 
 exports.reputation = function(req, res) {
-	var username = sanitize(req.params.user);
+	var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
 	if (username.length < 3) {
 		res.redirect('/');
 	} else {
@@ -105,10 +105,10 @@ exports.giveRep = function(req, res) {
 };
 
 exports.giveReputation = function(req, res) {
-	var receiver = sanitize(req.params.user);
-	var giver = sanitize(req.user.local.username);
-	var reason = sanitize(req.body.reason);
-	var posOrNeg = sanitize(req.body.posOrNeg);
+	var receiver = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
+	var giver = sanitize(req.user.local.username).replace(/[^a-z0-9]/gi,'');
+	var reason = sanitize(req.body.reason).replace(/[^a-z0-9]/gi,'');
+	var posOrNeg = sanitize(req.body.posOrNeg).replace(/[^a-z0-9]/gi,'');
 	var date = Date.now();
 
 	var Job = mongoose.model('Job');

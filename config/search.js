@@ -2,16 +2,16 @@ var User = require('../app/models/user');
 var Request = require('../app/models/requests/request');
 var Service = require('../app/models/services/service');
 var mongoose = require('mongoose');
-var sanitize = require('html-css-sanitizer').sanitize;
+var sanitize = require('strip-js');
 
 exports.index = function(req, res) {
 	var username = req.user.local.username;
-	var type = sanitize(req.query.type);
-	var query = sanitize(req.query.query);
+	var type = sanitize(req.query.type).replace(/[^a-z0-9]/gi,'');
+	var query = sanitize(req.query.query).replace(/[^a-z0-9]/gi,'');
 
-	var category = sanitize(req.query.category);
-	var location = sanitize(req.query.location);
-	var delivery = sanitize(req.query.delivery);
+	var category = sanitize(req.query.category).replace(/[^a-z0-9]/gi,'');
+	var location = sanitize(req.query.location).replace(/[^a-z0-9]/gi,'');
+	var delivery = sanitize(req.query.delivery).replace(/[^a-z0-9]/gi,'');
 
 	if (type == 'requests') {
 

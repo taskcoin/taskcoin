@@ -290,6 +290,25 @@ footer ul li {
 	padding-bottom: 10px;
 }
 
+#activeJobs #jobs {
+	padding: 0px 0px;
+}
+#activeJobs #jobs li {
+	list-style-type: none;
+	width: 100%;
+	border: 1px solid #ddd;
+	background-color: white;
+	border-radius: 3px;
+	margin-bottom: 15px;
+}
+#activeJobs #jobs li p {
+	margin: 25px 25px;
+}
+#activeJobs #jobs li a {
+	float: right;
+	margin: -48px 25px;
+}
+
 /* REQUEST */
 
 

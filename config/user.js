@@ -41,37 +41,37 @@ exports.dashboard = function(req, res) {
 		} else {
 
 			// RENDER TRANSACTIONS
+
 			var transactions = mongoose.model('Transaction');
 			transactions.find({'userA': username}, function(err, transactions) {
-				res.render('dashboard', {
-					user: req.user,
-					userInfo: person,
-					transactions: JSON.stringify(transactions)
+				if(err) throw err;
+
+				// RENDER REQUEST JOBS
+
+				var requests = mongoose.model('requestJob');
+
+				requests.find({$or: [{'from': username}, {'to': username}]}, function(err, requests) {
+					if(err) throw err;
+
+					// RENDER SERVICE JOBS
+
+					var services = mongoose.model('serviceJob');
+					services.find({$or: [{'seller': username}, {'customer': username}]}, function(err, services) {
+						res.render('dashboard', {
+							user: req.user,
+							userInfo: person,
+							transactions: JSON.stringify(transactions),
+							requestJobs: JSON.stringify(requests),
+							serviceJobs: JSON.stringify(services)
+						});
+					});
 				});
 			});
-
-			
 		}
 	});
 };
 
-/* POST 
-
-exports.postLogin = function(app, passport) {
-	passport.authenticate('local-login', {
-		successRedirect: '/',
-		failureRedirect: '/login',
-		failureFlash: true
-	});
-};
-
-exports.postRegister = function(app, passport) {
-	passport.authenticate('local-signup', {
-		successRedirect:'/',
-		failureRedirect: '/register', 
-		failureFlash: true
-	});
-};*/
+/* POST */
 
 exports.changeLocation = function(req, res) {
 	var location = sanitize(req.body.location).replace(/[^a-z0-9]/gi,'');
@@ -91,6 +91,7 @@ exports.changeLocation = function(req, res) {
 		res.redirect('/');
 	}
 };	
+
 exports.changePicture = function(req, res) {
 	var picture = sanitize(req.body.picture).replace(/[^a-z0-9]/gi,'');
 	var username = req.user.local.username;

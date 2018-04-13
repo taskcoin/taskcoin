@@ -155,23 +155,31 @@
 							</div>
 						<% } %>	
 						<br>
+						<% if(requestJobs.length != 0) { %>
 						<div id='activeJobs'>
 							<div id='wrapper'>
 								<h5>
-									Active Jobs
+									Request Jobs
 								</h5>
+								<ul id='jobs'>
+									
+								</ul>
 							</div>
 						</div>
+						<% } %>
 						<br>
+						<% if(serviceJobs.length != 0) { %>
 						<div id='activeJobs'>
 							<div id='wrapper'>
 								<h5>
-									Tasks to Do
+									Service Jobs
 								</h5>
-
+								<ul id='serviceJobs'>
+									
+								</ul>
 							</div>
 						</div>
-						<br>
+						<% } %>
 					</div>
 					<div class="col-sm-4">
 						<div id='user'>
@@ -228,16 +236,6 @@
 									MESSAGES (INBOX)
 								</div>
 							</a>
-							<br>
-							<a href='/advertise'>
-								<div class='profileSubmit'>
-									ADVERTISE
-								</div>
-							</a>
-							<br>
-							<div id='advertisement'>
-
-							</div>
 						</div>
 					</div>
 				</div>
@@ -351,6 +349,24 @@
 		} else {
 			for(var i = 0; i < transactions.length; i++) {
 				$('#transaction').append("<tr><td>"+transactions[i].userA+"</td><td>"+transactions[i].userB+"</td><td>"+transactions[i].amount+"</td><td>"+transactions[i].date+"</td></tr>");
+			};
+		};
+
+		var requestJobs = <%- requestJobs %>;
+		if(requestJobs.length == 0) {
+			$('#jobs').append('<p>Nothing available.</p>');
+		} else {
+			for(var i = 0; i < requestJobs.length; i++) {
+				$('#jobs').append("<li><p><strong>With:</strong> "+requestJobs[i].from+"</p><a href='/request/job/"+requestJobs[i]._id+"'>GO TO JOB</a></li>");
+			};
+		};
+
+		var serviceJobs = <%- serviceJobs %>;
+		if(serviceJobs.length == 0) {
+			$('#serviceJobs').append('<p>Nothing available.</p>');
+		} else {
+			for(var i = 0; i < serviceJobs.length; i++) {
+				$('#serviceJobs').append("<li><p><strong>With:</strong> "+serviceJobs[i].customer+"</p><a href='/service/job/"+serviceJobs[i]._id+"'>GO TO JOB</a></li>");
 			};
 		};
 	</script>

@@ -81,6 +81,9 @@
 					<h3>
 						ORDER: <%= title %>
 					</h3>
+					<% if (reason) { %>
+					<div class="alert alert-danger"><%= reason %></div>
+					<% } %>
 					<div id='order'>
 						<form method="post" action='/request/<%= requestID %>/order' class='form-group'>
 							<label>

@@ -80,6 +80,9 @@
 						<h4>
 							Compose
 						</h4>
+						<% if (reason) { %>
+						<div class="alert alert-danger"><%= reason %></div>
+						<% } %>
 						<form method='post' action='/messages/compose' class="form-group">
 							<label>
 								To

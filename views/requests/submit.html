@@ -84,15 +84,9 @@
 							Submit Request
 						</h3>
 						<form action='/submit' method='post'>
-							<% 
-							if (reason) {
-							%>
+							<% if (reason) { %>
 							<div class="alert alert-danger"><%= reason %></div>
-							<%
-							} else {
-							
-							}
-							%>
+							<% } %>
 							<label for='title'>
 								Title
 							</label>
@@ -116,8 +110,8 @@
 								Location
 							</label>
 							<select class='form-control' name='location'>
-								<option selected value='Global'>
-									Global
+								<option selected value='INT'>
+									International
 								</option>
 								<option value='<%= user.local.location %>'>
 									<%= user.local.location %>

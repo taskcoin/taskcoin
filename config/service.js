@@ -182,10 +182,16 @@ exports.orderService = function(req, res) {
 					res.send(404);
 				} else {
 					if(query.offer.length == 0) {
-						res.render('/service/'+ query.serviceID +'/order')
+						res.render('/service/'+ query.serviceID +'/order', {
+							user: req.user,
+							reason: 'Make an offer'
+						});
 					} else {
 						if(query.extraMessage.length > 1500) {
-						
+							res.render('/service/'+ query.serviceID +'/order', {
+								user: req.user,
+								reason: 'Reason too long'
+							});
 						} else {
 
 							// CHECK CUSTOMER ISN'T SELLER

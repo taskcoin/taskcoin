@@ -98,8 +98,8 @@
 						</h4>
 						
 						<form method='post' action='/settings/location'>
-							<select name='location'>
-								<option value="Global" selected>Global</option>
+							<select name='location' class="form-control">
+								<option value="INT" selected>International</option>
 								<option value="AFG">Afghanistan</option>
 								<option value="ALA">Åland Islands</option>
 								<option value="ALB">Albania</option>
@@ -351,7 +351,6 @@
 								<option value="ZWE">Zimbabwe</option>
 							</select>
 							<br>
-							<br>
 							<input type='submit' value='Submit' />
 						</form>
 						<br>
@@ -360,7 +359,6 @@
 						</h4>
 						<form method='post' action='/settings/picture'>
 							<input type='url' name='picture' class="form-control" value='<%= user.local.pic %>' />
-							<br>
 							<br>
 							<input type='submit' value='Submit' />
 						</form>

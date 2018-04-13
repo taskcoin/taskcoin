@@ -591,3 +591,18 @@ footer ul li {
 	padding-top: 15px;
 	padding-bottom: 5px;
 }
+
+/* ABOUT */
+
+#about {
+	width: 100%;
+	background-color: white;
+}
+#about #wrapper {
+	width: 96%;
+	margin: 0px auto;
+	padding-top: 10px;
+}
+#about #wrapper p {
+	padding-bottom: 10px;
+}

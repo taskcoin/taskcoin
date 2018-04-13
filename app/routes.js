@@ -25,6 +25,7 @@ module.exports = function(app, passport) {
 	app.get('/why', general.why);
 	app.get('/404', general.errorPage);
 	app.get('/blog', general.blog);
+	app.get('/about', general.about);
 
 	app.get('/test', function(req, res) {
 		res.render('test');

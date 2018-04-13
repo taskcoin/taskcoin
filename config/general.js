@@ -35,3 +35,9 @@ exports.blog = function(req, res) {
 		});
 	});
 };
+
+exports.about = function(req, res) {
+	res.render('about', {
+		user: req.user
+	});
+};

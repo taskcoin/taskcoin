@@ -14,7 +14,8 @@ exports.login = function(req, res) {
 
 exports.register = function(req, res) {
 	res.render('register', { 
-		message: req.flash('signupMessage') 
+		message: req.flash('signupMessage'),
+		referral: req.params.referral
 	});
 };
 

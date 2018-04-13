@@ -11,7 +11,8 @@ var userSchema = mongoose.Schema({
 		reputation: Number,
 		ip: String,
 		admin: Boolean,
-		pic: String
+		pic: String,
+		referral: String
 	}
 });
 

@@ -117,6 +117,18 @@
 							</div>
 						</div>
 						<br>
+						<div id='referral'>
+							<div id='wrapper'>
+								<h5>
+									Referral Link
+								</h5>
+								<p>
+									For each person that signs up under this link, you earn 10 TaskCoin.
+								</p>
+								<input class='form-control' value='/register/<%= user.local.username %>' />
+							</div>
+						</div>
+						<br>
 						<% if(transactions) { %>
 							<div id='transactions'>
 								<div id='wrapper'>
@@ -141,7 +153,7 @@
 									</table>
 								</div>
 							</div>
-						<% } %>
+						<% } %>	
 						<br>
 						<div id='activeJobs'>
 							<div id='wrapper'>

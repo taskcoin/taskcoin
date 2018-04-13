@@ -238,11 +238,11 @@ footer ul li {
 #dashboard #transactions {
 	width: 100%;
 	background-color: white;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 #dashboard #transactions #wrapper {
-	width: 98%;
+	width: 96%;
 	margin: 0px auto;
 }
 #dashboard #transactions table {
@@ -273,6 +273,16 @@ footer ul li {
 	font-style: italic;
 	text-decoration: underline;
 	cursor: not-allowed;
+}
+#dashboard #referral {
+	background-color: white;
+	width: 100%;
+}
+#dashboard #referral #wrapper {
+	width: 96%;
+	margin: 0px auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 /* REQUEST */
@@ -513,6 +523,9 @@ footer ul li {
 .Cards p {
 	width: 95%;
 	margin: 0px auto;
+}
+.Cards img {
+	margin-top: 15px;
 }
 
 #social {

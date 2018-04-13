@@ -34,7 +34,7 @@ module.exports = function(app, passport) {
 	var user = require('../config/user.js');
 
 	app.get('/login', ifLoggedIn, user.login);
-	app.get('/register', ifLoggedIn, user.register);
+	app.get('/register/:referral?', ifLoggedIn, user.register);
 	app.get('/logout', user.logout);
 	app.get('/settings', isLoggedIn, user.settings);
 	app.get('/dashboard', isLoggedIn, user.dashboard);

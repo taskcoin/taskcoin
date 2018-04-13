@@ -82,6 +82,15 @@
 							</label>
 							<br>
 							<input type='password' name='password' class='form-control' />
+							<label>
+								Referral (optional)
+							</label>
+							<br>
+							<% if(referral) { %>
+								<input type='input' value='<%= referral %>' name='referral' class='form-control' />
+							<% } else { %>
+								<input type='input' name='referral' class='form-control' />
+							<% } %>
 							<br>
 							<input type='submit' value='Submit' />
 						</form>	

@@ -67,35 +67,27 @@
 			<div id='contentWrapper'>
 				<div id='wrapper'>
 					<h2>
-						USERS
+						BLOG
 					</h2>
-					<table id='users' border='1'>
-						<th>
-							USERNAME
-						</th>
-						<th>
-							DATE CREATED
-						</th>
-						<th>
-							WEALTH
-						</th>
-						<th>
-							REPUTATION
-						</th>
-						<th>
-							LOCATION
-						</th>
-						<th>
-							ADMIN
-						</th>
-					</table>
+					<a href='/admin/blog/create'>
+						<div id='createBlog'>
+							<p>
+								CREATE BLOG
+							</p>
+						</div>
+					</a>
+					<br>
+					<div id='blog'>
+
+					</div>
+					
 					<script type="text/javascript">
-						var users = <%- users %>;
-						if(users.length == 0) {
-							$('#users').append('<p>Nothing available.</p>');
+						var blogs = <%- blogs %>;
+						if(blogs.length == 0) {
+							$('#blog').append('<p>Nothing available.</p>');
 						} else {
-							for(var i = 0; users.length; i++) {
-								$('#users').append("<tr><td>"+users[i].local.username+"</td><td>"+users[i].local.created+"</td><td>"+users[i].local.currency+"</td><td>"+users[i].local.reputation+"</td><td>"+users[i].local.location+"</td><td>"+users[i].local.admin+"</td></tr>");
+							for(var i = 0; i < blogs.length; i++) {
+								$('#blog').append("<article><div id='articleWrapper'><h4>"+blogs[i].title+"</h4><h6>"+blogs[i].author+" | " + blogs[i].date + "</h6><p>"+blogs[i].content+"</p></div></article>");
 							};
 						};
 					</script>

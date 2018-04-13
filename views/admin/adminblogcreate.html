@@ -67,38 +67,32 @@
 			<div id='contentWrapper'>
 				<div id='wrapper'>
 					<h2>
-						USERS
+						BLOG
 					</h2>
-					<table id='users' border='1'>
-						<th>
-							USERNAME
-						</th>
-						<th>
-							DATE CREATED
-						</th>
-						<th>
-							WEALTH
-						</th>
-						<th>
-							REPUTATION
-						</th>
-						<th>
-							LOCATION
-						</th>
-						<th>
-							ADMIN
-						</th>
-					</table>
-					<script type="text/javascript">
-						var users = <%- users %>;
-						if(users.length == 0) {
-							$('#users').append('<p>Nothing available.</p>');
-						} else {
-							for(var i = 0; users.length; i++) {
-								$('#users').append("<tr><td>"+users[i].local.username+"</td><td>"+users[i].local.created+"</td><td>"+users[i].local.currency+"</td><td>"+users[i].local.reputation+"</td><td>"+users[i].local.location+"</td><td>"+users[i].local.admin+"</td></tr>");
-							};
-						};
-					</script>
+					<a href='/admin/blog/'>
+						<div id='createBlog'>
+							<p>
+								READ BLOG
+							</p>
+						</div>
+					</a>
+					<br>
+					<form method='post' action='/admin/blog/create'>
+						<label>
+							Title
+						</label>
+						<br>
+						<input type='input' name='title' class='form-control' />
+						<label>
+							Content
+						</label>
+						<br>
+						<textarea name='content'class='form-control' >
+
+						</textarea>
+						<br>
+						<input type='submit' value='Submit' />
+					</form>
 				</div>
 			</div>
 		</div>

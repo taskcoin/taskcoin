@@ -110,7 +110,12 @@ header #loggedIn li p {
 	border: 1px solid #ddd;
 	margin-top: 10px;
 }
-
+#user #advertisement {
+	width: 100%;
+	height: 250px;
+	border: 1px solid #ddd;
+	background-color: white;
+}
 
 footer {
 	width: 100%;
@@ -562,4 +567,27 @@ footer ul li {
 }
 #whitepaper #readWhitepaper:hover; {
 	text-decoration: none!important;
+}
+
+/* ADVERTISE */
+
+#advertisementButtons {
+	width: 100%;
+	text-align: center;
+	padding-top: 15px;
+	padding-bottom: 0.1px;
+	border: 1px solid #ddd;
+}
+
+/* BLOG */
+
+#blog article {
+	width: 100%;
+	background-color: white;
+}
+#blog article #articleWrapper {
+	width: 96%;
+	margin: 0px auto;
+	padding-top: 15px;
+	padding-bottom: 5px;
 }

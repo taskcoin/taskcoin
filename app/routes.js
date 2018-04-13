@@ -24,6 +24,7 @@ module.exports = function(app, passport) {
 	app.get('/', general.index);
 	app.get('/why', general.why);
 	app.get('/404', general.errorPage);
+	app.get('/blog', general.blog);
 
 	app.get('/test', function(req, res) {
 		res.render('test');
@@ -51,7 +52,7 @@ module.exports = function(app, passport) {
 		successRedirect:'/dashboard',
 		failureRedirect: '/register', 
 		failureFlash: true
-	}));	
+	}));
 
 	// PROFILE
 
@@ -130,6 +131,10 @@ module.exports = function(app, passport) {
 	app.get('/admin/', isLoggedIn, admin.index);
 	app.get('/admin/reports', isLoggedIn, admin.report);
 	app.get('/admin/users', isLoggedIn, admin.users);
+	app.get('/admin/blog', isLoggedIn, admin.adminBlog);
+	app.get('/admin/blog/create', isLoggedIn, admin.createBlog);
+
+	app.post('/admin/blog/create', isLoggedIn, admin.submitBlog);
 
 	// SEARCH
 

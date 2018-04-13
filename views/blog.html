@@ -11,8 +11,6 @@
 		<link rel="stylesheet" href="/css/fontawesome.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
-
-
 	<body>
 		<header>
 			<div class="container">
@@ -77,127 +75,27 @@
 			</div>
 		</header>
 
-		<div id='profile'>
-			<!--<div id='background'>
-
-			</div>
-			<br>-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-8" id='listings'>
-						<% 
-						if (type == 'services') {
-						%>
-						<h4>
-							Services
-						</h4>
-						<script type="text/javascript">
-							var services = <%- services %>;
-							if(services.length == 0) {
-								$('#listings').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < 10; i++) {
-									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/service/"+services[i]._id+"'><h4>"+ services[i].title+"</h4></a><h6>"+ services[i].price+"</h6></div></div></div></div>");
-								};
-							};
-						</script>
-						<%
-							} else if (type == 'requests') {
-						%>
-						<h4>
-							Requests
-						</h4>
-						<script type="text/javascript">
-							var requests = <%- products %>;
-							if(requests.length == 0) {
-								$('#listings').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < 10; i++) {
-									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/request/"+requests[i]._id+"'><h4>"+ requests[i].title+"</h4></a><h6>"+ requests[i].price+"</h6></div></div></div></div>");
-								};
-							};
-						</script>
-						<%
-							} else {
-						%>
-						<h4>
-							Reputation
-						</h4>
-						<a href='/profile/<%= name %>/reputation/give'>
-							<div id='giveRep'>
-								GIVE REPUTATION
-							</div>
-						</a>
-						<script type="text/javascript">
-							var rep = <%- reputation %>;
-							if(rep.length == 0 || rep == null) {
-								$('#listings').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < rep.length; i++) {
-									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/profile/"+rep[i].userA+"'><h4>"+ rep[i].userA+"</h4></a><h6>"+ rep[i].given+"</h6></div></div></div></div>");
-								};
-							};
-						</script>
-						<%
-							}
-						%>
-					</div>
-					<div class="col-sm-4">
-						<div id='user'>
-							<div id='sidebar'>
-								<br>
-								<div id='profilePhoto'>
-									<img src='<%= userPicture %>' />
-								</div>
-								
-								<h5>
-									<center>
-										<%= name %>
-									</center>
-								</h5>
-								<p>
-									<strong><i class="fas fa-star"></i> Reputation:</strong> <a href='/profile/<%= name %>/reputation'><%= rep %></a>
-								</p>
-								<p>
-									<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
-								</p>
-								<p>
-									<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= created %>
-								</p>
-								<br>
-							</div>
-							<a href='/profile/<%= name %>'>
-								<div class='profileButton'>
-									REQUESTS
-								</div>
-							</a>
-							<a href='/profile/<%= name %>/services'>
-								<div class='profileButton'>
-									SERVICES
-								</div>
-							</a>
-							<a href='/profile/<%= name %>/reputation'>
-								<div class='profileButton'>
-									REPUTATION
-								</div>
-							</a>
-							<a href='/messages'>
-								<div class='profileButton'>
-									MESSAGES (INBOX)
-								</div>
-							</a>
-							<br>
-							<div id='advertisement'>
-
-							</div>
-						</div>
-					</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12" id='blog'>
+					<h4>
+						Blog
+					</h4>
+					<br>
 				</div>
 			</div>
 		</div>
 
-		<br>
-		<br>
+		<script type="text/javascript">
+			var blogs = <%- blogs %>;
+			if(blogs.length == 0) {
+				$('#blog').append('<p>Nothing available.</p>');
+			} else {
+				for(var i = 0; i < blogs.length; i++) {
+					$('#blog').append("<article><div id='articleWrapper'><h4>"+blogs[i].title+"</h4><h6>"+blogs[i].author+" | " + blogs[i].date + "</h6><p>"+blogs[i].content+"</p></div></article><br>");
+				};
+			};
+		</script>
 
 		<footer>
 			<div class="container">

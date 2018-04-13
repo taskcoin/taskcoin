@@ -69,3 +69,32 @@ html, body {
 #users {
 	width: 100%;
 }
+
+/* BLOG */
+
+#createBlog {
+	padding-top: 0px;
+	border: 1px solid #ddd;
+	text-align: center;
+	width: 130px;
+	border-radius: 4px;
+	background-color: white;
+}
+#createBlog p {
+	margin-bottom: 1px;
+	font-family: monospace;
+	color: #ddd;
+}
+
+article {
+	background-color: white;
+	border: 1px solid #eee;
+	margin-bottom: 25px;
+	width: 99%;
+}
+article #articleWrapper {
+	width: 96%;
+	margin: 0px auto;
+	padding-top: 25px;
+	padding-bottom: 15px;
+}

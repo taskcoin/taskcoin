@@ -127,7 +127,8 @@ exports.order = function(req, res) {
 							user: req.user,
 							title: requestResults.title,
 							requestID: requestID,
-							price: requestResults.price
+							price: requestResults.price,
+							reason: ''
 						});
 					} else {
 						res.redirect('/request/'+requestID);

@@ -138,6 +138,34 @@ exports.createBlog = function(req, res) {
 	});
 };
 
+exports.deleteBlog = function(req, res) {
+	var Users = mongoose.model('User');
+	var username = req.user.local.username;
+	var blogID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+
+	if(blogID.length == 24) {
+		Users.findOne({'local.username': username, 'local.admin': 1}, function(err, userResult) {
+			if(err) throw err;
+			if(userResult != null) {
+
+				// DELETE BLOG
+
+				var blog = mongoose.model('Blog');
+				blog.remove({'_id': blogID}, function(err, result) {
+					if(err) throw err;
+				});
+				
+				res.redirect('/admin/blog');
+					
+			} else {
+				res.redirect('/');
+			}
+		});
+	} else {
+		res.redirect('/');
+	}	
+}
+
 exports.feedback = function(req, res) {
 	var Users = mongoose.model('User');
 	var username = req.user.local.username;

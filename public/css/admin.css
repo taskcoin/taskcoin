@@ -98,6 +98,15 @@ article #articleWrapper {
 	padding-top: 25px;
 	padding-bottom: 15px;
 }
+article #articleWrapper .delete {
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 0.55em;
+	color: #ddd;
+	border: 1px solid #ddd;
+	float: right;
+	font-family: monospace;
+}
 
 /* FEEDBACK */
 

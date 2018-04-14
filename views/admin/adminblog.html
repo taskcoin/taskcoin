@@ -95,7 +95,7 @@
 							$('#blog').append('<p>Nothing available.</p>');
 						} else {
 							for(var i = 0; i < blogs.length; i++) {
-								$('#blog').append("<article><div id='articleWrapper'><h4>"+blogs[i].title+"</h4><h6>"+blogs[i].author+" | " + blogs[i].date + "</h6><p>"+blogs[i].content+"</p></div></article>");
+								$('#blog').append("<article><div id='articleWrapper'><h4>"+blogs[i].title+"<a href='/admin/blog/"+blogs[i]._id+"/delete' class='delete'>DELETE</a></h4><h6>"+blogs[i].author+" | " + blogs[i].date + "</h6><p>"+blogs[i].content+"</p></div></article>");
 							};
 						};
 					</script>

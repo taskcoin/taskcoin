@@ -140,6 +140,7 @@ module.exports = function(app, passport) {
 	app.get('/admin/feedback', isLoggedIn, admin.feedback);
 	app.get('/admin/feedback/:id/delete', isLoggedIn, admin.feedbackDelete);
 	app.get('/admin/feedback/:id/reward', isLoggedIn, admin.feedbackReward);
+	app.get('/admin/blog/:id/delete', isLoggedIn, admin.deleteBlog);
 
 	app.post('/admin/blog/create', isLoggedIn, admin.submitBlog);
 

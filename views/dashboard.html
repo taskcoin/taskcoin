@@ -269,6 +269,14 @@
 									MESSAGES (INBOX)
 								</div>
 							</a>
+							<% if(user.local.admin == true) { %>
+							<br>
+							<a href='/admin'>
+								<div class='profileButton'>
+									ADMIN
+								</div>
+							</a>
+							<% } %>
 						</div>
 					</div>
 				</div>

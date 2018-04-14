@@ -40,6 +40,9 @@ module.exports = function(app, passport) {
 	app.get('/logout', user.logout);
 	app.get('/settings', isLoggedIn, user.settings);
 	app.get('/dashboard', isLoggedIn, user.dashboard);
+	
+
+	app.post('/dashboard', isLoggedIn, user.submitFeedback)
 
 	app.post('/settings/location', isLoggedIn, user.changeLocation);
 	app.post('/settings/picture', isLoggedIn, user.changePicture);
@@ -134,6 +137,9 @@ module.exports = function(app, passport) {
 	app.get('/admin/users', isLoggedIn, admin.users);
 	app.get('/admin/blog', isLoggedIn, admin.adminBlog);
 	app.get('/admin/blog/create', isLoggedIn, admin.createBlog);
+	app.get('/admin/feedback', isLoggedIn, admin.feedback);
+	app.get('/admin/feedback/:id/delete', isLoggedIn, admin.feedbackDelete);
+	app.get('/admin/feedback/:id/reward', isLoggedIn, admin.feedbackReward);
 
 	app.post('/admin/blog/create', isLoggedIn, admin.submitBlog);
 

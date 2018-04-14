@@ -4,6 +4,8 @@ var Result = require('../app/models/report');
 var Request = require('../app/models/requests/request');
 var Service = require('../app/models/services/service');
 var Blog = require('../app/models/blog');
+var Feedback = require('../app/models/feedback');
+var Transaction = require('../app/models/transactions');
 var sanitize = require('strip-js');
 
 exports.index = function(req, res) {
@@ -125,7 +127,7 @@ exports.createBlog = function(req, res) {
 			var blog = mongoose.model('Blog');
 			blog.find({}, function(err, result) {
 				res.render('admin/adminblogcreate', {
-					blogs: result
+					blogs: JSON.stringify(result)
 				});
 			});
 
@@ -134,7 +136,31 @@ exports.createBlog = function(req, res) {
 			res.redirect('/');
 		}
 	});
-}
+};
+
+exports.feedback = function(req, res) {
+	var Users = mongoose.model('User');
+	var username = req.user.local.username;
+
+	Users.findOne({'local.username': username, 'local.admin': 1}, function(err, userResult) {
+		if(err) throw err;
+		if(userResult != null) {
+
+			// RENDER FEEDBACK
+
+			var feedback = mongoose.model('Feedback');
+			feedback.find({}, function(err, result) {
+				res.render('admin/adminfeedback', {
+					feedback: JSON.stringify(result)
+				});
+			});
+
+				
+		} else {
+			res.redirect('/');
+		}
+	});
+};
 
 exports.submitBlog = function(req, res) {
 	var Users = mongoose.model('User');
@@ -172,6 +198,90 @@ exports.submitBlog = function(req, res) {
 					res.redirect('/admin/blog');
 				}
 			}
+		} else {
+			res.redirect('/');
+		}
+	});
+};
+
+exports.feedbackDelete = function(req, res) {
+	var Users = mongoose.model('User');
+	var username = req.user.local.username;
+	var feedbackID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+
+	Users.findOne({'local.username': username, 'local.admin': 1}, function(err, userResult) {
+		if(err) throw err;
+		if(userResult != null) {
+
+			// JUST DELETE POST
+
+			var feedback = mongoose.model('Feedback');
+			feedback.remove({'_id': feedbackID}, function(err, result) {
+				if(err) throw err;
+			});
+
+			// REDIRECT TO FEEDBACK
+
+			res.redirect('/admin/feedback');
+
+		} else {
+			res.redirect('/');
+		}
+	});
+};
+
+exports.feedbackReward = function(req, res) {
+	var Users = mongoose.model('User');
+	var username = req.user.local.username;
+	var feedbackID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+
+	Users.findOne({'local.username': username, 'local.admin': 1}, function(err, userResult) {
+		if(err) throw err;
+		if(userResult != null) {
+
+			var feedback = mongoose.model('Feedback');
+			feedback.findOne({'_id': feedbackID}, function(err, feedbackResult) {
+				if(err) throw err;
+				if(feedbackResult.length == 0) {
+					res.redirect('/admin/feedback');
+				} else {
+					// REWARD USER INSTEAD, SHOW TRANSACTION AND UPDATE BALANCE
+
+					var transaction = mongoose.model('Transaction');
+					var newTransaction = new transaction();
+
+					newTransaction.userA = 'TaskCoin';
+					newTransaction.userB = feedbackResult.author;
+					newTransaction.reason = 'Your feedback has been implemented';
+					newTransaction.amount = 15;
+					newTransaction.date = Date.now();
+
+					newTransaction.save(function(err, result) {
+						if(err) throw err;
+					});
+
+					Users.findOne({'local.username': feedbackResult.author}, function(err, feedbackUserResult) {
+						if(err) throw err;
+						var userCurrency = Number(feedbackUserResult.local.currency);
+						var newAmount = +userCurrency + 15;
+						feedbackUserResult.local.currency = newAmount;
+						feedbackUserResult.save(function(err, result) {
+							if(err) throw err;
+						});
+					});
+
+
+					// DELETE FEEDBACK
+
+					feedback.remove({'_id': feedbackID}, function(err, result) {
+						if(err) throw err;
+					});
+
+					// REDIRECT TO FEEDBACK
+					
+					res.redirect('/admin/feedback');
+				}
+			});
 		} else {
 			res.redirect('/');
 		}

@@ -129,6 +129,39 @@
 							</div>
 						</div>
 						<br>
+						<div id='referral'>
+							<div id='wrapper'>
+								<h5>
+									Submit Feedback
+								</h5>
+								<p>
+									If your feedback is implemented, you earn 15 TaskCoin.
+								</p>
+								<% if(reason) { %>
+								<div class="alert alert-danger"><%= reason %></div>
+								<% } %>
+								<form action='/dashboard' method='post'>
+									<select class='form-control' name='type'>
+										<option value='1' selected>
+											Ideas
+										</option>
+										<option value='2' selected>
+											Bugs
+										</option>
+										<option value='3' selected>
+											Feedback
+										</option>
+									</select>
+									<br>
+									<textarea name='reason' class='form-control'>
+
+									</textarea>
+									<br>
+									<input type='submit' value='Submit' />
+								</form>
+							</div>
+						</div>
+						<br>
 						<% if(transactions) { %>
 							<div id='transactions'>
 								<div id='wrapper'>

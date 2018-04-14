@@ -73,20 +73,30 @@
 				</ul>
 			</aside>
 			<div id='contentWrapper'>
-				<div id='wrapper' class='report'>
+				<div id='wrapper'>
 					<h2>
-						REPORTS
+						FEEDBACK
 					</h2>
-					<div class='reports'>
-						
+					<br>
+					<div id='feedback'>
+
 					</div>
+					
 					<script type="text/javascript">
-						var reports = <%- reports %>;
-						if(reports.length == 0) {
-							$('.reports').append('<p>Nothing available.</p>');
+						var feedback = <%- feedback %>;
+						console.log(feedback);
+						if(feedback.length == 0) {
+							$('#feedback').append('<p>Nothing available.</p>');
 						} else {
-							for(var i = 0; reports.length; i++) {
-								$('.reports').append("<ul><li><strong>DATE: "+reports[i].submitted+"</strong></li><li><strong>USERNAME: "+reports[i].from+"</strong></li><li><strong>ID: "+reports[i].ID+"</strong></li><h6>"+reports[i].title+"</h6><p>"+reports[i].reason+"</p><a href=''>IGNORE REPORT</a><a href=''>DELETE LISTING</a></ul>");
+							for(var i = 0; i < feedback.length; i++) {
+								if(feedback[i].type == '1') {
+									$('#feedback').append("<div class='feedbackWrapper'><h6><a href='/profile/"+feedback[i].author+"'>"+feedback[i].author+"</a> | Ideas <a href='/admin/feedback/"+feedback[i]._id+"/reward' class='reward'>REWARD</a> <a href='/admin/feedback/"+feedback[i]._id+"/delete' class='delete'>DELETE</a></h6><p>"+feedback[i].reason+"</p></div>");
+								} else if(feedback[i].type == '2') {
+									$('#feedback').append("<div class='feedbackWrapper'><h6><a href='/profile/"+feedback[i].author+"'>"+feedback[i].author+"</a> | Bugs <a href='/admin/feedback/"+feedback[i]._id+"/reward' class='reward'>REWARD</a> <a href='/admin/feedback/"+feedback[i]._id+"/delete' class='delete'>DELETE</a></h6><p>"+feedback[i].reason+"</p></div>");
+								} else {
+									$('#feedback').append("<div class='feedbackWrapper'><h6><a href='/profile/"+feedback[i].author+"'>"+feedback[i].author+"</a> | Feedback <a href='/admin/feedback/"+feedback[i]._id+"/reward' class='reward'>REWARD</a> <a href='/admin/feedback/"+feedback[i]._id+"/delete' class='delete'>DELETE</a></h6><p>"+feedback[i].reason+"</p></div>");
+								}
+								
 							};
 						};
 					</script>

@@ -510,7 +510,7 @@ footer ul li {
 	background-position: 0px 800px;
 }
 #mainIndexImage #logo {
-	background-image: url('https://i.imgur.com/UfBifOA.png');
+	background-image: url('../img/indexVerticalLogo.png');
 	height: 200px;
 	width: 260px;
 	background-size: cover;

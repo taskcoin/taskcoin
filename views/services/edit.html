@@ -10,7 +10,6 @@
 		<script defer src="/css/fontawesome-all.js"></script>
 		<link rel="stylesheet" href="/css/fontawesome.min.css">
 	</head>
-
 	<body>
 		<header>
 			<div class="container">
@@ -75,147 +74,128 @@
 			</div>
 		</header>
 
-		<div class="container">
-			<div class="row" id='service'>
+		<br>
+
+		<div class="container" >
+			<div class="row" id='requestSubmit'>
 				<div class="col-sm-8">
-					<main>
-						<div id='wrapper'>
-							<h3>
-								<%= title %>
-								<a href='/service/<%= requestID %>/watch' class='watchlist'>
-									WATCH LISTING
-								</a>
-							</h3>
-							<div class='seperator'>
-
-							</div>
-							<a href=''> 
-								<%= category %>
-							</a>
-							<div id='image'>
-
-							</div>
-						</div>
-					</main>
-
-					<div id='about'>
-						<div id='wrapper'>
-							<h4>
+					<div class='submitWrapper'>
+						<h3>
+							Edit Service
+						</h3>
+						<form action='/service/<%= result._id %>/edit' method='post'>
+							<% if (reason) { %>
+							<div class="alert alert-danger"><%= reason %></div>
+							<% } %>
+							<label for='title'>
+								Title
+							</label>
+							<input type="input" name='title' value='<%= result.title %>' class='form-control' />
+							<label for='image'>
+								Request Image (Optional)
+							</label>
+							<input class='form-control' type="url" value='<%= result.picture %>' name='image' />
+							<label for='location'>
+								Location
+							</label>
+							<select class='form-control' name='location'>
+								<option selected value='INT'>
+									International
+								</option>
+								<option value='<%= user.local.location %>'>
+									<%= user.local.location %>
+								</option>
+							</select>
+							<label for='category'>
+								Category
+							</label>
+							<select class='form-control' name='category'>
+								<option selected value='Art and Design'>	
+									Art and Design 
+								</option>
+								<option value='Marketing'>
+									Marketing
+								</option>
+								<option value='Content'>
+									Content 
+								</option>
+								<option value='Videos'>
+									Videos
+								</option>
+								<option value='Audio'>
+									Audio
+								</option>
+								<option value='Programming'>
+									Programming
+								</option>
+								<option value='Business'>
+									Business
+								</option>
+								<option value='Lifestyle'>
+									Lifestyle
+								</option>
+								<option value='Websites'>
+									Websites
+								</option>
+								<option value='Computers'>
+									Computers
+								</option>
+								<option value='Homes'>
+									Homes
+								</option>
+								<option value='Cars'>
+									Cars
+								</option>
+								<option value='Property'>
+									Property
+								</option>
+								<option value='Furniture'>
+									Furniture
+								</option>
+								<option value='Plumbing'>
+									Plumbing
+								</option>
+								<option value='Miscellaneous'>
+									Miscellaneous 
+								</option>
+							</select>
+							<label for='delivery'>
+								Delivery
+							</label>
+							<select class='form-control' name='delivery'>
+								<option value='24 Hours'>
+									24 Hours
+								</option>
+								<option value='48 Hours'>
+									48 Hours
+								</option>
+								<option value='1 Week'>
+									1 Week
+								</option>
+							</select>
+							<br>
+							<label>
 								Description
-							</h4>
-							<p>
-								<%= description %> 
-							</p>
-						</div>
+							</label>
+							<textarea name='description' value='<%= result.description %>' class='form-control'>
+								
+							</textarea>
+							<br>
+							<input type="submit" />
+							<br>
+							<br>
+						</form>
 					</div>
 				</div>
-
 				<div class="col-sm-4">
-					<aside>
-						<div id='wrapper'>
-							<h4>
-								Service
-							</h4>
-							<div class='seperator'></div>
-							<h5>TASK <%= price %></h5>
-							<p>
-								<i class="fas fa-truck"></i> <strong>Delivery time:</strong> <%= delivery %>
-							</p>
-							<p>
-								<i class="fas fa-calendar"></i> <strong>Posted:</strong> <%= posted %>
-							</p>
-							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
-							</p>
-							<% if (user.local.username != offerer) { %>
-								<% if (available == true) { %>
-								<a href="/service/<%= requestID %>/order">
-									<div id='buy'>
-										<p>
-											BUY NOW
-										</p>
-									</div>
-								</a>
-								<% } else { %>
-								<a href="#">
-									<div id='buy'>
-										<p>
-											NOT AVAILABLE
-										</p>
-									</div>
-								</a>
-								<% } %>
-							<% } else { %>
-							<a href="/service/<%= requestID %>/offers">
-								<div id='buy'>
-									<p>
-										VIEW OFFERS
-									</p>
-								</div>
-							</a>
-							<% } %>
+					<a href='/service/<%= result._id %>/delete'>
+						<div id='service'>
+							DELETE REQUEST
 						</div>
-					</aside>
-
-					<div id='user'>
-						<div id='sidebar'>
-							<br>
-							<div id='profilePhoto'>
-								<img src='<%= userPicture %>' />
-							</div>
-							
-							<h5>
-								<center>
-									<%= offerer %>
-								</center>
-							</h5>
-							<p>
-								<strong><i class="fas fa-star"></i> Reputation:</strong> <a href='/profile/<%= offerer %>/reputation'><%= userReputation %></a>
-							</p>
-							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= userLocation %>
-							</p>
-							<p>
-								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= userCreated %>
-							</p>
-							<br>
-						</div>
-						<a href='/profile/<%= offerer %>'>
-							<div class='profileButton'>
-								REQUESTS
-							</div>
-						</a>
-						<a href='/profile/<%= offerer %>/services'>
-							<div class='profileButton'>
-								SERVICES
-							</div>
-						</a>
-						<a href='/profile/<%= offerer %>/reputation'>
-							<div class='profileButton'>
-								REPUTATION
-							</div>
-						</a>
-						<a href='/messages/compose'>
-							<div class='profileButton'>
-								SEND MESSAGE
-							</div>
-						</a>
-					</div>
-					<br>
-					<center>
-						<a id='report' href='/service/<%= requestID %>/report'>
-							REPORT LISTING
-						</a>
-						<% if(user.local.username == offerer) { %>
-						| <a id='report' href='/service/<%= requestID %>/edit'>
-							EDIT LISTING
-						</a>
-						<% } %>
-					</center>
+					</a>
 				</div>
 			</div>
 		</div>
-	</div>
 
 		<footer>
 			<div class="container">

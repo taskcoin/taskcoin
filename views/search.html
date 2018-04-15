@@ -37,7 +37,6 @@
 							<button id='submit' type="submit">
 								<i class="fas fa-search"></i>
 							</button>
-						</form>
 					</div>
 					<div class="col-sm-4">
 						<% if (user) { %>
@@ -161,7 +160,7 @@
 								$('#result').append('<p>Nothing available.</p>');
 							} else {
 								for(var i = 0; i < requests.length; i++) {
-									$('#result').append("<div id='wrapper'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/request/"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div></div></div></div>");
+									$('#result').append("<div id='wrapper'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'><img src='"+requests[i].picture+"' /></div></div><div class='col-sm-9'><a href='/request/"+requests[i]._id+"'><h4>"+requests[i].title+"</h4></a><h5>TASK "+requests[i].price+"</h5></div></div></div></div>");
 								};
 							};
 						</script>
@@ -175,7 +174,7 @@
 								$('#result').append('<p>Nothing available.</p>');
 							} else {
 								for(var i = 0; i < services.length; i++) {
-									$('#result').append("<div id='wrapper'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/service/"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div></div></div></div>");
+									$('#result').append("<div id='wrapper'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'><img src='"+services[i].picture+"' /></div></div><div class='col-sm-9'><a href='/service/"+services[i]._id+"'><h4>"+services[i].title+"</h4></a><h5>TASK "+services[i].price+"</h5></div></div></div></div>");
 								};
 							};
 						</script>
@@ -188,7 +187,7 @@
 									$('#result').append('<p>Nothing available.</p>');
 								} else {
 									for(var i = 0; i < users.length; i++) {
-										$('#result').append("<div id='wrapper'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/profile/"+users[i].local.username+"'><h4>"+users[i].local.username+"</h4></a><h5>CREATED: "+users[i].local.created+"</h5></div></div></div></div>");
+										$('#result').append("<div id='wrapper'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'><img src='"+users[i].local.pic+"' /></div></div><div class='col-sm-9'><a href='/profile/"+users[i].local.username+"'><h4>"+users[i].local.username+"</h4></a><h5>CREATED: "+users[i].local.created+"</h5></div></div></div></div>");
 									};
 								};
 							</script>

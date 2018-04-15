@@ -12,7 +12,8 @@ var serviceSchema = mongoose.Schema({
 	posted: Date,
 	seller: String,
 	available: Boolean,
-	oneTime: Boolean
+	oneTime: Boolean,
+	picture: String
 });
 
 module.exports = mongoose.model('Service', serviceSchema);

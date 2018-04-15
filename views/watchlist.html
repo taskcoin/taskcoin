@@ -9,8 +9,8 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<script defer src="/css/fontawesome-all.js"></script>
 		<link rel="stylesheet" href="/css/fontawesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
-
 	<body>
 		<header>
 			<div class="container">
@@ -75,147 +75,91 @@
 			</div>
 		</header>
 
-		<div class="container">
-			<div class="row" id='service'>
-				<div class="col-sm-8">
-					<main>
-						<div id='wrapper'>
-							<h3>
-								<%= title %>
-								<a href='/service/<%= requestID %>/watch' class='watchlist'>
-									WATCH LISTING
-								</a>
-							</h3>
-							<div class='seperator'>
-
-							</div>
-							<a href=''> 
-								<%= category %>
-							</a>
-							<div id='image'>
-
-							</div>
-						</div>
-					</main>
-
-					<div id='about'>
-						<div id='wrapper'>
-							<h4>
-								Description
-							</h4>
-							<p>
-								<%= description %> 
-							</p>
-						</div>
+		<div id='dashboard'>
+			<div class="container">
+				<div class="row" id='dashboard'>
+					<div class="col-sm-8" id='watchlists'>
+						<h4>
+							Watchlist <a href='/watchlist/service' id='serviceWatchlist'>SERVICE WATCHLIST</a>
+						</h4>
+						<p>
+							Keep track of all listings you're interested in.
+						</p>
+						<script type="text/javascript">
+						var watchlistResult = <%- watchlistResult %>;
+						if(watchlistResult.length == 0) {
+							$('#watchlists').append('<p>Nothing available.</p>');
+						} else {
+							for(var i = 0; i < watchlistResult.length; i++) {
+								if(watchlistResult[i].type == 1) {
+									$('#watchlists').append("<div id='watchlist'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'><img src='"+ watchlistResult[i].picture+"' /></div></div><div class='col-sm-9'><a href='/request/"+watchlistResult[i].listingID+"'><h4>"+ watchlistResult[i].title+"</h4></a><h6>TASK "+ watchlistResult[i].price+"</h6></div></div></div></div>");
+								} else {
+									$('#watchlists').append("<div id='watchlist'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'><img src='"+ watchlistResult[i].picture+"' /></div></div><div class='col-sm-9'><a href='/service/"+watchlistResult[i].listingID+"'><h4>"+ watchlistResult[i].title+"</h4></a><h6>TASK "+ watchlistResult[i].price+"</h6></div></div></div></div>");
+								}
+							};
+						};
+						</script>
 					</div>
-				</div>
-
-				<div class="col-sm-4">
-					<aside>
-						<div id='wrapper'>
-							<h4>
-								Service
-							</h4>
-							<div class='seperator'></div>
-							<h5>TASK <%= price %></h5>
-							<p>
-								<i class="fas fa-truck"></i> <strong>Delivery time:</strong> <%= delivery %>
-							</p>
-							<p>
-								<i class="fas fa-calendar"></i> <strong>Posted:</strong> <%= posted %>
-							</p>
-							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
-							</p>
-							<% if (user.local.username != offerer) { %>
-								<% if (available == true) { %>
-								<a href="/service/<%= requestID %>/order">
-									<div id='buy'>
-										<p>
-											BUY NOW
-										</p>
-									</div>
-								</a>
-								<% } else { %>
-								<a href="#">
-									<div id='buy'>
-										<p>
-											NOT AVAILABLE
-										</p>
-									</div>
-								</a>
-								<% } %>
-							<% } else { %>
-							<a href="/service/<%= requestID %>/offers">
-								<div id='buy'>
-									<p>
-										VIEW OFFERS
-									</p>
+					<div class="col-sm-4">
+						<div id='user'>
+							<div id='sidebar'>
+								<br>
+								<div id='profilePhoto'>
+									<img src='<%=user.local.pic%>' />
+								</div>
+								
+								<h5>
+									<center>
+										<%= user.local.username %>
+									</center>
+								</h5>
+								<p>
+									<strong><i class="fas fa-star"></i> Reputation:</strong> <a href='/profile/<%= user.local.username %>/reputation'><%= user.local.reputation %></a>
+								</p>
+								<p>
+									<i class="fas fa-globe"></i> <strong>Location:</strong> <%= user.local.location %>
+								</p>
+								<p>
+									<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= user.local.created %>
+								</p>
+								<br>
+							</div>
+							<a href='/request/submit'>
+								<div class='profileSubmit'>
+									SUBMIT REQUEST
 								</div>
 							</a>
-							<% } %>
-						</div>
-					</aside>
-
-					<div id='user'>
-						<div id='sidebar'>
+							<a href='/service/submit'>
+								<div class='profileSubmit'>
+									SUBMIT SERVICE
+								</div>
+							</a>
 							<br>
-							<div id='profilePhoto'>
-								<img src='<%= userPicture %>' />
-							</div>
-							
-							<h5>
-								<center>
-									<%= offerer %>
-								</center>
-							</h5>
-							<p>
-								<strong><i class="fas fa-star"></i> Reputation:</strong> <a href='/profile/<%= offerer %>/reputation'><%= userReputation %></a>
-							</p>
-							<p>
-								<i class="fas fa-globe"></i> <strong>Location:</strong> <%= userLocation %>
-							</p>
-							<p>
-								<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= userCreated %>
-							</p>
-							<br>
+							<a href='/profile/<%= user.local.username %>'>
+								<div class='profileButton'>
+									REQUESTS
+								</div>
+							</a>
+							<a href='/profile/<%= user.local.username %>/services'>
+								<div class='profileButton'>
+									SERVICES
+								</div>
+							</a>
+							<a href='/profile/<%= user.local.username %>/reputation'>
+								<div class='profileButton'>
+									REPUTATION
+								</div>
+							</a>
+							<a href='/messages'>
+								<div class='profileButton'>
+									MESSAGES (INBOX)
+								</div>
+							</a>
 						</div>
-						<a href='/profile/<%= offerer %>'>
-							<div class='profileButton'>
-								REQUESTS
-							</div>
-						</a>
-						<a href='/profile/<%= offerer %>/services'>
-							<div class='profileButton'>
-								SERVICES
-							</div>
-						</a>
-						<a href='/profile/<%= offerer %>/reputation'>
-							<div class='profileButton'>
-								REPUTATION
-							</div>
-						</a>
-						<a href='/messages/compose'>
-							<div class='profileButton'>
-								SEND MESSAGE
-							</div>
-						</a>
 					</div>
-					<br>
-					<center>
-						<a id='report' href='/service/<%= requestID %>/report'>
-							REPORT LISTING
-						</a>
-						<% if(user.local.username == offerer) { %>
-						| <a id='report' href='/service/<%= requestID %>/edit'>
-							EDIT LISTING
-						</a>
-						<% } %>
-					</center>
 				</div>
 			</div>
 		</div>
-	</div>
 
 		<footer>
 			<div class="container">

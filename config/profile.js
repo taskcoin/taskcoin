@@ -18,7 +18,7 @@ exports.profile = function(req, res) {
 				res.send(404);
 			} else {
 				var Request = mongoose.model('Request');
-				Request.find({'offerer': username, 'type': '1'}, function(err, requestResult) {
+				Request.find({'offerer': username, 'type': '1'}, 'title price picture', function(err, requestResult) {
 					if (err) throw err;
 					res.render('profile', {
 						user: req.user,
@@ -48,7 +48,7 @@ exports.services = function(req, res) {
 				res.send(404);
 			} else {
 				var Service = mongoose.model('Service');
-				Service.find({'seller': username}, function(err, serivceResult) {
+				Service.find({'seller': username}, 'title price picture', function(err, serivceResult) {
 					if (err) throw err;
 					res.render('profile', {
 						user: req.user,

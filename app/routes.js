@@ -40,7 +40,8 @@ module.exports = function(app, passport) {
 	app.get('/logout', user.logout);
 	app.get('/settings', isLoggedIn, user.settings);
 	app.get('/dashboard', isLoggedIn, user.dashboard);
-	
+	app.get('/watchlist', isLoggedIn, user.watchlist);
+	app.get('/watchlist/service', isLoggedIn, user.watchlistService);
 
 	app.post('/dashboard', isLoggedIn, user.submitFeedback)
 
@@ -86,12 +87,16 @@ module.exports = function(app, passport) {
 
 	app.get('/request/submit', isLoggedIn, request.submit);
 	app.get('/request/:id', isLoggedIn, request.request);
+	app.get('/request/:id/watch', isLoggedIn, request.watchlist);
 	app.get('/request/:id/offers', isLoggedIn, request.offers);
 	app.get('/request/:id/order', isLoggedIn, request.order);
 	app.get('/request/:id/report', isLoggedIn, request.report);
+	app.get('/request/:id/edit', isLoggedIn, request.edit);
+	app.get('/request/:id/delete', isLoggedIn, request.remove);
 
 	app.post('/submit', isLoggedIn, request.postSubmit);
 	app.post('/request/:id/order', isLoggedIn, request.orderProduct);
+	app.post('/request/:id/edit', isLoggedIn, request.postEdit);
 
 	// REQUEST JOBS
 
@@ -110,12 +115,16 @@ module.exports = function(app, passport) {
 
 	app.get('/service/submit', isLoggedIn, service.submit);
 	app.get('/service/:id', isLoggedIn, service.service);
+	app.get('/service/:id/watch', isLoggedIn, service.watchlist);
 	app.get('/service/:id/offers', isLoggedIn, service.offers);
 	app.get('/service/:id/order', isLoggedIn, service.order);
 	app.get('/service/:id/report', isLoggedIn, service.report);
+	app.get('/service/:id/edit', isLoggedIn, service.edit);
+	app.get('/service/:id/delete', isLoggedIn, service.deleteService);
 
 	app.post('/service/submit', isLoggedIn, service.postSubmit);
 	app.post('/service/:id/order', isLoggedIn, service.orderService);
+	app.post('/service/:id/edit', isLoggedIn, service.postEdit);
 
 	// SERVICE JOBS
 

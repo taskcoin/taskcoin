@@ -82,6 +82,10 @@
 						<div id='wrapper'>
 							<h3>
 								<%= title %>
+
+								<a href='/request/<%= requestID %>/watch' class='watchlist'>
+									WATCH LISTING
+								</a>
 							</h3>
 							<div class='seperator'>
 
@@ -161,7 +165,7 @@
 							
 							<h5>
 								<center>
-									<%= user.local.username %>
+									<%= offerer %>
 								</center>
 							</h5>
 							<p>
@@ -175,17 +179,17 @@
 							</p>
 							<br>
 						</div>
-						<a href='/profile/<%= user.local.username %>'>
+						<a href='/profile/<%= offerer %>'>
 							<div class='profileButton'>
 								REQUESTS
 							</div>
 						</a>
-						<a href='/profile/<%= user.local.username %>/services'>
+						<a href='/profile/<%= offerer %>/services'>
 							<div class='profileButton'>
 								SERVICES
 							</div>
 						</a>
-						<a href='/profile/<%= user.local.username %>/reputation'>
+						<a href='/profile/<%= offerer %>/reputation'>
 							<div class='profileButton'>
 								REPUTATION
 							</div>
@@ -201,6 +205,11 @@
 						<a id='report' href='/request/<%= requestID %>/report'>
 							REPORT LISTING
 						</a>
+						<% if(user.local.username == offerer) { %>
+						| <a id='report' href='/request/<%= requestID %>/edit'>
+							EDIT LISTING
+						</a>
+						<% } %>
 					</center>
 				</div>
 			</div>

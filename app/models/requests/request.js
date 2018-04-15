@@ -11,7 +11,8 @@ var requestSchema = mongoose.Schema({
 	totalCost: String,
 	posted: Date,
 	offerer: String,
-	available: Boolean
+	available: Boolean,
+	picture: String
 });
 
 module.exports = mongoose.model('Request', requestSchema);

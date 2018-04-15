@@ -94,6 +94,10 @@
 								Price
 							</label>
 							<input class='form-control' type="number" name='price' min='1' id='price' max='50000' value='1' />
+							<label for='price'>
+								Request Image (Optional)
+							</label>
+							<input class='form-control' type="url" name='image' />
 							<label for='location'>
 								Location
 							</label>
@@ -105,7 +109,7 @@
 									<%= user.local.location %>
 								</option>
 							</select>
-							<label for='price'>
+							<label for='category'>
 								Category
 							</label>
 							<select class='form-control' name='category'>

@@ -4,6 +4,8 @@ var requestJob = require('../app/models/requests/requestjob');
 var serviceJob = require('../app/models/services/servicejob');
 var feedback = require('../app/models/feedback');
 var sanitize = require('strip-js');
+var Watchlist = require('../app/models/watchlist');
+var Request = require('../app/models/requests/request');
 
 /* GET */
 
@@ -73,6 +75,30 @@ exports.dashboard = function(req, res) {
 	});
 };
 
+exports.watchlist = function(req, res) {
+	var username = req.user.local.username;
+
+	var watchlist = mongoose.model('Watchlist');
+	watchlist.find({'username': username, 'type': 1}, function(err, watchlistResult) {
+		res.render('watchlist', {
+			user: req.user,
+			watchlistResult: JSON.stringify(watchlistResult)
+		});
+	});
+};
+
+exports.watchlistService = function(req, res) {
+	var username = req.user.local.username;
+
+	var watchlist = mongoose.model('Watchlist');
+	watchlist.find({'username': username, 'type': 2}, function(err, watchlistResult) {
+		res.render('watchlist', {
+			user: req.user,
+			watchlistResult: JSON.stringify(watchlistResult)
+		});
+	});
+}
+
 /* POST */
 
 exports.changeLocation = function(req, res) {
@@ -84,7 +110,7 @@ exports.changeLocation = function(req, res) {
 		Users.findOne({'local.username': username}, function(err, result) {
 			if(err) throw err;
 			result.local.location = location;
-			result.save( function(err, result) {
+			result.save(function(err, result) {
 				if(err) throw err;
 				res.redirect('/settings');
 			});

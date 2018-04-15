@@ -7,11 +7,11 @@ var sanitize = require('strip-js');
 exports.index = function(req, res) {
 	var username = req.user.local.username;
 	var type = sanitize(req.query.type).replace(/[^a-z0-9]/gi,'');
-	var query = sanitize(req.query.query).replace(/[^a-z0-9]/gi,'');
+	var query = sanitize(req.query.query);
 
-	var category = sanitize(req.query.category).replace(/[^a-z0-9]/gi,'');
+	var category = sanitize(req.query.category);
 	var location = sanitize(req.query.location).replace(/[^a-z0-9]/gi,'');
-	var delivery = sanitize(req.query.delivery).replace(/[^a-z0-9]/gi,'');
+	var delivery = sanitize(req.query.delivery);
 
 	if (type == 'requests') {
 
@@ -19,7 +19,7 @@ exports.index = function(req, res) {
 
 		var request = mongoose.model('Request');
 		if(category.length > 0) {
-			request.find({'title':  new RegExp(query, 'i'), 'category': category}, 'title price category', function(err, result) {
+			request.find({'title':  new RegExp(query, 'i'), 'category': category}, 'title price category picture', function(err, result) {
 				if(err) throw err;
 				res.render('search', {
 					user: req.user,
@@ -28,7 +28,7 @@ exports.index = function(req, res) {
 				});
 			});
 		} else if(location.length > 0) {
-			request.find({'title':  new RegExp(query, 'i'), 'location': location}, 'title price location', function(err, result) {
+			request.find({'title':  new RegExp(query, 'i'), 'location': location}, 'title price location picture', function(err, result) {
 				if(err) throw err;
 				res.render('search', {
 					user: req.user,
@@ -37,7 +37,7 @@ exports.index = function(req, res) {
 				});
 			});
 		} else if(delivery.length > 0) {
-			request.find({'title':  new RegExp(query, 'i'), 'delivery': delivery}, 'title price delivery', function(err, result) {
+			request.find({'title':  new RegExp(query, 'i'), 'delivery': delivery}, 'title price delivery picture', function(err, result) {
 				if(err) throw err;
 				res.render('search', {
 					user: req.user,
@@ -46,7 +46,7 @@ exports.index = function(req, res) {
 				});
 			});
 		} else {
-			request.find({'title':  new RegExp(query, 'i')}, 'title price', function(err, result) {
+			request.find({'title':  new RegExp(query, 'i')}, 'title price picture', function(err, result) {
 				if(err) throw err;
 				res.render('search', {
 					user: req.user,
@@ -62,7 +62,7 @@ exports.index = function(req, res) {
 
 		var service = mongoose.model('Service');
 		if(category.length > 0) {
-			service.find({'title':  new RegExp(query, 'i'), 'category': category}, 'title price category', function(err, result) {
+			service.find({'title':  new RegExp(query, 'i'), 'category': category}, 'title price category picture', function(err, result) {
 				if(err) throw err;
 				res.render('search', {
 					user: req.user,
@@ -71,7 +71,7 @@ exports.index = function(req, res) {
 				});
 			});
 		} else if(location.length > 0) {
-			service.find({'title':  new RegExp(query, 'i'), 'location': location}, 'title price location', function(err, result) {
+			service.find({'title':  new RegExp(query, 'i'), 'location': location}, 'title price location picture', function(err, result) {
 				if(err) throw err;
 				res.render('search', {
 					user: req.user,
@@ -80,7 +80,7 @@ exports.index = function(req, res) {
 				});
 			});
 		} else if(delivery.length > 0) {
-			service.find({'title':  new RegExp(query, 'i'), 'delivery': delivery}, 'title price delivery', function(err, result) {
+			service.find({'title':  new RegExp(query, 'i'), 'delivery': delivery}, 'title price delivery picture', function(err, result) {
 				if(err) throw err;
 				res.render('search', {
 					user: req.user,
@@ -89,7 +89,7 @@ exports.index = function(req, res) {
 				});
 			});
 		} else {
-			service.find({'title':  new RegExp(query, 'i')}, 'title price', function(err, result) {
+			service.find({'title':  new RegExp(query, 'i')}, 'title price picture', function(err, result) {
 				if(err) throw err;
 				res.render('search', {
 					user: req.user,
@@ -103,7 +103,7 @@ exports.index = function(req, res) {
 		// RENDER RESULTS FOR USERS
 
 		var user = mongoose.model('User');
-		user.find({'local.username': new RegExp(query, 'i')}, 'local.username local.created', function(err, result) {
+		user.find({'local.username': new RegExp(query, 'i')}, 'local.username local.created local.pic', function(err, result) {
 			if(err) throw err;
 			res.render('search', {
 				user: req.user,

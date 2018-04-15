@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Request = require('../app/models/requests/request');
 var requestOffer = require('../app/models/requests/requestoffer');
 var Message = require('../app/models/message');
+var Watchlist = require('../app/models/watchlist');
 var sanitize = require('strip-js');
 
 /* GET */
@@ -162,6 +163,77 @@ exports.report = function(req, res) {
 	}*/
 };
 
+exports.watchlist = function(req, res) {
+	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+	var username = req.user.local.username;
+
+	if(requestID.length == 24) {
+
+		var requests = mongoose.model('Request');
+		requests.findOne({'_id': requestID}, function(err, requestResults) {
+			if(err) throw err;
+			if (requestResults == null) {
+				res.redirect('/');
+			} else {
+				
+				var watchlist = mongoose.model('Watchlist');
+				var newWatchlist = new watchlist();
+				newWatchlist.type = 1;
+				newWatchlist.listingID = requestID;
+				newWatchlist.username = username;
+				newWatchlist.price = requestResults.price;
+				newWatchlist.title = requestResults.title;
+				newWatchlist.picture = requestResults.picture;
+
+				newWatchlist.save(function(err, result) {
+					if(err) throw err;
+				});
+
+				res.redirect('/watchlist');
+
+			}
+		});
+	} else {
+		res.redirect('/');
+	}
+}
+
+exports.edit = function(req, res) {
+	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+	var username = req.user.local.username;
+	var requests = mongoose.model('Request');
+	requests.findOne({'_id': requestID, 'offerer': username}, function(err, result) {
+		if(err) throw err;
+		if(result == null) {
+			res.redirect('/');
+		} else {
+			res.render('requests/edit', {
+				user: req.user,
+				reason: '',
+				result: result
+			});
+		}
+	});
+}
+
+exports.remove = function(req, res) {
+	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+	var username = req.user.local.username;
+	var requests = mongoose.model('Request');
+	requests.findOne({'_id': requestID, 'offerer': username}, function(err, result) {
+		if(err) throw err;
+		if(result == null) {
+			res.redirect('/');
+		} else {
+			result.available = false;
+			result.save(function(err, result) {
+				if(err) throw err;
+				res.redirect('/request/'+requestID);
+			});
+		}
+	});
+}
+
 /* POST */
 
 exports.orderProduct = function(req, res) {
@@ -229,13 +301,14 @@ exports.orderProduct = function(req, res) {
 exports.postSubmit = function(req, res) {
 	process.nextTick(function() {
 		var query = {
-			title: sanitize(req.body.title).replace(/[^a-z0-9]/gi,''),
+			title: sanitize(req.body.title),
 			type: sanitize(req.body.type).replace(/[^a-z0-9]/gi,''),
 			price: sanitize(req.body.price).replace(/[^a-z0-9]/gi,''),
 			category: sanitize(req.body.category),
 			location: sanitize(req.body.location).replace(/[^a-z0-9]/gi,''),
 			delivery: sanitize(req.body.delivery).replace(/[^a-z0-9]/gi,''),
 			description: sanitize(req.body.description),
+			photo: sanitize(req.body.image),
 			offerer: sanitize(req.user.local.username).replace(/[^a-z0-9]/gi,'')
 		}
 		function redirectSubmit(reason) {
@@ -330,6 +403,7 @@ exports.postSubmit = function(req, res) {
 														request.location = query.location;
 														request.delivery = query.delivery;
 														request.description = query.description;
+														request.picture = query.photo;
 														request.posted = Date.now();
 														request.offerer = query.offerer;
 														request.available = true;
@@ -383,6 +457,7 @@ exports.postSubmit = function(req, res) {
 														request.delivery = query.delivery;
 														request.description = query.description;
 														request.posted = Date.now();
+														request.picture = query.photo;
 														request.offerer = query.offerer;
 														request.available = true;
 														request.availableOnce = query.once;
@@ -472,4 +547,86 @@ exports.reportSubmit = function(req, res) {
 			}
 		}
 	}
+};
+
+exports.postEdit = function(req, res) {
+	process.nextTick(function() {
+		var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+		var username = req.user.local.username;
+		var query = {
+			title: sanitize(req.body.title),
+			image: sanitize(req.body.image),
+			location: sanitize(req.body.location).replace(/[^a-z0-9]/gi,''),
+			category: sanitize(req.body.category),
+			delivery: sanitize(req.body.delivery),
+			description: sanitize(req.body.description)
+		};
+
+		function renderSubmit(reason) {
+			var requests = mongoose.model('Request');
+			requests.findOne({'_id': requestID, 'offerer': username}, function(err, result) {
+				if(err) throw err;
+				if(result == null) {
+					res.redirect('/');
+				} else {
+					res.render('requests/edit', {
+						user: req.user,
+						reason: reason,
+						result: result
+					});
+				}
+			});
+		};
+
+		if (query.title.length < 30) {
+			renderSubmit('Title too short');
+		} else {
+			if(query.title.length > 250) {
+				renderSubmit('Title too long');
+			} else {
+				if(query.location.length != 3) {
+					renderSubmit('Please select your location');
+				} else {
+					if(query.delivery == '') {
+						renderSubmit('Choose delivery time');
+					} else {
+						if(query.description.length < 50) {
+							renderSubmit('Description too short');
+						} else {
+							if(query.description.length > 1500) {
+								renderSubmit('Description too long');
+							} else {
+								if(query.category == 'Art and Design' || query.category == 'Marketing' || query.category == 'Content' || query.category == 'Videos' || query.category == 'Audio' || query.category == 'Programming' || query.category == 'Business' || query.category == 'Lifestyle' || query.category == 'Websites' || query.category == 'Computers' || query.category == 'Homes' || query.category == 'Cars' || query.category == 'Property' || query.category == 'Furniture' || query.category == 'Plumbing' || query.category == 'Miscellaneous') {
+									
+									// MODIFY LISTING
+
+									var requests = mongoose.model('Request');
+									requests.findOne({'_id': requestID, 'offerer': username}, function(err, result) {
+										if(err) throw err;
+										if(result == null) {
+											res.redirect('/');
+										} else {
+											result.title = query.title;
+											result.location = query.location;
+											result.picture = query.image;
+											result.delivery = query.delivery;
+											result.category = query.category;
+											result.description = query.description;
+
+											result.save(function(err, result) {
+												if(err) throw err;
+											});
+											res.redirect('/request/'+requestID);
+										}
+									});
+								} else {
+									renderSubmit('Pick a category');
+								}	
+							}
+						}
+					}
+				}
+			}
+		}
+	});
 };

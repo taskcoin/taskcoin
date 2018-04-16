@@ -239,78 +239,111 @@ exports.sendMoney = function(req, res) {
 	var User = mongoose.model('User');
 	var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
 	var price = sanitize(req.body.amount).replace(/[^0-9]/gi,'');
+	var price = Number(price);
 	User.findOne({'local.username': username}, function(err, userResult) {
 		if(err) throw err;
 		if(userResult == null) {
 			res.redirect('/');
 		} else {
-
-			if (price < 1) {
-				error('Choose a balance that is 1 or greater');
+			if(username == req.user.local.username) {
+				res.redirect('/dashboard');
 			} else {
-
-				// CHECK BALANCE
-
-				var userBalance = Number(userResult.local.currency);
-				var fees = Math.floor(userBalance * 0.01);
-				if (fees < 10) {
-		 			var fees = 10;
-		 			var total = fees + Number(price);
-		 			if (total > Number(req.user.local.currency)) {
-		 				redirectSubmit('Total cost exceeds balance');
-		 			} else {
-		 				
-					}
+				if (price < 1) {
+					error('Choose a balance that is 1 or greater');
 				} else {
-					/*var total = fees + Number(price);
-		 			if (total > Number(req.user.local.currency)) {
-		 				redirectSubmit('Total cost exceeds balance');
-		 			} else {
 
-		 				// CREATE TRANSACTION 
+					// CHECK BALANCE
 
-						var transaction = mongoose.model('Transaction');
-						var createTransaction = new transaction();
+					var userBalance = Number(userResult.local.currency);
+					var fees = Math.floor(userBalance * 0.01);
+					if (fees < 10) {
+			 			var fees = 10;
+			 			var total = fees + Number(price);
+			 			if (total > Number(req.user.local.currency)) {
+			 				redirectSubmit('Total cost exceeds balance');
+			 			} else {
 
-						createTransaction.userA = req.user.local.username;
-						createTransaction.userB = username;
-						createTransaction.reason = 'Received TaskCoin from ' + req.user.local.username;
-						createTransaction.amount = number(price);
-						createTransaction.date = Date.now();
+			 				// SEND MONEY TO RECEIVER
 
-						createTransaction.save(function(err, result) {
-							if(err) throw err;
-						});
+			 				var balance = Number(userResult.local.currency);
+			 				var newTotal = +balance + +price;
+			 				userResult.local.currency = newTotal;
+			 				userResult.save(function(err, result) {
+			 					if(err) throw err;
+			 				});
 
-						// ADD AMOUNT TO RECEIVER
+			 				// CREATE TRANSACTION
 
-						var totalAmount = +userBalance + Number(price);
-						userResult.local.currency = totalAmount;
+			 				var transaction = mongoose.model('Transaction');
+							var createTransaction = new transaction();
 
-						userResult.save(function(err, result) {
-							if(err) throw err;
-						});
+							createTransaction.userA = req.user.local.username;
+							createTransaction.userB = username;
+							createTransaction.reason = 'Received TaskCoin from ' + req.user.local.username;
+							createTransaction.amount = Number(price);
+							createTransaction.date = Date.now();
 
-						// DEDUCT AMOUNT FROM SENDER
+							createTransaction.save(function(err, result) {
+								if(err) throw err;
+							});
 
-						User.findOne({'local.username': req.user.local.username}, function(err, OPResult) {
-							if(err) throw err;
-							if(OPResult == null) {
-								res.redirect('/');
-							} else {
+							// DEDUCT MONEY FROM SENDER
 
-								// DEDUCT AND REDIRECT
-
-								var OPBalance = Number(OPResult.local.currency);
-								var newTotal = +OPBalance - +total;
-								OPResult.local.currency = newTotal;
-								OPResult.save(function(err, result) {
+							User.findOne({'local.username': req.user.local.username}, function(err, senderResult) {
+								if(err) throw err;
+								var balance = Number(senderResult.local.currency);
+								var newTotal = +balance - +total;
+								senderResult.local.currency = Number(newTotal);
+								senderResult.save(function(err, result) {
 									if(err) throw err;
 									res.redirect('/dashboard');
 								});
-							}
-						});
-					}*/
+							});
+						}
+					} else {
+						var total = fees + Number(price);
+			 			if (total > Number(req.user.local.currency)) {
+			 				redirectSubmit('Total cost exceeds balance');
+			 			} else {
+
+			 				// SEND MONEY TO RECEIVER
+
+			 				var balance = Number(userResult.local.currency);
+			 				var newTotal = +balance + +price;
+			 				userResult.local.currency = newTotal;
+			 				userResult.save(function(err, result) {
+			 					if(err) throw err;
+			 				});
+
+			 				// CREATE TRANSACTION
+
+			 				var transaction = mongoose.model('Transaction');
+							var createTransaction = new transaction();
+
+							createTransaction.userA = req.user.local.username;
+							createTransaction.userB = username;
+							createTransaction.reason = 'Received TaskCoin from ' + req.user.local.username;
+							createTransaction.amount = Number(price);
+							createTransaction.date = Date.now();
+
+							createTransaction.save(function(err, result) {
+								if(err) throw err;
+							});
+
+							// DEDUCT MONEY FROM SENDER
+
+							User.findOne({'local.username': req.user.local.username}, function(err, senderResult) {
+								if(err) throw err;
+								var balance = Number(senderResult.local.currency);
+								var newTotal = +balance - +total;
+								senderResult.local.currency = Number(newTotal);
+								senderResult.save(function(err, result) {
+									if(err) throw err;
+									res.redirect('/dashboard');
+								});
+							});
+						}
+					}
 				}
 			}
 		}	

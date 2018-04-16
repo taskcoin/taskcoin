@@ -196,7 +196,7 @@ exports.done = function(req, res) {
 	var username = req.user.local.username;
 	if(jobID.length == 24) {
 		var job = mongoose.model('requestJob');
-		job.findOne({'_id': jobID, 'to': username}, function(err, jobResult) {
+		job.findOne({'_id': jobID, 'from': username}, function(err, jobResult) {
 			if(err) throw err;
 			if(jobResult == null) {
 				res.redirect('/');

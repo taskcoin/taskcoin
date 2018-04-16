@@ -5,7 +5,8 @@ var sanitize = require('strip-js');
 /* GET */
 
 exports.messages = function(req, res) {
-	Message.find({"to": req.user.local.username, "type": "Inbox"}, function(err, result) {
+	var message = mongoose.model('Message');
+	message.find({"to": req.user.local.username, "type": "Inbox"}, function(err, result) {
 		res.render('messages', {
 			user: req.user,
 			type: 'Inbox',
@@ -15,7 +16,8 @@ exports.messages = function(req, res) {
 };
 
 exports.sent = function(req, res) {
-	Message.find({"from": req.user.local.username}, function(err, result) {
+	var message = mongoose.model('Message');
+	message.find({"from": req.user.local.username}, function(err, result) {
 		res.render('messages', {
 			user: req.user,
 			type: 'Sent',
@@ -25,7 +27,8 @@ exports.sent = function(req, res) {
 };
 
 exports.trash = function(req, res) {
-	Message.find({"from": req.user.local.username, "type": "Trash"}, function(err, result) {
+	var message = mongoose.model('Message');
+	message.find({"to": req.user.local.username, "type": "Trash"}, function(err, result) {
 		res.render('messages', {
 			user: req.user,
 			type: 'Trash',
@@ -39,6 +42,18 @@ exports.compose = function(req, res) {
 		user: req.user
 	});
 };	
+
+exports.moveToTrash = function(req, res) {
+	var message = mongoose.model('Message');
+	var messageID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+	message.findOne({"to": req.user.local.username, "_id": messageID}, function(err, result) {
+		result.type = 'Trash';
+		result.save(function(err, result) {
+			if(err) throw err;
+			res.redirect('/messages/trash')
+		});
+	});
+}
 
 /* POST */
 

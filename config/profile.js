@@ -104,6 +104,33 @@ exports.giveRep = function(req, res) {
 	});
 };
 
+exports.sendTaskCoin = function(req, res) {
+	var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
+	if (username.length < 3) {
+		res.redirect('/');
+	} else {
+		var User = mongoose.model('User');
+		User.findOne({'local.username': username}, function(err, person) {
+			if (err) throw err;
+			if (person == undefined) {
+				res.send(404);
+			} else {
+				res.render('sendtaskcoin', {
+					user: req.user,
+					name: person.local.username,
+					location: person.local.location,
+					created: person.local.created,
+					rep: person.local.reputation,
+					userPicture: person.local.pic,
+					reason: ''
+				});
+			}
+		});	
+	}
+}	
+
+/* POST */
+
 exports.giveReputation = function(req, res) {
 	var receiver = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
 	var giver = sanitize(req.user.local.username).replace(/[^a-z0-9]/gi,'');
@@ -180,5 +207,112 @@ exports.giveReputation = function(req, res) {
 				res.redirect('/');
 			}
 		}
+	});
+};
+
+exports.sendMoney = function(req, res) {
+	function error(reason) {
+		var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
+		if (username.length < 3) {
+			res.redirect('/');
+		} else {
+			var User = mongoose.model('User');
+			User.findOne({'local.username': username}, function(err, person) {
+				if (err) throw err;
+				if (person == undefined) {
+					res.send(404);
+				} else {
+					res.render('sendtaskcoin', {
+						user: req.user,
+						name: person.local.username,
+						location: person.local.location,
+						created: person.local.created,
+						rep: person.local.reputation,
+						userPicture: person.local.pic,
+						reason: reason
+					});
+				}
+			});	
+		}
+	};
+
+	var User = mongoose.model('User');
+	var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
+	var price = sanitize(req.body.amount).replace(/[^0-9]/gi,'');
+	User.findOne({'local.username': username}, function(err, userResult) {
+		if(err) throw err;
+		if(userResult == null) {
+			res.redirect('/');
+		} else {
+
+			if (price < 1) {
+				error('Choose a balance that is 1 or greater');
+			} else {
+
+				// CHECK BALANCE
+
+				var userBalance = Number(userResult.local.currency);
+				var fees = Math.floor(userBalance * 0.01);
+				if (fees < 10) {
+		 			var fees = 10;
+		 			var total = fees + Number(price);
+		 			if (total > Number(req.user.local.currency)) {
+		 				redirectSubmit('Total cost exceeds balance');
+		 			} else {
+		 				
+					}
+				} else {
+					/*var total = fees + Number(price);
+		 			if (total > Number(req.user.local.currency)) {
+		 				redirectSubmit('Total cost exceeds balance');
+		 			} else {
+
+		 				// CREATE TRANSACTION 
+
+						var transaction = mongoose.model('Transaction');
+						var createTransaction = new transaction();
+
+						createTransaction.userA = req.user.local.username;
+						createTransaction.userB = username;
+						createTransaction.reason = 'Received TaskCoin from ' + req.user.local.username;
+						createTransaction.amount = number(price);
+						createTransaction.date = Date.now();
+
+						createTransaction.save(function(err, result) {
+							if(err) throw err;
+						});
+
+						// ADD AMOUNT TO RECEIVER
+
+						var totalAmount = +userBalance + Number(price);
+						userResult.local.currency = totalAmount;
+
+						userResult.save(function(err, result) {
+							if(err) throw err;
+						});
+
+						// DEDUCT AMOUNT FROM SENDER
+
+						User.findOne({'local.username': req.user.local.username}, function(err, OPResult) {
+							if(err) throw err;
+							if(OPResult == null) {
+								res.redirect('/');
+							} else {
+
+								// DEDUCT AND REDIRECT
+
+								var OPBalance = Number(OPResult.local.currency);
+								var newTotal = +OPBalance - +total;
+								OPResult.local.currency = newTotal;
+								OPResult.save(function(err, result) {
+									if(err) throw err;
+									res.redirect('/dashboard');
+								});
+							}
+						});
+					}*/
+				}
+			}
+		}	
 	});
 };

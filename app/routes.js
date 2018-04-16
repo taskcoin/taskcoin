@@ -67,8 +67,10 @@ module.exports = function(app, passport) {
 	app.get('/profile/:user/services', isLoggedIn, profile.services);
 	app.get('/profile/:user/reputation', isLoggedIn, profile.reputation);
 	app.get('/profile/:user/reputation/give', isLoggedIn, profile.giveRep);
+	app.get('/profile/:user/send', isLoggedIn, profile.sendTaskCoin);
 
 	app.post('/profile/:user/reputation/give', isLoggedIn, profile.giveReputation);
+	app.post('/profile/:user/send', isLoggedIn, profile.sendMoney);
  	
  	// MESSAGING
 
@@ -78,6 +80,7 @@ module.exports = function(app, passport) {
 	app.get('/messages/sent/', isLoggedIn, messages.sent);
 	app.get('/messages/compose', isLoggedIn, messages.compose);
 	app.get('/messages/trash', isLoggedIn, messages.trash);
+	app.get('/messages/:id/trash', isLoggedIn, messages.moveToTrash);
 
 	app.post('/messages/compose', isLoggedIn, messages.postCompose);
 

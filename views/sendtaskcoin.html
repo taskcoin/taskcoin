@@ -77,70 +77,36 @@
 			</div>
 		</header>
 
-		<div id='profile'>
-			<!--<div id='background'>
-
-			</div>
-			<br>-->
+		<div>
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-8" id='listings'>
-						<% 
-						if (type == 'services') {
-						%>
+					<div class="col-sm-8">
 						<h4>
-							Services
+							Send TaskCoin
 						</h4>
-						<script type="text/javascript">
-							var services = <%- services %>;
-							if(services.length == 0) {
-								$('#listings').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < 10; i++) {
-									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'><img src='"+services[i].picture+"' /></div></div><div class='col-sm-9'><a href='/service/"+services[i]._id+"'><h4>"+ services[i].title+"</h4></a><h6>TASK "+ services[i].price+"</h6></div></div></div></div>");
-								};
-							};
-						</script>
-						<%
-							} else if (type == 'requests') {
-						%>
-						<h4>
-							Requests
-						</h4>
-						<script type="text/javascript">
-							var requests = <%- products %>;
-							if(requests.length == 0) {
-								$('#listings').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < 10; i++) {
-									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'><img src='"+requests[i].picture+"' /></div></div><div class='col-sm-9'><a href='/request/"+requests[i]._id+"'><h4>"+ requests[i].title+"</h4></a><h6>TASK "+ requests[i].price+"</h6></div></div></div></div>");
-								};
-							};
-						</script>
-						<%
-							} else {
-						%>
-						<h4>
-							Reputation
-						</h4>
-						<a href='/profile/<%= name %>/reputation/give'>
-							<div id='giveRep'>
-								GIVE REPUTATION
-							</div>
-						</a>
-						<script type="text/javascript">
-							var rep = <%- reputation %>;
-							if(rep.length == 0 || rep == null) {
-								$('#listings').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < rep.length; i++) {
-									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/profile/"+rep[i].userA+"'><h4>"+ rep[i].userA+"</h4></a><h6>"+ rep[i].given+"</h6></div></div></div></div>");
-								};
-							};
-						</script>
-						<%
-							}
-						%>
+						<form method='post' action='/profile/<%= name %>/send'>
+							<% if (reason) { %>
+							<div class="alert alert-danger"><%= reason %></div>
+							<% } %>
+							<label for='amount'>Username</label>
+							<input type='input' name='username' value='<%= name %>' disabled class='form-control' />
+							<label for='amount'>Amount of TaskCoin</label>
+							<input type='number' name='amount' min='1' max='50000' value='1' id='price' class='form-control' />
+							<label>
+								Fees
+							</label>
+							<input type="number" class='form-control' id='fees' min='0' name="fees" disabled />
+							<label>
+								Your Balance
+							</label>
+							<input type="number" class='form-control' value='<%= user.local.currency %>' disabled id='balance' min='0' id='balance' name="balance" />
+							<label>
+								Total Cost
+							</label>
+							<input type="number" class='form-control' disabled id='total' min='0' id='total' name="total" />
+							<br>
+							<input type="submit" />
+						</form>
 					</div>
 					<div class="col-sm-4">
 						<div id='user'>
@@ -300,4 +266,25 @@
 			</center>
 		</footer>
 	</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$('#price').on('click',function() {
+			var price = $('#price').val();
+			var fees = Math.round(price/100);
+			if(10 > fees) {
+				var fees = 10;
+				$('#fees').val(fees);
+				var price = parseInt(price);
+				var fees = parseInt(fees);
+				var total = price + fees;
+				$('#total').val(total);
+			} else {
+				$('#fees').val(fees);
+				var price = parseInt(price);
+				var fees = parseInt(fees);
+				var total = price + fees;
+				$('#total').val(total);
+			}
+		});
+	</script>
 </html>

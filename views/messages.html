@@ -90,7 +90,7 @@
 							$('.col-sm-8').append('<p>Nothing available.</p>');
 						} else {
 							for(var i = 0; i < messages.length; i++) {
-								$('.col-sm-8').append("<div class='message'><div class='wrapper'><div id='title'><h4>" + messages[i].subject + "</h4><p>By: <a href=''>" + messages[i].from + "</a></p></div><p id='content'>" + messages[i].content + "</p><ul><a href='/profile/" + messages[i].from + "'><li>Reply</li></a><a href='/messages/"+messages[i]._id+"/trash'><li>Trash</li></a></ul></div></div>");
+								$('.col-sm-8').append("<div class='message'><div class='wrapper'><div id='title'><h4>" + messages[i].subject + "</h4><p>By: <a href='/profile/" + messages[i].from + "'>" + messages[i].from + "</a></p></div><p id='content'>" + messages[i].content + "</p><ul><a href='/profile/" + messages[i].from + "'><li>Reply</li></a><a href='/messages/"+messages[i]._id+"/trash'><li>Trash</li></a></ul></div></div>");
 							};
 						};	
 						</script>

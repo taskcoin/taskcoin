@@ -86,7 +86,12 @@
 							$('.reports').append('<p>Nothing available.</p>');
 						} else {
 							for(var i = 0; reports.length; i++) {
-								$('.reports').append("<ul><li><strong>DATE: "+reports[i].submitted+"</strong></li><li><strong>USERNAME: "+reports[i].from+"</strong></li><li><strong>ID: "+reports[i].ID+"</strong></li><h6>"+reports[i].title+"</h6><p>"+reports[i].reason+"</p><a href=''>IGNORE REPORT</a><a href=''>DELETE LISTING</a></ul>");
+								if(reports[i].type == 1) {
+									$('.reports').append("<ul><li><strong>DATE: "+reports[i].submitted+"</strong></li><li><strong>USERNAME: "+reports[i].from+"</strong></li><li><strong>ID: "+reports[i].ID+"</strong></li><li><strong>TYPE: Request</strong></li><h6>"+reports[i].title+"</h6><p>"+reports[i].reason+"</p><a href='/admin/reports/"+reports[i]._id+"/ignore'>IGNORE REPORT</a><a href='/admin/reports/"+reports[i]._id+"/delete'>  DELETE LISTING</a></ul><br>");
+								} else {
+									$('.reports').append("<ul><li><strong>DATE: "+reports[i].submitted+"</strong></li><li><strong>USERNAME: "+reports[i].from+"</strong></li><li><strong>ID: "+reports[i].ID+"</strong></li><li><strong>TYPE: Service</strong></li><h6>"+reports[i].title+"</h6><p>"+reports[i].reason+"</p><a href='/admin/reports/"+reports[i]._id+"/ignore'>IGNORE REPORT</a><a href='/admin/reports/"+reports[i]._id+"/delete'>  DELETE LISTING</a></ul><br>");
+								}
+								
 							};
 						};
 					</script>

@@ -315,3 +315,101 @@ exports.feedbackReward = function(req, res) {
 		}
 	});
 };
+
+exports.ignoreReport = function(req, res) {
+	var Users = mongoose.model('User');
+	var username = req.user.local.username;
+	var reportID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+
+	Users.findOne({'local.username': username, 'local.admin': 1}, function(err, userResult) {
+		if(err) throw err;
+		if(userResult != null) {
+			// JUST DELETE REPORT
+
+			var Reports = mongoose.model('Report');
+			Reports.remove({'_id': reportID}, function(err, result) {
+				if(err) throw err;
+			});
+
+			res.redirect('/admin/reports');
+		} else {
+			res.redirect('/');
+		}
+	});
+};
+
+exports.deleteReport = function(req, res) {
+	var Users = mongoose.model('User');
+	var username = req.user.local.username;
+	var reportID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+
+	Users.findOne({'local.username': username, 'local.admin': 1}, function(err, userResult) {
+		if(err) throw err;
+		if(userResult != null) {
+
+			// PHYSICALLY REMOVE POST, MESSAGE USER, THEN DELETE REPORT
+
+			var Reports = mongoose.model('Report');
+			Reports.findOne({'_id': reportID}, function(err, reportResult) {
+				if(err) throw err;
+				if(reportResult == null) {
+					res.redirect('/admin/reports');
+				} else {
+					if(reportResult.type == '1') {
+						var Requests = mongoose.model('Request');
+						console.log(reportResult);
+						Requests.findOne({'_id': reportResult.ID}, function(err, result) {
+							console.log(result);
+							if (err) throw err;
+
+							var Message = mongoose.model('Message');
+							var message = new Message();
+
+							message.to = result.offerer;
+							message.subject = "Your request has been deleted.";
+							message.content = "Your request has been deleted due to admin action.";
+							message.type = 'Inbox';
+							message.from = username;
+
+							message.save(function(err, result) {
+								if (err) throw err;
+							});
+						});
+						Requests.remove({'_id': reportResult.ID}, function(err, result) {
+							if(err) throw err;
+						});
+					} else {
+						var Services = mongoose.model('Service');
+						Services.findOne({'_id': reportResult.ID}, function(err, result) {
+							if (err) throw err;
+
+							var Message = mongoose.model('Message');
+							var message = new Message();
+
+							message.to = result.seller;
+							message.subject = "Your request has been deleted.";
+							message.content = "Your request has been deleted due to admin action.";
+							message.type = 'Inbox';
+							message.from = username;
+
+							message.save(function(err, result) {
+								if (err) throw err;
+							});
+						});
+
+						Services.remove({'_id': reportResult.ID}, function(err, result) {
+							if(err) throw err;
+						});
+					}
+					var Reports = mongoose.model('Report');
+					Reports.remove({'_id': reportID}, function(err, result) {
+						if(err) throw err;
+						res.redirect('/admin/reports');
+					});	
+				}
+			});
+		} else {
+			res.redirect('/');
+		}
+	});
+};

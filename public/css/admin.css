@@ -54,14 +54,14 @@ html, body {
 /* REPORTS */
 
 .reports {
-	background-color: white;
 	width: 100%;
-	border: 1px solid #ddd;
-	margin-bottom: 10px;
 }
 .reports ul {
 	list-style-type: none;
+	border: 1px solid #ddd;
+	background-color: white;
 	padding: 0px 0px;
+	margin-bottom: 10px;
 }
 
 /* USERS */

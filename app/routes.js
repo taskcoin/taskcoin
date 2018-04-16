@@ -100,6 +100,7 @@ module.exports = function(app, passport) {
 	app.post('/submit', isLoggedIn, request.postSubmit);
 	app.post('/request/:id/order', isLoggedIn, request.orderProduct);
 	app.post('/request/:id/edit', isLoggedIn, request.postEdit);
+	app.post('/request/:id/report', isLoggedIn, request.reportSubmit);
 
 	// REQUEST JOBS
 
@@ -128,6 +129,7 @@ module.exports = function(app, passport) {
 	app.post('/service/submit', isLoggedIn, service.postSubmit);
 	app.post('/service/:id/order', isLoggedIn, service.orderService);
 	app.post('/service/:id/edit', isLoggedIn, service.postEdit);
+	app.post('/service/:id/report', isLoggedIn, service.reportSubmit);
 
 	// SERVICE JOBS
 
@@ -153,6 +155,9 @@ module.exports = function(app, passport) {
 	app.get('/admin/feedback/:id/delete', isLoggedIn, admin.feedbackDelete);
 	app.get('/admin/feedback/:id/reward', isLoggedIn, admin.feedbackReward);
 	app.get('/admin/blog/:id/delete', isLoggedIn, admin.deleteBlog);
+	app.get('/admin/reports/:id/ignore', isLoggedIn, admin.ignoreReport);
+	app.get('/admin/reports/:id/delete', isLoggedIn, admin.deleteReport);
+
 
 	app.post('/admin/blog/create', isLoggedIn, admin.submitBlog);
 

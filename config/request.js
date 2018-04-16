@@ -143,24 +143,25 @@ exports.order = function(req, res) {
 }
 
 exports.report = function(req, res) {
-	/*var requestID = striptags(req.params.id);
+	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
 	var username = req.user.local.username;
 
 	if (requestID.length == 24) {
 		var requests = mongoose.model('Request');
 		requests.findOne({'_id': requestID}, function(err, result) {
-			if(result.length == 1) {
-				res.render('report', {
-					user: req.user,
-					requestID: requestID
-				});
-			} else {
+			if(result == null) {
 				res.redirect('/');
+			} else {
+				res.render('requests/report', {
+					user: req.user,
+					requestID: requestID,
+					result: ''
+				});
 			}
 		});
 	} else {
 		res.redirect('/');
-	}*/
+	}
 };
 
 exports.watchlist = function(req, res) {
@@ -488,11 +489,11 @@ exports.postSubmit = function(req, res) {
 };
 
 exports.reportSubmit = function(req, res) {
-	var title = sanitize(req.body.title).replace(/[^a-z0-9]/gi,'');
-	var reason = sanitize(req.body.reason).replace(/[^a-z0-9]/gi,'');
+	var title = sanitize(req.body.title);
+	var reason = sanitize(req.body.reason);
 	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
 	function renderSubmit(reason) {
-		res.render('report', {
+		res.render('requests/report', {
 			user: req.user,
 			requestID: requestID,
 			reason: reason
@@ -531,15 +532,16 @@ exports.reportSubmit = function(req, res) {
 
 								newReport.from = req.user.local.username;
 								newReport.ID = requestID;
+								newReport.type = 1;
 								newReport.title = title;
 								newReport.reason = reason;
 								newReport.submitted = Date.now();
 
-								report.save(function(err, result) {
+								newReport.save(function(err, result) {
 									if(err) throw err;
 								});
 								
-								res.redirect('/report/submitted');
+								res.send('Created report');
 							}
 						});
 					}

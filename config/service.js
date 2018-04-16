@@ -144,24 +144,25 @@ exports.order = function(req, res) {
 }
 
 exports.report = function(req, res) {
-	/*var requestID = striptags(req.params.id);
+	var serviceID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
 	var username = req.user.local.username;
 
-	if (requestID.length == 24) {
-		var requests = mongoose.model('Request');
-		requests.findOne({'_id': requestID}, function(err, result) {
-			if(result.length == 1) {
-				res.render('report', {
-					user: req.user,
-					requestID: requestID
-				});
-			} else {
+	if (serviceID.length == 24) {
+		var services = mongoose.model('Service');
+		services.findOne({'_id': serviceID}, function(err, result) {
+			if(result == null) {
 				res.redirect('/');
+			} else {
+				res.render('services/report', {
+					user: req.user,
+					requestID: serviceID,
+					reason: ''
+				});
 			}
 		});
 	} else {
 		res.redirect('/');
-	}*/
+	}
 };
 
 exports.watchlist = function(req, res) {
@@ -599,4 +600,67 @@ exports.postEdit = function(req, res) {
 			}
 		}
 	});
+};
+
+exports.reportSubmit = function(req, res) {
+	var title = sanitize(req.body.title);
+	var reason = sanitize(req.body.reason);
+	var requestID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+	function renderSubmit(reason) {
+		res.render('services/report', {
+			user: req.user,
+			requestID: requestID,
+			reason: reason
+		});
+	};
+	if(requestID.length != 24) {
+		res.redirect('/');
+	} else {
+		if(title.length < 30) {
+			renderSubmit('Title too short');
+		} else {
+			if(title.length > 200) {
+				renderSubmit('Title too long');
+			} else {
+				if(reason.length < 50) {
+					renderSubmit('Reason too short');
+				} else {
+					if(reason.length > 1500) {
+						renderSubmit('Reason too long');
+					} else {
+
+						// CHECK REQUESTID EXISTS
+
+						var services = mongoose.model('Service');
+						services.findOne({'_id': requestID}, function(err, requestResult) {
+							if(err) throw err;
+							if(requestResult == null) {
+								res.redirect('/');
+							} else {
+
+								// SUBMIT REPORT
+
+								var report = mongoose.model('Report');
+
+								var newReport = new report();
+
+								newReport.from = req.user.local.username;
+								newReport.ID = requestID;
+								newReport.type = 2;
+								newReport.title = title;
+								newReport.reason = reason;
+								newReport.submitted = Date.now();
+
+								newReport.save(function(err, result) {
+									if(err) throw err;
+								});
+								
+								res.send('Created report');
+							}
+						});
+					}
+				}
+			}
+		}
+	}
 };

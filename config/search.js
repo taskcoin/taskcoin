@@ -13,45 +13,70 @@ exports.index = function(req, res) {
 	var location = sanitize(req.query.location).replace(/[^a-z0-9]/gi,'');
 	var delivery = sanitize(req.query.delivery);
 
+	var perPage = 9;
+	var page = sanitize(req.query.page).replace(/[^0-9]/gi,'') || 1;
+
 	if (type == 'requests') {
 
 		// RENDER RESULTS FOR REQUESTS
 
+		
+
 		var request = mongoose.model('Request');
 		if(category.length > 0) {
-			request.find({'title':  new RegExp(query, 'i'), 'category': category}, 'title price category picture', function(err, result) {
+			request.find({'title':  new RegExp(query, 'i'), 'category': category}).skip((perPage*page)-perPage).limit(perPage).select('title price category picture').exec(function(err, result) {
 				if(err) throw err;
-				res.render('search', {
-					user: req.user,
-					type: type,
-					requests: JSON.stringify(result)
+				request.count().exec(function(err, count) {
+					res.render('search', {
+						user: req.user,
+						type: type,
+						query: query,
+						requests: JSON.stringify(result),
+						pages: Math.ceil(count/perPage),
+						current: page
+					});
 				});
 			});
 		} else if(location.length > 0) {
-			request.find({'title':  new RegExp(query, 'i'), 'location': location}, 'title price location picture', function(err, result) {
+			request.find({'title':  new RegExp(query, 'i'), 'location': location}).skip((perPage*page)-perPage).limit(perPage).select('title price location picture').exec(function(err, result) {
 				if(err) throw err;
-				res.render('search', {
-					user: req.user,
-					type: type,
-					requests: JSON.stringify(result)
+				request.count().exec(function(err, count) {
+					res.render('search', {
+						user: req.user,
+						type: type,
+						query: query,
+						requests: JSON.stringify(result),
+						pages: Math.ceil(count/perPage),
+						current: page
+					});
 				});
 			});
 		} else if(delivery.length > 0) {
-			request.find({'title':  new RegExp(query, 'i'), 'delivery': delivery}, 'title price delivery picture', function(err, result) {
+			request.find({'title':  new RegExp(query, 'i'), 'delivery': delivery}).skip((perPage*page) - perPage).limit(perPage).select('title price delivery picture').exec(function(err, result) {
 				if(err) throw err;
-				res.render('search', {
-					user: req.user,
-					type: type,
-					requests: JSON.stringify(result)
+				request.count().exec(function(err, count) {
+					res.render('search', {
+						user: req.user,
+						type: type,
+						query: query,
+						requests: JSON.stringify(result),
+						pages: Math.ceil(count/perPage),
+						current: page
+					});
 				});
 			});
 		} else {
-			request.find({'title':  new RegExp(query, 'i')}, 'title price picture', function(err, result) {
+			request.find({'title':  new RegExp(query, 'i')}).skip((perPage*page) - perPage).limit(perPage).select('title price picture').exec(function(err, requests) {
 				if(err) throw err;
-				res.render('search', {
-					user: req.user,
-					type: type,
-					requests: JSON.stringify(result)
+				request.count().exec(function(err, count) {
+					res.render('search', {
+						user: req.user,
+						type: type,
+						query: query,
+						requests: JSON.stringify(requests),
+						pages: Math.ceil(count/perPage),
+						current: page
+					});
 				});
 			});
 		}
@@ -62,39 +87,59 @@ exports.index = function(req, res) {
 
 		var service = mongoose.model('Service');
 		if(category.length > 0) {
-			service.find({'title':  new RegExp(query, 'i'), 'category': category}, 'title price category picture', function(err, result) {
+			service.find({'title':  new RegExp(query, 'i'), 'category': category}).skip((perPage*page)-perPage).limit(perPage).select('title price category picture').exec(function(err, result) {
 				if(err) throw err;
-				res.render('search', {
-					user: req.user,
-					type: type,
-					services: JSON.stringify(result)
+				service.count().exec(function(err, count) {
+					res.render('search', {
+						user: req.user,
+						type: type,
+						query: query,
+						services: JSON.stringify(result),
+						pages: Math.ceil(count/perPage),
+						current: page
+					});
 				});
 			});
 		} else if(location.length > 0) {
-			service.find({'title':  new RegExp(query, 'i'), 'location': location}, 'title price location picture', function(err, result) {
+			service.find({'title':  new RegExp(query, 'i'), 'location': location}).skip((perPage*page)-perPage).limit(perPage).select('title price location picture').exec(function(err, result) {
 				if(err) throw err;
-				res.render('search', {
-					user: req.user,
-					type: type,
-					services: JSON.stringify(result)
+				service.count().exec(function(err, count) {
+					res.render('search', {
+						user: req.user,
+						type: type,
+						query: query,
+						services: JSON.stringify(result),
+						pages: Math.ceil(count/perPage),
+						current: page
+					});
 				});
 			});
 		} else if(delivery.length > 0) {
-			service.find({'title':  new RegExp(query, 'i'), 'delivery': delivery}, 'title price delivery picture', function(err, result) {
+			service.find({'title':  new RegExp(query, 'i'), 'delivery': delivery}).skip((perPage*page)-perPage).limit(perPage).select('title price delivery picture').exec(function(err, result) {
 				if(err) throw err;
-				res.render('search', {
-					user: req.user,
-					type: type,
-					services: JSON.stringify(result)
+				service.count().exec(function(err, count) {
+					res.render('search', {
+						user: req.user,
+						type: type,
+						query: query,
+						services: JSON.stringify(result),
+						pages: Math.ceil(count/perPage),
+						current: page
+					});
 				});
 			});
 		} else {
-			service.find({'title':  new RegExp(query, 'i')}, 'title price picture', function(err, result) {
+			service.find({'title':  new RegExp(query, 'i')}).skip((perPage*page)-perPage).limit(perPage).select('title price picture').exec(function(err, result) {
 				if(err) throw err;
-				res.render('search', {
-					user: req.user,
-					type: type,
-					services: JSON.stringify(result)
+				service.count().exec(function(err, count) {
+					res.render('search', {
+						user: req.user,
+						type: type,
+						query: query,
+						services: JSON.stringify(result),
+						pages: Math.ceil(count/perPage),
+						current: page
+					});
 				});
 			});
 		}
@@ -103,12 +148,17 @@ exports.index = function(req, res) {
 		// RENDER RESULTS FOR USERS
 
 		var user = mongoose.model('User');
-		user.find({'local.username': new RegExp(query, 'i')}, 'local.username local.created local.pic', function(err, result) {
+		user.find({'local.username': new RegExp(query, 'i')}).skip((perPage*page)-perPage).limit(perPage).select('local.username local.created local.pic').exec(function(err, result) {
 			if(err) throw err;
-			res.render('search', {
-				user: req.user,
-				type: type,
-				users: JSON.stringify(result)
+			user.count().exec(function(err, count) {
+				res.render('search', {
+					user: req.user,
+					type: type,
+					query: query,
+					users: JSON.stringify(result),
+					pages: Math.ceil(count/perPage),
+					current: page
+				});
 			});
 		});
 	} else {

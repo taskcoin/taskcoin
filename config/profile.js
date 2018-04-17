@@ -8,6 +8,10 @@ var sanitize = require('strip-js');
 
 exports.profile = function(req, res) {
 	var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
+
+	var perPage = 9;
+	var page = sanitize(req.query.pages).replace(/[^0-9]/gi,'') || 1;
+
 	if (username.length < 3) {
 		res.redirect('/');
 	} else {
@@ -18,18 +22,22 @@ exports.profile = function(req, res) {
 				res.send(404);
 			} else {
 				var Request = mongoose.model('Request');
-				Request.find({'offerer': username, 'type': '1'}, 'title price picture', function(err, requestResult) {
+				Request.find({'offerer': username, 'type': '1'}).skip((perPage*page)-perPage).limit(perPage).select('title price picture').exec(function(err, requestResult) {
 					if (err) throw err;
-					res.render('profile', {
-						user: req.user,
-						name: person.local.username,
-						location: person.local.location,
-						created: person.local.created,
-						type: 'requests',
-						rep: person.local.reputation,
-						userPicture: person.local.pic,
-						products: JSON.stringify(requestResult)
-					});	
+					Request.count().exec(function(err, count) {
+						res.render('profile', {
+							user: req.user,
+							name: person.local.username,
+							location: person.local.location,
+							created: person.local.created,
+							type: 'requests',
+							rep: person.local.reputation,
+							userPicture: person.local.pic,
+							products: JSON.stringify(requestResult),
+							pages: Math.ceil(count/perPage),
+							current: page
+						});	
+					});
 				});
 			}
 		});	
@@ -38,6 +46,10 @@ exports.profile = function(req, res) {
 
 exports.services = function(req, res) {
 	var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
+
+	var perPage = 9;
+	var page = sanitize(req.query.pages).replace(/[^0-9]/gi,'') || 1;
+
 	if (username.length < 3) {
 		res.redirect('/');
 	} else {
@@ -48,19 +60,25 @@ exports.services = function(req, res) {
 				res.send(404);
 			} else {
 				var Service = mongoose.model('Service');
-				Service.find({'seller': username}, 'title price picture', function(err, serivceResult) {
+
+				Service.find({'seller': username}).skip((perPage*page)-perPage).limit(perPage).select('title price picture').exec(function(err, serivceResult) {
 					if (err) throw err;
-					res.render('profile', {
-						user: req.user,
-						name: person.local.username,
-						location: person.local.location,
-						created: person.local.created,
-						type: 'services',
-						rep: person.local.reputation,
-						userPicture: person.local.pic,
-						services: JSON.stringify(serivceResult)
+					Service.count().exec(function(err, count) {
+						res.render('profile', {
+							user: req.user,
+							name: person.local.username,
+							location: person.local.location,
+							created: person.local.created,
+							type: 'services',
+							rep: person.local.reputation,
+							userPicture: person.local.pic,
+							services: JSON.stringify(serivceResult),
+							pages: Math.ceil(count/perPage),
+							current: page
+						});	
 					});	
 				});
+
 			}
 		});	
 	}
@@ -68,6 +86,10 @@ exports.services = function(req, res) {
 
 exports.reputation = function(req, res) {
 	var username = sanitize(req.params.user).replace(/[^a-z0-9]/gi,'');
+
+	var perPage = 9;
+	var page = sanitize(req.query.pages).replace(/[^0-9]/gi,'') || 1;
+
 	if (username.length < 3) {
 		res.redirect('/');
 	} else {
@@ -78,17 +100,21 @@ exports.reputation = function(req, res) {
 				res.send(404);
 			} else {
 				var Rep = mongoose.model('Reputation');
-				Rep.find({"userB": username}, function(err, reputation) {
+				Rep.find({"userB": username}).skip((perPage*page)-perPage).limit(perPage).exec(function(err, reputation) {
 					if (err) throw err;
-					res.render('profile', {
-						user: req.user,
-						name: person.local.username,
-						location: person.local.location,
-						created: person.local.created,
-						rep: person.local.reputation,
-						userPicture: person.local.pic,
-						type: 'reputation',
-						reputation: JSON.stringify(reputation)
+					Rep.count().exec(function(err, count) {
+						res.render('profile', {
+							user: req.user,
+							name: person.local.username,
+							location: person.local.location,
+							created: person.local.created,
+							rep: person.local.reputation,
+							userPicture: person.local.pic,
+							type: 'reputation',
+							reputation: JSON.stringify(reputation),
+							pages: Math.ceil(count/perPage),
+							current: page
+						});
 					});
 				});
 				

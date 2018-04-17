@@ -14,7 +14,7 @@ exports.index = function(req, res) {
 	var delivery = sanitize(req.query.delivery);
 
 	var perPage = 9;
-	var page = sanitize(req.query.page).replace(/[^0-9]/gi,'') || 1;
+	var page = sanitize(req.query.pages).replace(/[^0-9]/gi,'') || 1;
 
 	if (type == 'requests') {
 

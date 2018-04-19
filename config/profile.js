@@ -303,8 +303,8 @@ exports.sendMoney = function(req, res) {
 			 				var transaction = mongoose.model('Transaction');
 							var createTransaction = new transaction();
 
-							createTransaction.userA = req.user.local.username;
-							createTransaction.userB = username;
+							createTransaction.sender = req.user.local.username;
+							createTransaction.receiver = username;
 							createTransaction.reason = 'Received TaskCoin from ' + req.user.local.username;
 							createTransaction.amount = Number(price);
 							createTransaction.date = Date.now();
@@ -346,8 +346,8 @@ exports.sendMoney = function(req, res) {
 			 				var transaction = mongoose.model('Transaction');
 							var createTransaction = new transaction();
 
-							createTransaction.userA = req.user.local.username;
-							createTransaction.userB = username;
+							createTransaction.sender = req.user.local.username;
+							createTransaction.receiver = username;
 							createTransaction.reason = 'Received TaskCoin from ' + req.user.local.username;
 							createTransaction.amount = Number(price);
 							createTransaction.date = Date.now();

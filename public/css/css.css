@@ -296,6 +296,47 @@ footer ul li {
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+#dashboard .dashboardSent {
+	border: 1px solid #ff9900;
+	color: #ff9900;
+	font-size: 0.7em;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 2px;
+	float: right;
+	font-family: monospace;
+}
+#dashboard #dashboardTransaction {
+	background-color: white;
+	margin-bottom: 20px;
+}
+#dashboard .transactionsFloat {
+	float: right;
+	border: 1px solid #ff9900;
+	color: #ff9900;
+	padding-right: 5px;
+	padding-left: 5px;
+	font-family: monospace;
+	font-size: 0.6em;
+}
+#dashboard #dashboardTransaction .col-sm-1 {
+	margin-left: 25px;
+}
+#dashboardTransaction .col-sm-1 h6 {
+	padding-top: 18px;
+	text-align: center;
+	font-weight: 700;
+}
+#dashboardTransaction h5 a {
+	color: black;
+	text-decoration: none;
+}
+#dashboardTransaction .moreInfo {
+	float: right;
+	padding-top: 17px;
+}
+
+
 
 #activeJobs #jobs {
 	padding: 0px 0px;

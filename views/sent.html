@@ -11,8 +11,6 @@
 		<link rel="stylesheet" href="/css/fontawesome.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
-
-
 	<body>
 		<header>
 			<div class="container">
@@ -77,140 +75,60 @@
 			</div>
 		</header>
 
-		<div id='profile'>
-			<!--<div id='background'>
-
-			</div>
-			<br>-->
+		<div id='dashboard'>
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-8" id='listings'>
-						<% 
-						if (type == 'services') {
-						%>
+					<div class="col-sm-8">
 						<h4>
-							Services
+							Sent Transactions <a class='transactionsFloat' href='/dashboard/received'>RECEIVED</a>
 						</h4>
-						<script type="text/javascript">
-							var services = <%- services %>;
-							if(services.length == 0) {
-								$('#listings').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < 10; i++) {
-									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'><img src='"+services[i].picture+"' /></div></div><div class='col-sm-9'><a href='/service/"+services[i]._id+"'><h4>"+ services[i].title+"</h4></a><h6>TASK "+ services[i].price+"</h6></div></div></div></div>");
-								};
-							};
-						</script>
-						<%
-							} else if (type == 'requests') {
-						%>
-						<h4>
-							Requests
-						</h4>
-						<script type="text/javascript">
-							var requests = <%- products %>;
-							if(requests.length == 0) {
-								$('#listings').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < 10; i++) {
-									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'><img src='"+requests[i].picture+"' /></div></div><div class='col-sm-9'><a href='/request/"+requests[i]._id+"'><h4>"+ requests[i].title+"</h4></a><h6>TASK "+ requests[i].price+"</h6></div></div></div></div>");
-								};
-							};
-						</script>
-						<%
-							} else {
-						%>
-						<h4>
-							Reputation
-						</h4>
-						<a href='/profile/<%= name %>/reputation/give'>
-							<div id='giveRep'>
-								GIVE REPUTATION
-							</div>
-						</a>
-						<script type="text/javascript">
-							var rep = <%- reputation %>;
-							if(rep.length == 0 || rep == null) {
-								$('#listings').append('<p>Nothing available.</p>');
-							} else {
-								for(var i = 0; i < rep.length; i++) {
-									$('#listings').append("<div class='result'><div class='container'><div class='row'><div class='col-sm-3'><div id='image'></div></div><div class='col-sm-9'><a href='/profile/"+rep[i].userA+"'><h4>"+ rep[i].userA+"</h4></a><h6>"+ rep[i].given+"</h6></div></div></div></div>");
-								};
-							};
-						</script>
-						<%
-							}
-						%>
-						<% if (pages > 0) { %>
-			                <ul class="pagination">
-			                    <% if (current == 1) { %>
-			                        <li class="disabled"><a>First</a></li>
-			                    <% } else { %>
-			                        <li><a href="?pages=1">First</a></li>
-			                    <% } %>
-			                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-			                    <% if (i !== 1) { %>
-			                        <li class="disabled"><a>...</a></li>
-			                    <% } %>
-			                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-			                        <% if (i == current) { %>
-			                            <li class="active"><a><%= i %></a></li>
-			                        <% } else { %>
-			                            <li><a href="?type=<%= type %>&pages=<%= i %>"><%= i %></a></li>
-			                        <% } %>
-			                        <% if (i == Number(current) + 4 && i < pages) { %>
-			                            <li class="disabled"><a>...</a></li>
-			                        <% } %>
-			                    <% } %>
-			                    <% if (current == pages) { %>
-			                        <li class="disabled"><a>Last</a></li>
-			                    <% } else { %>
-			                        <li><a href='?type=<%= type %>&pages=<%= pages %>'>Last</a></li>
-			                    <% } %>
-			                </ul>
-			            <% } %>
 					</div>
 					<div class="col-sm-4">
 						<div id='user'>
 							<div id='sidebar'>
 								<br>
 								<div id='profilePhoto'>
-									<img src='<%= userPicture %>' />
+									<img src='<%=user.local.pic%>' />
 								</div>
 								
 								<h5>
 									<center>
-										<%= name %>
+										<%= user.local.username %>
 									</center>
 								</h5>
 								<p>
-									<strong><i class="fas fa-star"></i> Reputation:</strong> <a href='/profile/<%= name %>/reputation'><%= rep %></a>
+									<strong><i class="fas fa-star"></i> Reputation:</strong> <a href='/profile/<%= user.local.username %>/reputation'><%= user.local.reputation %></a>
 								</p>
 								<p>
-									<i class="fas fa-globe"></i> <strong>Location:</strong> <%= location %>
+									<i class="fas fa-globe"></i> <strong>Location:</strong> <%= user.local.location %>
 								</p>
 								<p>
-									<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= created %>
+									<i class="fas fa-calendar"></i> <strong>Account Created:</strong> <%= user.local.created %>
 								</p>
 								<br>
 							</div>
-							<a href='/profile/<%= name %>/send'>
+							<a href='/request/submit'>
 								<div class='profileSubmit'>
-									SEND <%= name %> TASKCOIN
+									SUBMIT REQUEST
+								</div>
+							</a>
+							<a href='/service/submit'>
+								<div class='profileSubmit'>
+									SUBMIT SERVICE
 								</div>
 							</a>
 							<br>
-							<a href='/profile/<%= name %>'>
+							<a href='/profile/<%= user.local.username %>'>
 								<div class='profileButton'>
 									REQUESTS
 								</div>
 							</a>
-							<a href='/profile/<%= name %>/services'>
+							<a href='/profile/<%= user.local.username %>/services'>
 								<div class='profileButton'>
 									SERVICES
 								</div>
 							</a>
-							<a href='/profile/<%= name %>/reputation'>
+							<a href='/profile/<%= user.local.username %>/reputation'>
 								<div class='profileButton'>
 									REPUTATION
 								</div>
@@ -220,14 +138,17 @@
 									MESSAGES (INBOX)
 								</div>
 							</a>
+							<br>
+							<a href='/watchlist'>
+								<div class='profileButton'>
+									WATCHLIST
+								</div>
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<br>
-		<br>
 
 		<footer>
 			<div class="container">
@@ -328,4 +249,14 @@
 			</center>
 		</footer>
 	</body>
+	<script type="text/javascript">
+		var transactions = <%- transactions %>;
+		if(transactions.length == 0) {
+			$('.col-sm-8').append('<p>Nothing available.</p>');
+		} else {
+			for(var i = 0; i < transactions.length; i++) {
+				$('.col-sm-8').append("<div id='dashboardTransaction'><div class='row'><div class='col-sm-1'><h6>-"+ transactions[i].amount +"</h6></div><div class='col-sm-10'><a class='moreInfo' href='/transaction/"+ transactions[i]._id +"'>MORE INFO</a><h5><a href='/profile/"+ transactions[i].receiver +"'>"+ transactions[i].receiver +"</a></h5><h6>"+ transactions[i].date +"</h6></div></div></div>");
+			};
+		};
+	</script>
 </html>

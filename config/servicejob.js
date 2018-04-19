@@ -153,8 +153,8 @@ exports.acceptJob = function(req, res) {
 
 						var transactions = mongoose.model('Transaction');
 						var newTransaction = new transactions();
-						newTransaction.userA = 'TaskCoin';
-						newTransaction.userB = otherOfferResults[i].customer;
+						newTransaction.sender = 'TaskCoin';
+						newTransaction.receiver = otherOfferResults[i].customer;
 						newTransaction.reason = 'Refund for service. Not accepted.';
 						newTransaction.amount = otherOfferResults[i].offer;
 						newTransaction.date = Date.now();
@@ -199,8 +199,8 @@ exports.denyJob = function(req, res) {
 				// CREATE TRANSACTION
 
 				var transaction = new transactions();
-				transaction.userA = 'Taskcoin';
-				transaction.userB = result.customer;
+				transaction.sender = 'Taskcoin';
+				transaction.receiver = result.customer;
 				transaction.reason = 'Refund. Didn\'t get accepted on service.';
 				transaction.amount = result.offer;
 				transaction.date = Date.now();
@@ -265,8 +265,8 @@ exports.doneJob = function(req, res) {
 						var transaction = mongoose.model('Transaction');
 						var createTransaction = new transaction();
 
-						createTransaction.userA = username;
-						createTransaction.userB = jobResult.from;
+						createTransaction.sender = username;
+						createTransaction.receiver = jobResult.from;
 						createTransaction.reason = 'Payment for completing service';
 						createTransaction.amount = newTotal;
 						createTransaction.date = Date.now();

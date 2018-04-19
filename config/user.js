@@ -46,14 +46,14 @@ exports.dashboard = function(req, res) {
 			// RENDER TRANSACTIONS
 
 			var transactions = mongoose.model('Transaction');
-			transactions.find({'userA': username}, function(err, transactions) {
+			transactions.find({'receiver': username}).sort({'date': -1}).limit(20).exec(function(err, transactions) {
 				if(err) throw err;
 
 				// RENDER REQUEST JOBS
 
 				var requests = mongoose.model('requestJob');
 
-				requests.find({$or: [{'from': username}, {'to': username}]}, function(err, requests) {
+				requests.find({'from': username}, function(err, requests) {
 					if(err) throw err;
 
 					// RENDER SERVICE JOBS
@@ -70,6 +70,35 @@ exports.dashboard = function(req, res) {
 						});
 					});
 				});
+			});
+		}
+	});
+};
+
+exports.transaction = function(req, res) {
+	var username = req.user.local.username;
+	var User = mongoose.model('User');
+	var ID = sanitize(req.params.id).replace(/[^a-z0-9]/gi,'');
+
+	User.findOne({'local.username': username}, function(err, person) {
+		if (err) throw err;
+		if (person.length == 0) {
+			res.send(404);
+		} else {
+
+			// RENDER TRANSACTIONS
+
+			var transactions = mongoose.model('Transaction');
+			transactions.findOne({'_id': ID}, function(err, transactions) {
+				if(err) throw err;
+				if(transactions.sender == username || transactions.receiver == username) {
+					res.render('transaction', {
+						user: req.user,
+						transactions: transactions
+					});
+				} else {
+					res.redirect('/');
+				}
 			});
 		}
 	});
@@ -98,6 +127,29 @@ exports.watchlistService = function(req, res) {
 		});
 	});
 }
+
+exports.receivedTransactions = function(req, res) {
+	var username = req.user.local.username;
+	var transactions = mongoose.model('Transaction');
+	transactions.find({'receiver': username}).sort({'date': -1}).limit(20).exec(function(err, transactions) {
+		res.render('received', {
+			user: req.user,
+			transactions: JSON.stringify(transactions)
+		});
+	});
+	
+};
+
+exports.sentTransactions = function(req, res) {
+	var username = req.user.local.username;
+	var transactions = mongoose.model('Transaction');
+	transactions.find({'sender': username}).sort({'date': -1}).limit(20).exec(function(err, transactions) {
+		res.render('sent', {
+			user: req.user,
+			transactions: JSON.stringify(transactions)
+		});
+	});
+};
 
 /* POST */
 
@@ -155,7 +207,7 @@ exports.submitFeedback = function(req, res) {
 				// RENDER TRANSACTIONS
 
 				var transactions = mongoose.model('Transaction');
-				transactions.find({'userA': username}, function(err, transactions) {
+				transactions.find({'userA': username}).sort({'date': -1}).limit('20').exec(function(err, transactions) {
 					if(err) throw err;
 
 					// RENDER REQUEST JOBS

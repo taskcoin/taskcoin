@@ -223,8 +223,8 @@ exports.done = function(req, res) {
 						var transaction = mongoose.model('Transaction');
 						var createTransaction = new transaction();
 
-						createTransaction.userA = username;
-						createTransaction.userB = jobResult.from;
+						createTransaction.sender = jobResult.from;
+						createTransaction.receiver = username;
 						createTransaction.reason = 'Payment for completing job';
 						createTransaction.amount = newTotal;
 						createTransaction.date = Date.now();

@@ -27,10 +27,6 @@ module.exports = function(app, passport) {
 	app.get('/blog', general.blog);
 	app.get('/about', general.about);
 
-	app.get('/test', function(req, res) {
-		res.render('test');
-	});
-
 	// USER
 
 	var user = require('../config/user.js');
@@ -42,12 +38,13 @@ module.exports = function(app, passport) {
 	app.get('/dashboard', isLoggedIn, user.dashboard);
 	app.get('/watchlist', isLoggedIn, user.watchlist);
 	app.get('/watchlist/service', isLoggedIn, user.watchlistService);
+	app.get('/transaction/:id', isLoggedIn, user.transaction);
+	app.get('/dashboard/sent', isLoggedIn, user.sentTransactions);
+	app.get('/dashboard/received', isLoggedIn, user.receivedTransactions);
 
-	app.post('/dashboard', isLoggedIn, user.submitFeedback)
-
+	app.post('/dashboard', isLoggedIn, user.submitFeedback);
 	app.post('/settings/location', isLoggedIn, user.changeLocation);
 	app.post('/settings/picture', isLoggedIn, user.changePicture);
-
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect:'/dashboard',
 		failureRedirect: '/login', 
@@ -157,7 +154,6 @@ module.exports = function(app, passport) {
 	app.get('/admin/blog/:id/delete', isLoggedIn, admin.deleteBlog);
 	app.get('/admin/reports/:id/ignore', isLoggedIn, admin.ignoreReport);
 	app.get('/admin/reports/:id/delete', isLoggedIn, admin.deleteReport);
-
 
 	app.post('/admin/blog/create', isLoggedIn, admin.submitBlog);
 

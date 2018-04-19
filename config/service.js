@@ -418,8 +418,8 @@ exports.postSubmit = function(req, res) {
 															var transaction = mongoose.model('Transaction');
 															var createTransaction = new transaction();
 
-															createTransaction.userA = req.user.local.username;
-															createTransaction.userB = query.offerer;
+															createTransaction.sender = query.offerer;
+															createTransaction.receiver = req.user.local.username;
 															createTransaction.reason = 'Created services for ' + fees;
 															createTransaction.amount = total;
 															createTransaction.date = Date.now();
@@ -470,8 +470,8 @@ exports.postSubmit = function(req, res) {
 															var transaction = mongoose.model('Transaction');
 															var createTransaction = new transaction();
 
-															createTransaction.userA = req.user.local.username;
-															createTransaction.userB = query.offerer;
+															createTransaction.sender = query.offerer;
+															createTransaction.receiver = req.user.local.username;
 															createTransaction.reason = 'Created services for ' + fees;
 															createTransaction.amount = total;
 															createTransaction.date = Date.now();

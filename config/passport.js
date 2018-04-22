@@ -165,9 +165,7 @@ module.exports = function(passport) {
 
 			// CHECK ACCOUNT CAN LOGIN
 
-			if(user.local.canLogin == true) {
-				return(null, user);
-			} else {
+			if(user.local.canLogin != true) {
 				return done(null, false, req.flash('loginMessage', 'Cannot login!'));
 			}
 

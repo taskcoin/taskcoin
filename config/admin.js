@@ -191,7 +191,20 @@ exports.feedback = function(req, res) {
 };
 
 exports.money = function(req, res) {
-	res.render('admin/adminmoney');
+	var Users = mongoose.model('User');
+	var username = req.user.local.username;
+	Users.findOne({'local.username': username, 'local.admin': 1}, function(err, userResult) {
+		if(err) throw err;
+		if(userResult != null) {
+			Users.findOne({'local.username': 'Taskcoin'}, function(err, adminResult) {
+				res.render('admin/adminmoney', {
+					money: adminResult.local.currency
+				});
+			});
+		} else {
+			res.redirect('/');
+		}
+	});
 }
 
 exports.submitBlog = function(req, res) {

@@ -190,6 +190,10 @@ exports.feedback = function(req, res) {
 	});
 };
 
+exports.money = function(req, res) {
+	res.render('admin/adminmoney');
+}
+
 exports.submitBlog = function(req, res) {
 	var Users = mongoose.model('User');
 	var username = req.user.local.username;

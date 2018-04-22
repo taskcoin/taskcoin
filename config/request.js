@@ -382,6 +382,17 @@ exports.postSubmit = function(req, res) {
 															if(err) throw err;
 														});
 
+														// SEND TRANSACTION TO ADMIN ACCOUNT
+
+														User.findOne({'local.username': 'Taskcoin'}, function(err, result) {
+															var currentBal = Number(result.local.currency);
+															var newBal = +currentBal + +fees;
+															result.local.currency = newBal;
+															result.save(function(err, save) {
+																if(err) throw err;
+															});
+														}); 
+
 														// DEDUCT AMOUNT FROM ORIGINAL USER
 
 														var totalAmount = Math.floor(userResult.local.currency - total);
@@ -434,6 +445,17 @@ exports.postSubmit = function(req, res) {
 														createTransaction.save(function(err, result) {
 															if(err) throw err;
 														});
+
+														// SEND TRANSACTION TO ADMIN ACCOUNT
+
+														User.findOne({'local.username': 'Taskcoin'}, function(err, result) {
+															var currentBal = Number(result.local.currency);
+															var newBal = +currentBal + +fees;
+															result.local.currency = newBal;
+															result.save(function(err, save) {
+																if(err) throw err;
+															});
+														}); 
 
 														// DEDUCT AMOUNT FROM ORIGINAL USER
 

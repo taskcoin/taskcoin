@@ -12,7 +12,8 @@ var userSchema = mongoose.Schema({
 		ip: String,
 		admin: Boolean,
 		pic: String,
-		referral: String
+		referral: String,
+		canLogin: Boolean
 	}
 });
 

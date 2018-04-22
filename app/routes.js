@@ -154,6 +154,7 @@ module.exports = function(app, passport) {
 	app.get('/admin/blog/:id/delete', isLoggedIn, admin.deleteBlog);
 	app.get('/admin/reports/:id/ignore', isLoggedIn, admin.ignoreReport);
 	app.get('/admin/reports/:id/delete', isLoggedIn, admin.deleteReport);
+	app.get('/admin/money', isLoggedIn, admin.money);
 
 	app.post('/admin/blog/create', isLoggedIn, admin.submitBlog);
 

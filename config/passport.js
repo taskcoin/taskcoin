@@ -41,10 +41,11 @@ module.exports = function(passport) {
 							newUser.local.password = newUser.generateHash(password);
 							newUser.local.created = Date.now();
 							newUser.local.location = 'INT';
-							newUser.local.currency = 1000;
+							newUser.local.currency = 0;
 							newUser.local.reputation = 0;
 							newUser.local.admin = 0;
 							newUser.local.referral = '';
+							newUser.local.canLogin = true;
 							newUser.local.ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 							newUser.local.pic = 'https://i.imgur.com/ojhClua.jpg';
 							newUser.save(function(err) {
@@ -71,9 +72,10 @@ module.exports = function(passport) {
 								newUser.local.password = newUser.generateHash(password);
 								newUser.local.created = Date.now();
 								newUser.local.location = 'Global';
-								newUser.local.currency = 1000;
+								newUser.local.currency = 0;
 								newUser.local.reputation = 0;
 								newUser.local.admin = 0;
+								newUser.local.canLogin = true;
 								newUser.local.referral = '';
 								newUser.local.ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 								newUser.local.pic = 'https://i.imgur.com/ojhClua.jpg';
@@ -94,6 +96,17 @@ module.exports = function(passport) {
 						referralResult.save(function(err, result) {
 							if(err) throw err;
 						});	
+
+						// DEDUCT ADMIN ACCOUNT
+
+						User.findOne({'local.username': 'Taskcoin'}, function(err, result) {
+							var currentBal = Number(result.local.currency);
+							var newBal = +currentBal - 10;
+							result.local.currency = newBal;
+							result.save(function(err, save) {
+								if(err) throw err;
+							});
+						}); 
 
 						// CREATE TRANSACTION
 
@@ -121,9 +134,10 @@ module.exports = function(passport) {
 								newUser.local.password = newUser.generateHash(password);
 								newUser.local.created = Date.now();
 								newUser.local.location = 'Global';
-								newUser.local.currency = 1000;
+								newUser.local.currency = 0;
 								newUser.local.reputation = 0;
 								newUser.local.admin = 0;
+								newUser.local.canLogin = true;
 								newUser.local.referral = referral;
 								newUser.local.ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 								newUser.local.pic = 'https://i.imgur.com/ojhClua.jpg';
@@ -148,6 +162,14 @@ module.exports = function(passport) {
 		User.findOne({'local.username': username.replace(/[^a-z0-9]/gi,'')}, function(err, user) {
 			if(err) return done(err);
 			if(!user) return done(null, false, req.flash('loginMessage', 'No user found.'));
+
+			// CHECK ACCOUNT CAN LOGIN
+
+			if(user.local.canLogin == true) {
+				return(null, user);
+			} else {
+				return done(null, false, req.flash('loginMessage', 'Cannot login!'));
+			}
 
 			// PASSWORD CHECKING
 

@@ -313,6 +313,17 @@ exports.sendMoney = function(req, res) {
 								if(err) throw err;
 							});
 
+							// SEND TRANSACTION TO ADMIN ACCOUNT
+
+							User.findOne({'local.username': 'Taskcoin'}, function(err, result) {
+								var currentBal = Number(result.local.currency);
+								var newBal = +currentBal + Number(price);
+								result.local.currency = newBal;
+								result.save(function(err, save) {
+									if(err) throw err;
+								});
+							}); 
+
 							// DEDUCT MONEY FROM SENDER
 
 							User.findOne({'local.username': req.user.local.username}, function(err, senderResult) {
@@ -355,6 +366,17 @@ exports.sendMoney = function(req, res) {
 							createTransaction.save(function(err, result) {
 								if(err) throw err;
 							});
+
+							// SEND TRANSACTION TO ADMIN ACCOUNT
+
+							User.findOne({'local.username': 'Taskcoin'}, function(err, result) {
+								var currentBal = Number(result.local.currency);
+								var newBal = +currentBal + Number(price);
+								result.local.currency = newBal;
+								result.save(function(err, save) {
+									if(err) throw err;
+								});
+							}); 
 
 							// DEDUCT MONEY FROM SENDER
 

@@ -430,7 +430,7 @@ exports.postSubmit = function(req, res) {
 
 															// SEND TRANSACTION TO ADMIN ACCOUNT
 
-															User.findOne({'local.username': 'Taskcoin'}, function(err, result) {
+															user.findOne({'local.username': 'Taskcoin'}, function(err, result) {
 																var currentBal = Number(result.local.currency);
 																var newBal = +currentBal + +fees;
 																result.local.currency = newBal;
@@ -493,7 +493,7 @@ exports.postSubmit = function(req, res) {
 
 															// SEND TRANSACTION TO ADMIN ACCOUNT
 
-															User.findOne({'local.username': 'Taskcoin'}, function(err, result) {
+															user.findOne({'local.username': 'Taskcoin'}, function(err, result) {
 																var currentBal = Number(result.local.currency);
 																var newBal = +currentBal + +total;
 																result.local.currency = newBal;
